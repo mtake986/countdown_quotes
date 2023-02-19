@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
 
 const DaysLeft = () => {
-  const [daysLeft, setDaysLeft] = useState<number>(39)
   return (
     <div>
-      <span><span>{daysLeft}</span>Days Left</span>
+      <span><span>40</span>Days Left</span>
     </div>
   )
 }
