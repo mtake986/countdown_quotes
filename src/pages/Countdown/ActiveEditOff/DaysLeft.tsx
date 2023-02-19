@@ -12,8 +12,8 @@ const DaysLeft = () => {
           <span>{daysLeft}</span>Day Out
         </span>
       ) : daysLeft >= 2 ? (
-        <span>
-          <span>{daysLeft}</span>Days Out
+        <span className="">
+          <span className="text-3xl font-bold">{daysLeft}</span>Days Out
         </span>
       ) : (
         <span>Invalid Dates</span>
