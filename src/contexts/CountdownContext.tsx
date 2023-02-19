@@ -8,8 +8,6 @@ export const useCountdownContext = () => {
   return useContext(CountdownContext) as CountdownContextType;
 };
 
-// React.useContext(TodoContext) as TodoContextType;
-
 interface Props {
   children: React.ReactNode;
 }
@@ -20,6 +18,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     dayjs(new Date())
   );
   const [eventTitle, setEventTitle] = useState<string>("event");
+  const [daysLeft, setDaysLeft] = useState<number>(40);
 
   function handleEventDate(date: Dayjs | Date | null) {
     console.log(date);
@@ -34,7 +33,20 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   function handleToggleEdit() {
-    setActiveEdit(!activeEdit)
+    setActiveEdit(!activeEdit);
+  }
+
+  function handleDaysLeft(date: Dayjs | Date | null) {
+    const today = new Date();
+    const date1 = date["$d"];
+    const date2 = today;
+
+    var Difference_In_Time = date1.getTime() - date2.getTime();
+
+    // To calculate the no. of days between two dates
+    var Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+    setDaysLeft(Difference_In_Days);
+    console.log(Difference_In_Days);
   }
 
   return (
@@ -48,6 +60,8 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         eventTitle,
         handleEventTitle,
         handleToggleEdit,
+        handleDaysLeft,
+        daysLeft,
       }}
     >
       {children}

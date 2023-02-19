@@ -12,4 +12,6 @@ export type CountdownContextType = {
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   handleToggleEdit: () => void;
+  handleDaysLeft: (date: Dayjs | Date | null) => void;
+  daysLeft: number; 
 };

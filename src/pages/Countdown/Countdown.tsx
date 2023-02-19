@@ -5,6 +5,7 @@ import EventDateInput from "./ActiveEditOn/EventDateInput";
 import { useCountdownContext } from "../../contexts/CountdownContext";
 import SaveBtn from "./ActiveEditOn/SaveBtn";
 import EditBtn from "./ActiveEditOff/EditBtn";
+import DaysLeft from './ActiveEditOff/DaysLeft';
 
 const Countdown = () => {
   const { activeEdit } = useCountdownContext();
@@ -21,6 +22,7 @@ const Countdown = () => {
         <>
           <EditBtn />
           <EventTitle />
+          <DaysLeft />
           <EventDate />
         </>
       )}

@@ -5,7 +5,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import TextField from "@mui/material/TextField";
 
 const EventTitleInput: React.FC = () => {
-  const { eventDate, handleEventDate } = useCountdownContext();
+  const { eventDate, handleEventDate, handleDaysLeft } = useCountdownContext();
 
   return (
     <div>
@@ -13,7 +13,10 @@ const EventTitleInput: React.FC = () => {
         label="Event Date"
         inputFormat="MM/DD/YYYY"
         value={eventDate}
-        onChange={(date) => handleEventDate(date)}
+        onChange={(date) => {
+          handleEventDate(date)
+          handleDaysLeft(date)
+        }}
         renderInput={(params) => <TextField {...params} />}
       />
     </div>

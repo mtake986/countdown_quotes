@@ -1,10 +1,25 @@
+import { useCountdownContext } from "../../../contexts/CountdownContext";
 
 const DaysLeft = () => {
+  const { daysLeft } = useCountdownContext();
+
   return (
     <div>
-      <span><span>40</span>Days Left</span>
+      {daysLeft === 0 ? (
+        <span>YOU GOT THIS!!!</span>
+      ) : daysLeft === 1 ? (
+        <span>
+          <span>{daysLeft}</span>Day Out
+        </span>
+      ) : daysLeft >= 2 ? (
+        <span>
+          <span>{daysLeft}</span>Days Out
+        </span>
+      ) : (
+        <span>Invalid Dates</span>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default DaysLeft
+export default DaysLeft;
