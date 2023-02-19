@@ -1,5 +1,5 @@
 import React from 'react'
-import {Title} from './index'
+import Title from './Title'
 
 const Quote = () => {
   return (
