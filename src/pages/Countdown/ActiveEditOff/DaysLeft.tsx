@@ -5,18 +5,18 @@ const DaysLeft = () => {
 
   return (
     <div>
-      {daysLeft === 0 ? (
-        <span>YOU GOT THIS!!!</span>
+      {daysLeft <= 0 ? (
+        <span className="text-3xl font-bold text-red-600">YOU GOT THIS!!!</span>
       ) : daysLeft === 1 ? (
         <span>
-          <span>{daysLeft}</span>Day Out
+          <span className="text-3xl font-bold mr-2">{daysLeft}</span>Day Out
         </span>
       ) : daysLeft >= 2 ? (
         <span className="">
-          <span className="text-3xl font-bold">{daysLeft}</span>Days Out
+          <span className="text-3xl font-bold mr-2">{daysLeft}</span>Days Out
         </span>
       ) : (
-        <span>Invalid Dates</span>
+        null
       )}
     </div>
   );

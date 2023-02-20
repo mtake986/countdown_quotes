@@ -3,7 +3,14 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
 
   theme: {
-    extend: {},
+    fontFamily: {
+      "roboto": ['"Roboto"', "cursive"],
+      "babylonica": ['"Babylonica"', "cursive"],
+    },
+    container: {
+      center: true,
+    },
   },
+
   plugins: [],
 };

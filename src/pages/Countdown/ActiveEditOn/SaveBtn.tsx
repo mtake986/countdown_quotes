@@ -1,16 +1,14 @@
-import { Button } from "@mui/material";
 import { useCountdownContext } from "../../../contexts/CountdownContext";
 
 const SaveBtn = () => {
-  const { handleToggleEdit } = useCountdownContext();
+  const { handleSaveBtnClick } = useCountdownContext();
   return (
-    <Button
-      variant="outlined"
-      color="secondary"
-      onClick={handleToggleEdit}
+    <button
+      onClick={handleSaveBtnClick}
+      className="w-56 hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >
       Save
-    </Button>
+    </button>
   );
-}
+};
 export default SaveBtn;

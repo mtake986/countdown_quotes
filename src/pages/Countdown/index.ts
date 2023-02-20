@@ -3,3 +3,7 @@ export { default as DaysLeft } from "./ActiveEditOff/DaysLeft";
 export { default as EventDate } from "./ActiveEditOff/EventDate";
 export { default as EventTitle } from "./ActiveEditOff/EventTitle";
 export { default as Title } from "./Title";
+export { default as EventTitleInput } from "./ActiveEditOn/EventTitleInput";
+export { default as EventDateInput } from "./ActiveEditOn/EventDateInput";
+export { default as SaveBtn } from "./ActiveEditOn/SaveBtn";
+export { default as CdModal } from "./ActiveEditOn/CdModal";

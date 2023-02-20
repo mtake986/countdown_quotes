@@ -11,16 +11,18 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 function App() {
   return (
-    <>
+    <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <CountdownContextProvider>
           <Header />
-          <Countdown />
-          <Quote />
+          <div className="gap-5 bg-sky-50 max-w-sm mx-auto rounded-3xl relative flex flex-col items-center justify-center overflow-hidden p-10 sm:py-12">
+            <Countdown />
+            <Quote />
+          </div>
           <Footer />
         </CountdownContextProvider>
       </LocalizationProvider>
-    </>
+    </div>
   );
 }
 

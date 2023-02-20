@@ -1,12 +1,12 @@
-import { Button } from "@mui/material";
+
 import { useCountdownContext } from "../../../contexts/CountdownContext";
 
 const EditBtn = () => {
-  const { handleToggleEdit } = useCountdownContext();
+  const { handleToggleModal } = useCountdownContext();
   return (
-    <Button variant="outlined" color="secondary" onClick={handleToggleEdit}>
-      Edit
-    </Button>
+    <div>
+      <button onClick={handleToggleModal}>Open modal</button>
+    </div>
   );
 };
 export default EditBtn;

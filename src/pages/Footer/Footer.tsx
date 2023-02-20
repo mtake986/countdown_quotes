@@ -1,12 +1,12 @@
-import React from 'react'
-import { Copyright } from './index'
+import React from "react";
+import { Copyright } from "./index";
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <Copyright />
+    <div className="fixed bottom-0 text-center">
+      Masahiro Takechi All Rights Reserved
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
