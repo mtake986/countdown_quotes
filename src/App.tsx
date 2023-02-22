@@ -15,7 +15,7 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <CountdownContextProvider>
           <Header />
-          <div className="mt-10 max-w-md mx-auto rounded-3xl flex flex-col items-center justify-center overflow-hidden sm:p-10 p-5">
+          <div className="mt-5 sm:mt-10 max-w-lg mx-auto rounded-3xl flex flex-col items-center justify-center overflow-hidden p-5 sm:p-10">
             <Countdown />
             <Quote />
           </div>

@@ -4,8 +4,8 @@ module.exports = {
 
   theme: {
     fontFamily: {
-      "roboto": ['"Roboto"', "cursive"],
-      "babylonica": ['"Babylonica"', "cursive"],
+      roboto: ['"Roboto"', "cursive"],
+      babylonica: ['"Babylonica"', "cursive"],
       "marck-script": ['"Marck Script"', "cursive"],
     },
     container: {
