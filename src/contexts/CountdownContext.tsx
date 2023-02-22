@@ -42,12 +42,15 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     const date1 = date["$d"];
     const date2 = today;
 
-    var Difference_In_Time = date1.getTime() - date2.getTime();
-
+    const Difference_In_Time = date1.getTime() - date2.getTime();
+    
     // To calculate the no. of days between two dates
-    var Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+    const Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+    const Difference_In = Math.ceil(
+      Difference_In_Time / (1000 * 3600 * 24)
+    );
     setDaysLeft(Difference_In_Days);
-    console.log(Difference_In_Days);
+    console.log(Difference_In);
   }
 
   function handleToggleModal() {

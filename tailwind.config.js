@@ -6,6 +6,7 @@ module.exports = {
     fontFamily: {
       "roboto": ['"Roboto"', "cursive"],
       "babylonica": ['"Babylonica"', "cursive"],
+      "marck-script": ['"Marck Script"', "cursive"],
     },
     container: {
       center: true,

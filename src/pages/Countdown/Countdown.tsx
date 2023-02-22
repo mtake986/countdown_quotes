@@ -1,15 +1,12 @@
 import { EventDate, EventTitle } from "./index";
-import EditBtn from "./ActiveEditOff/EditBtn";
+import EditBtn from "../Header/EditBtn";
 import DaysLeft from "./ActiveEditOff/DaysLeft";
 import CdModal from "./ActiveEditOn/CdModal";
 
 const Countdown = () => {
-
-
   return (
-    <div className="border-gray-700 border-2">
-      <div className="flex flex-col gap-4 items-center">
-        <EditBtn />
+    <div className="w-full">
+      <div className="rounded-xl flex flex-col gap-4 items-center bg-sky-50 px-6 py-10">
         <EventTitle />
         <DaysLeft />
         <EventDate />

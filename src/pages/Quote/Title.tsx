@@ -2,7 +2,7 @@ import React from 'react'
 
 const Title = () => {
   return (
-    <div>--- Today's Greatest Quote ---</div>
+    <div>Today's Quote</div>
   )
 }
 
