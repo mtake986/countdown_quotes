@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Header } from "./pages/Header";
+import { Countdown } from "./pages/Countdown";
+import { Quote } from "./pages/Quote";
+import { Footer } from "./pages/Footer";
+import { CountdownContextProvider } from "./contexts/CountdownContext";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CountdownContextProvider>
+          <Header />
+          <div className="mt-10 max-w-md mx-auto rounded-3xl flex flex-col items-center justify-center overflow-hidden sm:p-10 p-5">
+            <Countdown />
+            <Quote />
+          </div>
+          <Footer />
+        </CountdownContextProvider>
+      </LocalizationProvider>
     </div>
   );
 }
