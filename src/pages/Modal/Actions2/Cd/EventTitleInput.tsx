@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { useCountdownContext } from "../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/CountdownContext";
 
 const EventTitleInput: React.FC = () => {
   const { currEventTitle, handleEventTitleInputText } = useCountdownContext();
@@ -9,7 +9,7 @@ const EventTitleInput: React.FC = () => {
       <TextField
         className="w-56"
         id="standard-basic"
-        placeholder={currEventTitle}
+        value={currEventTitle}
         label="Event Title"
         variant="standard"
         onChange={(

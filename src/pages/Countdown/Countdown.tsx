@@ -1,7 +1,5 @@
 import { EventDate, EventTitle } from "./index";
-import EditBtn from "../Header/EditBtn";
 import DaysLeft from "./ActiveEditOff/DaysLeft";
-import CdModal from "./ActiveEditOn/CdModal";
 
 const Countdown = () => {
   return (
@@ -11,7 +9,6 @@ const Countdown = () => {
         <DaysLeft />
         <EventDate />
       </div>
-      <CdModal />
     </div>
   );
 };

@@ -28,4 +28,13 @@ export type QuoteContextType = {
     text: string;
     author: string;
   };
+  handleTabScreenText: () => void;
+  TabScreenText: string;
+};
+
+export type ModalContextType = {
+  selectedType: string;
+  handleEditType: (text: string) => void;
+  currPageNum: number;
+  handleCurrPageNum: (move: string) => void;
 };

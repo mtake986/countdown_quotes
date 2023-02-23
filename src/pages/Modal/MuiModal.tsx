@@ -1,9 +1,9 @@
 import React from "react";
-import { EventTitleInput, EventDateInput, SaveBtn } from "../index";
-import { useCountdownContext } from "../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../contexts/CountdownContext";
 import { Box, Modal } from "@mui/material";
+import ModalContent from "./ModalContent";
 
-const CdModal = () => {
+const MuiModal = () => {
   const { isModalOpen, handleToggleModal } = useCountdownContext();
   const style = {
     position: "absolute" as "absolute",
@@ -11,7 +11,7 @@ const CdModal = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     bgcolor: "background.paper",
-    borderRadius: '20px',
+    borderRadius: "20px",
     boxShadow: 24,
     p: 4,
   };
@@ -26,11 +26,7 @@ const CdModal = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <div className="flex flex-col items-center gap-6">
-              <EventTitleInput />
-              <EventDateInput />
-              <SaveBtn />
-            </div>
+            <ModalContent />
           </Box>
         </Modal>
       ) : null}
@@ -38,4 +34,4 @@ const CdModal = () => {
   );
 };
 
-export default CdModal;
+export default MuiModal;

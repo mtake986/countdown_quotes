@@ -20,6 +20,7 @@ interface IQuote {
 
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quote, setQuote] = useState<IQuote>(null);
+  const [TabScreenText, setTabScreenText] = useState<string>("Countdown");
 
   function getRandomeQuote() {
     fetch("https://type.fit/api/quotes")
@@ -35,8 +36,21 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       });
   }
 
+  function handleTabScreenText() {
+
+    setTabScreenText(
+      TabScreenText === "Countdown"
+        ? "Quote"
+        : TabScreenText === "Quote"
+        ? "Countdown"
+        : TabScreenText
+    );
+  }
+
   return (
-    <QuoteContext.Provider value={{ getRandomeQuote, quote }}>
+    <QuoteContext.Provider
+      value={{ getRandomeQuote, quote, handleTabScreenText, TabScreenText }}
+    >
       {children}
     </QuoteContext.Provider>
   );
