@@ -21,3 +21,11 @@ export type CountdownContextType = {
   handleEventDateInputText: (e: Dayjs | Date | null) => void;
   handleSaveBtnClick: () => void;
 };
+
+export type QuoteContextType = {
+  getRandomeQuote: () => void;
+  quote: {
+    text: string;
+    author: string;
+  };
+};

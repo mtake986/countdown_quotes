@@ -9,15 +9,26 @@ const DaysLeft = () => {
         <span className="text-3xl font-bold text-red-600">YOU GOT THIS!!!</span>
       ) : daysLeft === 1 ? (
         <span>
-          <span className="text-3xl font-bold mr-2">{daysLeft}</span>Day Out
+          <span className="text-3xl font-bold mr-2 text-red-600">
+            {daysLeft}
+          </span>
+          Day Out
         </span>
-      ) : daysLeft >= 2 ? (
+      ) : daysLeft <= 3 && daysLeft >= 2 ? (
         <span className="">
-          <span className="text-3xl font-bold mr-2">{daysLeft}</span>Days Out
+          <span className="text-3xl font-bold mr-2 text-red-600">
+            {daysLeft}
+          </span>
+          Days Out
         </span>
-      ) : (
-        null
-      )}
+      ) : daysLeft > 3 ? (        
+        <span className="">
+          <span className="text-3xl font-bold mr-2 ">
+            {daysLeft}
+          </span>
+          Days Out
+        </span>
+      ) : null}
     </div>
   );
 };

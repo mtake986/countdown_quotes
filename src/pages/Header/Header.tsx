@@ -1,11 +1,14 @@
 import React from "react";
-import { Title, EditBtn } from "./index";
+import { Title, EditBtn, QuoteRefreshBtn } from "./index";
 
 const Header = () => {
   return (
     <div className="shadow mb-5 flex flex-row justify-between items-center md:p-4 p-3">
       <Title />
-      <EditBtn />
+      <div className="flex gap-4 items-center">
+        <EditBtn />
+        <QuoteRefreshBtn />
+      </div>
     </div>
   );
 };
