@@ -6,7 +6,7 @@ import CdModal from "./ActiveEditOn/CdModal";
 const Countdown = () => {
   return (
     <div className="w-full">
-      <div className="rounded-xl flex flex-col gap-4 items-center bg-sky-50 p-5 sm:px-6 sm:py-10">
+      <div className="relative rounded-xl flex flex-col gap-4 items-center bg-sky-50 py-12">
         <EventTitle />
         <DaysLeft />
         <EventDate />
