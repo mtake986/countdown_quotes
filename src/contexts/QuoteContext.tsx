@@ -1,6 +1,7 @@
 import { useState, createContext, useContext } from "react";
 import { QuoteContextType } from "./types";
 import { QUOTES_LIST } from "../assets/CONST";
+import { getRandomInt } from "../utils/functions";
 
 const QuoteContext = createContext({});
 
@@ -17,8 +18,6 @@ interface IQuote {
   author: string;
 }
 
-
-
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quote, setQuote] = useState<IQuote>(null);
 
@@ -34,9 +33,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         console.error(err);
         setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
       });
-  }
-  function getRandomInt(len: number) {
-    return Math.floor(Math.random() * len);
   }
 
   return (
