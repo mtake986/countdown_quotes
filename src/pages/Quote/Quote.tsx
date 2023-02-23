@@ -1,20 +1,20 @@
-import React from 'react'
-import Title from './Title'
+import React, { useEffect } from "react";
+import { Sentence, Author } from "./index";
+import { useQuoteContext } from "../../contexts/QuoteContext";
 
 const Quote = () => {
+  const { getRandomeQuote, quote } = useQuoteContext(); 
+
+  useEffect(() => {
+    getRandomeQuote();
+  }, [])
+  
   return (
-    <div className="w-full font-marck-script">
-      <div className="relative flex flex-col gap-4 items-center px-6 py-10">
-        <div className="quote text-3xl font-marck-script font-bold">
-          If you can dream it, you can do it.
-        </div>
-        <div className="absolute right-2 bottom-0 flex items-center">
-          <span className="text-md mr-1">by</span>
-          <span className="text-xl">Walt Disney</span>
-        </div>
-      </div>
+    <div className="w-full font-marck-script relative flex flex-col gap-4 items-center p-5 sm:px-6 sm:py-10">
+      <Sentence text={quote?.text} />
+      <Author author={quote?.author} />
     </div>
   );
-}
+};
 
-export default Quote
+export default Quote;

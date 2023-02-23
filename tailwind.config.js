@@ -4,9 +4,9 @@ module.exports = {
 
   theme: {
     fontFamily: {
-      "roboto": ['"Roboto"', "cursive"],
-      "babylonica": ['"Babylonica"', "cursive"],
-      "marck-script": ['"Marck Script"', "cursive"],
+      roboto: ['"Roboto"', "cursive"],
+      babylonica: ['"Babylonica"', "cursive"],
+      'Caveat-Brush': ['"Caveat Brush"', "cursive"],
     },
     container: {
       center: true,

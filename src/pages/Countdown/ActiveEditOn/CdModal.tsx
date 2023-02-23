@@ -13,7 +13,7 @@ const CdModal = () => {
     bgcolor: "background.paper",
     borderRadius: '20px',
     boxShadow: 24,
-    p: 6,
+    p: 4,
   };
 
   return (
