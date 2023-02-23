@@ -33,8 +33,11 @@ export type QuoteContextType = {
 };
 
 export type ModalContextType = {
-  selectedType: string;
-  handleEditType: (text: string) => void;
+  selectTypeAndAct: {
+    type: string;
+    act: string;
+  };
+  handleSelectTypeAndAct: (type: string, act: string) => void;
   currPageNum: number;
-  handleCurrPageNum: (move: string) => void;
+  handleCurrPageNum : () => void;
 };

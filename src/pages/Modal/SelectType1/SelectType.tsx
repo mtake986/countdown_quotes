@@ -1,12 +1,12 @@
 import React from 'react'
-import CdBtn from "./CdBtn";
-import QuoteBtn from "./QuoteBtn";
+import CdList from "./Cd/CdList";
+import QuoteList from "./Quote/QuoteList";
 
 const SelectType = () => {
   return (
     <div className='flex flex-col items-center gap-3 '>
-      <CdBtn />
-      <QuoteBtn />
+      <CdList />
+      <QuoteList />
     </div>
   );
 }
