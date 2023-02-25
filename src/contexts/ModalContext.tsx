@@ -23,6 +23,7 @@ export const ModalContextProvider: React.FC<Props> = ({ children }) => {
   function handleSelectTypeAndAct(type: string, act: string) {
     setSelectedTypeAndAct({ type, act });
     setCurrPageNum(currPageNum + 1);
+    console.log(selectedTypeAndAct)
   }
 
   function handleCurrPageNum() {

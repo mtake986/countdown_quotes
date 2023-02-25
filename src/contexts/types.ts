@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
+import { IEvent } from './interfaces'
 
 export type CountdownContextType = {
   currEventDate: Dayjs | Date | null;
@@ -6,8 +7,9 @@ export type CountdownContextType = {
   handleEventDate: (e: Dayjs | Date | null) => void;
   currEventTitle: string;
   setCurrEventTitle: (value: string) => void;
-  handleEventTitle: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  handleChangeEventTitle: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    i: number
   ) => void;
   handleDaysLeft: (date: Dayjs | Date | null) => void;
   daysLeft: number;
@@ -19,7 +21,12 @@ export type CountdownContextType = {
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   handleEventDateInputText: (e: Dayjs | Date | null) => void;
-  handleSaveBtnClick: () => void;
+  handleSaveBtnClick: (text: string) => void;
+  events: IEvent[];
+  handleDisplayEvent: (text: string) => void;
+  displayEventIndex: number;
+  currDisplayEvent: IEvent;
+  eventsCopyBeingChanged: IEvent[];
 };
 
 export type QuoteContextType = {
@@ -33,11 +40,11 @@ export type QuoteContextType = {
 };
 
 export type ModalContextType = {
-  selectTypeAndAct: {
+  selectedTypeAndAct: {
     type: string;
     act: string;
   };
   handleSelectTypeAndAct: (type: string, act: string) => void;
   currPageNum: number;
-  handleCurrPageNum : () => void;
+  handleCurrPageNum: () => void;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useModalContext } from "../../../../contexts/ModalContext";
-const Edit = () => {
+const EditBtn = () => {
   const { handleSelectTypeAndAct } = useModalContext();
   return (
     <div
@@ -12,4 +12,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditBtn;

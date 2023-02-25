@@ -1,7 +1,7 @@
 import React from "react";
 import { useCountdownContext } from "../../contexts/CountdownContext";
 import { Box, Modal } from "@mui/material";
-import ModalContent from "./ModalContent";
+import ModalContentPageManager from "./ModalContentPageManager";
 
 const MuiModal = () => {
   const { isModalOpen, handleToggleModal } = useCountdownContext();
@@ -13,7 +13,6 @@ const MuiModal = () => {
     bgcolor: "background.paper",
     borderRadius: "20px",
     boxShadow: 24,
-    p: 4,
   };
 
   return (
@@ -26,7 +25,7 @@ const MuiModal = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <ModalContent />
+            <ModalContentPageManager />
           </Box>
         </Modal>
       ) : null}

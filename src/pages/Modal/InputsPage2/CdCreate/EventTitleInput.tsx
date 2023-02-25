@@ -7,10 +7,10 @@ const EventTitleInput: React.FC = () => {
   return (
     <div>
       <TextField
-        className="w-56"
+        className="w-40"
         id="standard-basic"
-        value={currEventTitle}
-        label="Event Title"
+        defaultValue=""
+        label="Type in an event"
         variant="standard"
         onChange={(
           event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

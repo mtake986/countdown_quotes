@@ -2,21 +2,27 @@ import { useState, createContext, useContext } from "react";
 import { CountdownContextType } from "./types";
 import dayjs, { Dayjs } from "dayjs";
 
+import { Props, IEvent } from "./interfaces";
+
 const CountdownContext = createContext({});
 
 export const useCountdownContext = () => {
   return useContext(CountdownContext) as CountdownContextType;
 };
 
-interface Props {
-  children: React.ReactNode;
-}
-
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
+  const [events, setEvents] = useState<IEvent[]>([]);
+  const [eventsCopyBeingChanged, setEventsCopyBeingChanged] =
+    useState<IEvent[]>(events);
+  const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
+  const [currDisplayEvent, setCurrDisplayEvent] = useState<IEvent>();
+
   const [currEventDate, setCurrEventDate] = useState<Dayjs | Date | null>(
     dayjs(new Date())
   );
-  const [currEventTitle, setCurrEventTitle] = useState<string>("event");
+  const [currEventTitle, setCurrEventTitle] = useState<string | null>(
+    events[displayEventIndex]?.eventTitle
+  );
   const [daysLeft, setDaysLeft] = useState<number>(40);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [eventTitleInputText, setEventTitleInputText] =
@@ -30,11 +36,10 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     setCurrEventDate(date);
   }
 
-  function handleEventTitle(
+  function handleChangeEventTitle(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
-    console.log(event.target.value);
-    setCurrEventTitle(event.target.value);
+    setEventTitleInputText(event.target.value)
   }
 
   function handleDaysLeft(date: Dayjs | Date | null) {
@@ -43,12 +48,12 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     const date2 = today;
 
     const Difference_In_Time = date1.getTime() - date2.getTime();
-    
+
     // To calculate the no. of days between two dates
-    const Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
-    const Difference_In = Math.ceil(
+    const Difference_In_Days = Math.ceil(
       Difference_In_Time / (1000 * 3600 * 24)
     );
+    const Difference_In = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
     setDaysLeft(Difference_In_Days);
     console.log(Difference_In);
   }
@@ -69,12 +74,40 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     setEventDateInputText(date);
   }
 
-  function handleSaveBtnClick() {
+  function handleCreateNewEvent() {
+    setEvents([
+      ...events,
+      { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
+    ]);
+    console.log({ events });
+    setEventsCopyBeingChanged(events)
+  }
+
+  function handleSaveBtnClick(type: string) {
+    console.log(eventTitleInputText, type);
+    if (type === "create") {
+      handleCreateNewEvent();
+    } else {
+      setEvents([{eventTitle: eventTitleInputText, eventDate: eventDateInputText}])
+    }
     handleToggleModal();
-    console.log(eventTitleInputText);
-    setCurrEventTitle(eventTitleInputText);
-    setCurrEventDate(eventDateInputText);
-    handleDaysLeft(eventDateInputText);
+  }
+
+  function handleDisplayEvent(text: string) {
+    if (text === "prev") {
+      if (displayEventIndex === 0) {
+        setDisplayEventIndex(events.length - 1);
+      } else {
+        setDisplayEventIndex(displayEventIndex - 1);
+      }
+    } else if (text === "next") {
+      if (displayEventIndex === events.length - 1) {
+        setDisplayEventIndex(0);
+      } else {
+        setDisplayEventIndex(displayEventIndex + 1);
+      }
+    }
+    console.log(eventsCopyBeingChanged[displayEventIndex]?.eventTitle);
   }
 
   return (
@@ -84,7 +117,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         setCurrEventDate,
         handleEventDate,
         currEventTitle,
-        handleEventTitle,
+        handleChangeEventTitle,
         handleDaysLeft,
         daysLeft,
         isModalOpen,
@@ -94,6 +127,11 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         handleEventTitleInputText,
         handleEventDateInputText,
         handleSaveBtnClick,
+        events,
+        handleDisplayEvent,
+        displayEventIndex,
+        currDisplayEvent,
+        eventsCopyBeingChanged,
       }}
     >
       {children}
