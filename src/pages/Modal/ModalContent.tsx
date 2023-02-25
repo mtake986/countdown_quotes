@@ -8,14 +8,24 @@ const ModalContent = () => {
   const { selectTypeAndAct, currPageNum } = useModalContext();
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      {currPageNum === 1 ? (
-        <SelectType />
-      ) : currPageNum === 2 ? (
-        <div>welcome</div>
-      ) : null}
-      {currPageNum > 1 ? <GoPrev /> : null}
+    <div className="w-full">
+      <div className="relative rounded-xl flex flex-col gap-4 items-center bg-sky-50 py-12">
+        {currPageNum === 1 ? (
+          <SelectType />
+        ) : currPageNum === 2 ? (
+          <div>welcome</div>
+        ) : null}
+        {currPageNum > 1 ? <GoPrev /> : null}
+      </div>
     </div>
+    // <div className="flex flex-col items-center justify-center sm:w-64">
+    //   {currPageNum === 1 ? (
+    //     <SelectType />
+    //   ) : currPageNum === 2 ? (
+    //     <div>welcome</div>
+    //   ) : null}
+    //   {currPageNum > 1 ? <GoPrev /> : null}
+    // </div>
   );
 };
 

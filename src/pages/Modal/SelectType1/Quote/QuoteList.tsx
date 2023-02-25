@@ -4,12 +4,10 @@ import Add from './Add';
 
 const QuoteList = () => {
   return (
-    <div>
-      <div>Quote</div>
-      <div className="flex gap-4 items-center">
-        <Edit />
-        <Add />
-      </div>
+    <div className="flex flex-col items-center">
+      <div className="mb-2 text-xl font-semibold">Quote</div>
+      <Edit />
+      <Add />
     </div>
   );
 };

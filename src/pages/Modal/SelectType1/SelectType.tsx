@@ -4,7 +4,7 @@ import QuoteList from "./Quote/QuoteList";
 
 const SelectType = () => {
   return (
-    <div className='flex flex-col items-center gap-3 '>
+    <div className='gap-10 flex flex-col'>
       <CdList />
       <QuoteList />
     </div>
