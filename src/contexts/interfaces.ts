@@ -8,3 +8,8 @@ export interface IEvent {
   eventTitle: string;
   eventDate: Dayjs | Date | null;
 }
+
+export interface IQuote {
+  quoteText: string;
+  speakerName: string;
+}

@@ -1,3 +1,3 @@
 export { default as Quote } from "./Quote";
-export {default as Sentence } from './Sentence'
-export { default as Author } from "./Author";
+export { default as QuoteText } from "./QuoteText";
+export { default as SpeakerName } from "./SpeakerName";

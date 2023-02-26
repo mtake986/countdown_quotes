@@ -1,8 +1,9 @@
-import { useCountdownContext } from "../../contexts/CountdownContext";
+
 import { AiOutlineEdit } from "react-icons/ai";
+import { useModalContext } from "../../contexts/ModalContext";
 
 const EditBtn = () => {
-  const { handleToggleModal } = useCountdownContext();
+  const { handleToggleModal } = useModalContext();
   return (
     <AiOutlineEdit
       onClick={handleToggleModal}

@@ -12,34 +12,17 @@ export const useCountdownContext = () => {
 
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   const [events, setEvents] = useState<IEvent[]>([]);
-  const [eventsCopyBeingChanged, setEventsCopyBeingChanged] =
-    useState<IEvent[]>(events);
   const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
-  const [currDisplayEvent, setCurrDisplayEvent] = useState<IEvent>();
-
-  const [currEventDate, setCurrEventDate] = useState<Dayjs | Date | null>(
-    dayjs(new Date())
-  );
-  const [currEventTitle, setCurrEventTitle] = useState<string | null>(
-    events[displayEventIndex]?.eventTitle
-  );
   const [daysLeft, setDaysLeft] = useState<number>(40);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [eventTitleInputText, setEventTitleInputText] =
-    useState<string>(currEventTitle);
+  const [eventTitleInputText, setEventTitleInputText] = useState<string>("");
   const [eventDateInputText, setEventDateInputText] = useState<
     Dayjs | Date | null
-  >(currEventDate);
-
-  function handleEventDate(date: Dayjs | Date | null) {
-    console.log(date);
-    setCurrEventDate(date);
-  }
+  >(new Date());
 
   function handleChangeEventTitle(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
-    setEventTitleInputText(event.target.value)
+    setEventTitleInputText(event.target.value);
   }
 
   function handleDaysLeft(date: Dayjs | Date | null) {
@@ -58,10 +41,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     console.log(Difference_In);
   }
 
-  function handleToggleModal() {
-    setIsModalOpen(!isModalOpen);
-    console.log(isModalOpen);
-  }
+
 
   function handleEventTitleInputText(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -80,17 +60,30 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
       { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
     ]);
     console.log({ events });
-    setEventsCopyBeingChanged(events)
   }
+
+
+    function handleCreateEvent() {
+      setEvents([
+        {...events,eventTitle: eventTitleInputText, eventDate: eventDateInputText }
+      ]);
+      console.log(events);
+      // setQuoteInput({
+      //   quoteText: "",
+      //   speakerName: "",
+      // });
+    }
 
   function handleSaveBtnClick(type: string) {
     console.log(eventTitleInputText, type);
     if (type === "create") {
       handleCreateNewEvent();
     } else {
-      setEvents([{eventTitle: eventTitleInputText, eventDate: eventDateInputText}])
+      setEvents([
+        { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
+      ]);
     }
-    handleToggleModal();
+    handleDaysLeft(eventDateInputText);
   }
 
   function handleDisplayEvent(text: string) {
@@ -107,21 +100,14 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         setDisplayEventIndex(displayEventIndex + 1);
       }
     }
-    console.log(eventsCopyBeingChanged[displayEventIndex]?.eventTitle);
   }
 
   return (
     <CountdownContext.Provider
       value={{
-        currEventDate,
-        setCurrEventDate,
-        handleEventDate,
-        currEventTitle,
         handleChangeEventTitle,
         handleDaysLeft,
         daysLeft,
-        isModalOpen,
-        handleToggleModal,
         eventTitleInputText,
         eventDateInputText,
         handleEventTitleInputText,
@@ -130,8 +116,6 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         events,
         handleDisplayEvent,
         displayEventIndex,
-        currDisplayEvent,
-        eventsCopyBeingChanged,
       }}
     >
       {children}

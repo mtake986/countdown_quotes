@@ -2,9 +2,10 @@ import React from "react";
 import { useCountdownContext } from "../../contexts/CountdownContext";
 import { Box, Modal } from "@mui/material";
 import ModalContentPageManager from "./ModalContentPageManager";
+import { useModalContext } from "../../contexts/ModalContext";
 
 const MuiModal = () => {
-  const { isModalOpen, handleToggleModal } = useCountdownContext();
+  const { isModalOpen, handleToggleModal } = useModalContext();
   const style = {
     position: "absolute" as "absolute",
     top: "50%",

@@ -11,6 +11,7 @@ const EventTitleInput: React.FC = () => {
   return (
     <div>
       <TextField
+        className="w-48"
         id="standard-basic"
         defaultValue={events[displayEventIndex]?.eventTitle}
         label="Event Title"

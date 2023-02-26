@@ -1,20 +1,13 @@
 import dayjs, { Dayjs } from "dayjs";
-import { IEvent } from './interfaces'
+import { IEvent, IQuote } from "./interfaces";
 
 export type CountdownContextType = {
-  currEventDate: Dayjs | Date | null;
-  setCurrEventDate: (value: Dayjs | Date | null) => void;
-  handleEventDate: (e: Dayjs | Date | null) => void;
-  currEventTitle: string;
-  setCurrEventTitle: (value: string) => void;
   handleChangeEventTitle: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     i: number
   ) => void;
   handleDaysLeft: (date: Dayjs | Date | null) => void;
   daysLeft: number;
-  isModalOpen: boolean;
-  handleToggleModal: () => void;
   eventTitleInputText: string | null;
   eventDateInputText: Dayjs | Date | null;
   handleEventTitleInputText: (
@@ -25,18 +18,24 @@ export type CountdownContextType = {
   events: IEvent[];
   handleDisplayEvent: (text: string) => void;
   displayEventIndex: number;
-  currDisplayEvent: IEvent;
-  eventsCopyBeingChanged: IEvent[];
 };
 
 export type QuoteContextType = {
   getRandomeQuote: () => void;
   quote: {
     text: string;
-    author: string;
+    speakerName: string;
   };
   handleTabScreenText: () => void;
   TabScreenText: string;
+  handleQuoteInputs: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: string
+  ) => void;
+  quoteInput: IQuote;
+  handleUpdateQuote: () => void;
+  handleCreateQuote: () => void;
+  myQuotes: IQuote[];
 };
 
 export type ModalContextType = {
@@ -46,5 +45,8 @@ export type ModalContextType = {
   };
   handleSelectTypeAndAct: (type: string, act: string) => void;
   currPageNum: number;
-  handleCurrPageNum: () => void;
+  handleCurrPageNum: (text: string) => void;
+
+  isModalOpen: boolean;
+  handleToggleModal: () => void;
 };

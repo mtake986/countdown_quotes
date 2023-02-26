@@ -8,7 +8,7 @@ const GoPrev = () => {
   return (
     <div
       className="cursor-pointer flex items-center gap-2 p-1 hover:opacity-30"
-      onClick={handleCurrPageNum}
+      onClick={() => handleCurrPageNum('prev')}
     >
       <IoIosArrowBack />
       <span>Back</span>

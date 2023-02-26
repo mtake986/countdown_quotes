@@ -2,15 +2,15 @@ import TextField from "@mui/material/TextField";
 import { useCountdownContext } from "../../../../contexts/CountdownContext";
 
 const EventTitleInput: React.FC = () => {
-  const { currEventTitle, handleEventTitleInputText } = useCountdownContext();
+  const { handleEventTitleInputText } = useCountdownContext();
 
   return (
     <div>
       <TextField
-        className="w-40"
+        className="w-48"
         id="standard-basic"
         defaultValue=""
-        label="Type in an event"
+        label="Event Title"
         variant="standard"
         onChange={(
           event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

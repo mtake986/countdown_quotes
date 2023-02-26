@@ -11,7 +11,7 @@ const EventDateInput: React.FC = () => {
   return (
     <div>
       <DesktopDatePicker
-        className="w-40"
+        className="w-48"
         label="Event Date"
         inputFormat="MM/DD/YYYY"
         value={eventDateInputText}

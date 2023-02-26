@@ -6,8 +6,10 @@ const QuoteList = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="mb-2 text-xl font-semibold">Quote</div>
-      <Edit />
-      <Create />
+      <div className="grid grid-cols-2 gap-4">
+        <Edit />
+        <Create />
+      </div>
     </div>
   );
 };
