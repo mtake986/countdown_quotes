@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Title, EditBtn, QuoteRefreshBtn } from "./index";
+import Login from "./Login";
+import { IconButton, Tooltip } from "@mui/material";
+import HamburgerWhenMobile from "./HamburgerWhenMobile";
 
 const Header = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  //choose the screen size
+  const handleResize = () => {
+    if (window.innerWidth < 425) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  });
+
   return (
-    <div className="shadow mb-5 flex flex-row justify-between items-center md:p-4 p-3">
+    <div className="shadow mb-5 flex flex-row justify-between items-center p-3">
       <Title />
-      <div className="flex gap-4 items-center">
-        <EditBtn />
-        <QuoteRefreshBtn />
-      </div>
+      {isMobile ? (
+        <HamburgerWhenMobile />
+      ) : (
+        <div className="flex items-center">
+          <EditBtn />
+          <QuoteRefreshBtn />
+          <Login />
+        </div>
+      )}
     </div>
   );
 };

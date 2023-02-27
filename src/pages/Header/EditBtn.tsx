@@ -1,14 +1,19 @@
-
+import { IconButton, Tooltip } from "@mui/material";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useModalContext } from "../../contexts/ModalContext";
+import { BiEditAlt } from "react-icons/bi";
 
 const EditBtn = () => {
   const { handleToggleModal } = useModalContext();
   return (
-    <AiOutlineEdit
-      onClick={handleToggleModal}
-      className="md:text-4xl text-3xl cursor-pointer"
-    />
+    <Tooltip title="Edit/Create">
+      <IconButton>
+        <BiEditAlt
+          onClick={handleToggleModal}
+          className="text-2xl cursor-pointer"
+        />
+      </IconButton>
+    </Tooltip>
   );
 };
 export default EditBtn;

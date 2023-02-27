@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { IEvent, IQuote } from "./interfaces";
+import { IEvent, IQuote, IUser } from "./interfaces";
 
 export type CountdownContextType = {
   handleChangeEventTitle: (
@@ -49,4 +49,10 @@ export type ModalContextType = {
 
   isModalOpen: boolean;
   handleToggleModal: () => void;
+};
+
+export type AuthContextType = {
+  loginUser: IUser;
+  handleGoogleLogin: () => void;
+  handleLogout: () => Promise<void>;
 };

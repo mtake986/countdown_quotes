@@ -13,3 +13,10 @@ export interface IQuote {
   quoteText: string;
   speakerName: string;
 }
+
+export interface IUser {
+  username: string;
+  email: string;
+  profilePic: string;
+  uid: string;
+}
