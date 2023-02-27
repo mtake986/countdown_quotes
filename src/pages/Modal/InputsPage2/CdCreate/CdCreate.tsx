@@ -6,13 +6,13 @@ import Title from "./Title";
 
 const CdCreate = () => {
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-4">
       <Title />
-      <EventTitleInput />
-      <EventDateInput />
-      <div className="flex justify-between">
-        <SaveBtn />
+      <div className="flex flex-col gap-6">
+        <EventTitleInput />
+        <EventDateInput />
       </div>
+      <SaveBtn />
     </div>
   );
 };

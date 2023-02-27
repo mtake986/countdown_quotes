@@ -6,13 +6,11 @@ import Title from "./Title";
 
 const QuoteCreate = () => {
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-4">
       <Title />
       <InputQuoteText />
       <InputSpeakerName />
-      <div className="flex justify-between">
-        <SaveBtn />
-      </div>
+      <SaveBtn />
     </div>
   );
 };

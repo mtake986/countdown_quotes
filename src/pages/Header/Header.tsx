@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Title, EditBtn, QuoteRefreshBtn } from "./index";
 import Login from "./Login";
-import { IconButton, Tooltip } from "@mui/material";
 import HamburgerWhenMobile from "./HamburgerWhenMobile";
 
 const Header = () => {

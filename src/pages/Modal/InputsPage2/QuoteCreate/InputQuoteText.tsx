@@ -9,7 +9,7 @@ const InputQuoteText: React.FC = () => {
   return (
     <div>
       <TextField
-        className="w-40"
+        className="w-48"
         id="standard-basic"
         label="Quote"
         value={quoteInput?.quoteText}

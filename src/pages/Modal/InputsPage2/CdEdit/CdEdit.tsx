@@ -8,18 +8,12 @@ import Title from "./Title";
 const CdEdit = () => {
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="flex gap-2 items-center">
-        {/* <ArrowLeft /> */}
-        <div className="flex gap-6 flex-col">
-          <Title />
-          <EventTitleInput />
-          <EventDateInput />
-        </div>
-        {/* <ArrowRight /> */}
+      <Title />
+      <div className="flex flex-col gap-6">
+        <EventTitleInput />
+        <EventDateInput />
       </div>
-      <div className="flex justify-between">
-        <SaveBtn />
-      </div>
+      <SaveBtn />
     </div>
   );
 };

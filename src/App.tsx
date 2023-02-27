@@ -14,8 +14,6 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import Login from "./pages/Header/Login";
-
 
 function App() {
   return (
