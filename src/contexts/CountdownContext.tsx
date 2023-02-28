@@ -4,6 +4,9 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { Props, IEvent } from "./interfaces";
 
+import { db } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
+
 const CountdownContext = createContext({});
 
 export const useCountdownContext = () => {
@@ -41,8 +44,6 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     console.log(Difference_In);
   }
 
-
-
   function handleEventTitleInputText(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
@@ -54,30 +55,28 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     setEventDateInputText(date);
   }
 
-  function handleCreateNewEvent() {
-    setEvents([
-      ...events,
-      { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-    ]);
-    console.log({ events });
+  async function handleCreateEvent(uid: string) {
+    const collectionRef = collection(db, "events");
+    const payload = {
+      eventTitle: eventTitleInputText,
+      eventDate: eventDateInputText,
+      uid,
+    };
+    const docRef = await addDoc(collectionRef, payload);
+    console.log("The new ID is: " + docRef.id);
+    // setEvents([
+    //   ...events,
+    //   { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
+    // ]);
+    // console.log({ events });
   }
 
-
-    function handleCreateEvent() {
-      setEvents([
-        {...events,eventTitle: eventTitleInputText, eventDate: eventDateInputText }
-      ]);
-      console.log(events);
-      // setQuoteInput({
-      //   quoteText: "",
-      //   speakerName: "",
-      // });
-    }
-
-  function handleSaveBtnClick(type: string) {
+  function handleSaveBtnClick(type: string, uid: string) {
     console.log(eventTitleInputText, type);
     if (type === "create") {
-      handleCreateNewEvent();
+      handleCreateEvent(uid);
+      setEventTitleInputText('')
+      setEventDateInputText(new Date());
     } else {
       setEvents([
         { eventTitle: eventTitleInputText, eventDate: eventDateInputText },

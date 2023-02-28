@@ -1,13 +1,16 @@
+import { useAuthContext } from "../../../../contexts/AuthContext";
 import { useModalContext } from "../../../../contexts/ModalContext";
 import { useQuoteContext } from "../../../../contexts/QuoteContext";
 
 const SaveBtn = () => {
   const { handleCreateQuote } = useQuoteContext();
   const { handleCurrPageNum, handleToggleModal } = useModalContext();
+  const { loginUser } = useAuthContext();
+
   return (
     <button
       onClick={() => {
-        handleCreateQuote();
+        handleCreateQuote(loginUser.uid);
         handleCurrPageNum("done");
         handleToggleModal();
       }}

@@ -39,6 +39,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  
+
   return (
     <AuthContext.Provider
       value={{ handleGoogleLogin, loginUser, handleLogout }}
