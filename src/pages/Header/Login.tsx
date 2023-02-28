@@ -19,14 +19,12 @@ const Login = () => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Login">
-          <IconButton>
-            <FiLogIn
-              onClick={handleGoogleLogin}
-              className="text-2xl cursor-pointer"
-            />
-          </IconButton>
-        </Tooltip>
+        <div
+          onClick={handleGoogleLogin}
+          className="text-lg font-semibold rounded-md text-sky-50 cursor-pointer flex items-center gap-1 bg-sky-400 py-1 px-3 hover:opacity-70 duration-200"
+        >
+          Login
+        </div>
       )}
     </>
   );

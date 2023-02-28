@@ -6,7 +6,7 @@ import { BiEditAlt } from "react-icons/bi";
 const EditBtn = () => {
   const { handleToggleModal } = useModalContext();
   return (
-    <Tooltip title="Edit/Create">
+    <Tooltip title="Create/Edit">
       <IconButton>
         <BiEditAlt
           onClick={handleToggleModal}
