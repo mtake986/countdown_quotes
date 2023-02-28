@@ -20,7 +20,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-  });
+  }, [window.innerWidth]);
 
   return (
     <div className="shadow mb-5 flex flex-row justify-between items-center p-3">

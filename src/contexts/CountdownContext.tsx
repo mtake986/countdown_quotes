@@ -119,7 +119,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         }))
       )
     );
-    console.log(e)
+    console.log(events)
   }
 
   return (

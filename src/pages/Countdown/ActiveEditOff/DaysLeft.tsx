@@ -4,7 +4,7 @@ const DaysLeft = () => {
   const { daysLeft } = useCountdownContext();
 
   return (
-    <div className='mb-3'>
+    <div className='mb-8 sm:mb-10'>
       {daysLeft <= 0 ? (
         <span className="text-3xl font-bold text-red-600">YOU GOT THIS!!!</span>
       ) : daysLeft === 1 ? (

@@ -57,3 +57,4 @@ export type AuthContextType = {
   handleGoogleLogin: () => void;
   handleLogout: () => Promise<void>;
 };
+
