@@ -11,11 +11,11 @@ const Login = () => {
     <>
       {loginUser ? (
         <Tooltip title="Profile">
-          <IconButton>
-            <FaRegUserCircle
-              onClick={handleLogout}
-              className="text-2xl cursor-pointer"
-            />
+          <IconButton
+            onClick={handleLogout}
+            className="text-2xl cursor-pointer"
+          >
+            <FaRegUserCircle />
           </IconButton>
         </Tooltip>
       ) : (

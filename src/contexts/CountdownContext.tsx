@@ -5,7 +5,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Props, IEvent } from "./interfaces";
 
 import { db } from "../config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 
 const CountdownContext = createContext({});
 
@@ -14,6 +14,7 @@ export const useCountdownContext = () => {
 };
 
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
+  const [e, setef] = useState([])
   const [events, setEvents] = useState<IEvent[]>([]);
   const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
   const [daysLeft, setDaysLeft] = useState<number>(40);
@@ -59,29 +60,26 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     const collectionRef = collection(db, "events");
     const payload = {
       eventTitle: eventTitleInputText,
-      eventDate: eventDateInputText,
+      eventDate: eventDateInputText['$d'],
       uid,
     };
+    console.log(payload)
     const docRef = await addDoc(collectionRef, payload);
     console.log("The new ID is: " + docRef.id);
-    // setEvents([
-    //   ...events,
-    //   { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-    // ]);
-    // console.log({ events });
   }
 
   function handleSaveBtnClick(type: string, uid: string) {
     console.log(eventTitleInputText, type);
     if (type === "create") {
       handleCreateEvent(uid);
-      setEventTitleInputText('')
+      setEventTitleInputText("");
       setEventDateInputText(new Date());
-    } else {
-      setEvents([
-        { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-      ]);
-    }
+    } 
+    // else {
+    //   setEvents([
+    //     { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
+    //   ]);
+    // }
     handleDaysLeft(eventDateInputText);
   }
 
@@ -101,6 +99,29 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
+  // todo: データを読み取って、eventsに保存＆表示
+  async function fetchEvent(uid: string) {
+    const eventsRef = collection(db, "events");
+
+    const q = query(eventsRef, where("uid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    onSnapshot(eventsRef, (snapshot) =>
+      setEvents(
+        snapshot.docs.map((doc) => ({
+          eventTitle: doc.data().eventTitle,
+          eventDate: doc.data().eventDate.toDate(),
+          uid: doc.data().uid,
+        }))
+      )
+    );
+    console.log(e)
+  }
+
   return (
     <CountdownContext.Provider
       value={{
@@ -115,6 +136,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         events,
         handleDisplayEvent,
         displayEventIndex,
+        fetchEvent,
       }}
     >
       {children}

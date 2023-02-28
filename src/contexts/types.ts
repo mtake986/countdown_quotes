@@ -18,6 +18,7 @@ export type CountdownContextType = {
   events: IEvent[];
   handleDisplayEvent: (text: string) => void;
   displayEventIndex: number;
+  fetchEvent: (uid: string) => void;
 };
 
 export type QuoteContextType = {

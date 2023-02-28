@@ -7,11 +7,8 @@ const QuoteRefreshBtn = () => {
 
   return (
     <Tooltip title="Refresh">
-      <IconButton>
-        <HiRefresh
-          onClick={getRandomeQuote}
-          className="text-2xl cursor-pointer"
-        />
+      <IconButton onClick={getRandomeQuote} className="text-2xl cursor-pointer">
+        <HiRefresh />
       </IconButton>
     </Tooltip>
   );

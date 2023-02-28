@@ -7,11 +7,11 @@ const EditBtn = () => {
   const { handleToggleModal } = useModalContext();
   return (
     <Tooltip title="Create/Edit">
-      <IconButton>
-        <BiEditAlt
-          onClick={handleToggleModal}
-          className="text-2xl cursor-pointer"
-        />
+      <IconButton
+        onClick={handleToggleModal}
+        className="text-2xl cursor-pointer"
+      >
+        <BiEditAlt />
       </IconButton>
     </Tooltip>
   );
