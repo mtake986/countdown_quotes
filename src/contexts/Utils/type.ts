@@ -1,4 +1,4 @@
 export type UtilsContextType = {
   isMobile: boolean;
-  handleResize;
+  handleResize: () => void;
 };

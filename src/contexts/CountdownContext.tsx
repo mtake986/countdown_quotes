@@ -5,7 +5,16 @@ import dayjs, { Dayjs } from "dayjs";
 import { Props, IEvent } from "./interfaces";
 
 import { db } from "../config/firebase";
-import { addDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const CountdownContext = createContext({});
 
@@ -14,10 +23,9 @@ export const useCountdownContext = () => {
 };
 
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
-  const [e, setef] = useState([])
   const [events, setEvents] = useState<IEvent[]>([]);
   const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
-  const [daysLeft, setDaysLeft] = useState<number>(40);
+  const [daysLeft, setDaysLeft] = useState<number>(0);
   const [eventTitleInputText, setEventTitleInputText] = useState<string>("");
   const [eventDateInputText, setEventDateInputText] = useState<
     Dayjs | Date | null
@@ -42,7 +50,6 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     );
     const Difference_In = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
     setDaysLeft(Difference_In_Days);
-    console.log(Difference_In);
   }
 
   function handleEventTitleInputText(
@@ -52,20 +59,24 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   function handleEventDateInputText(date: Dayjs | Date | null) {
-    console.log(date);
     setEventDateInputText(date);
+    handleDaysLeft(date);
+    console.log(
+      `date: ${date}, eventDateInputText: ${eventDateInputText} days left: ${daysLeft}, `
+    );
   }
 
   async function handleCreateEvent(uid: string) {
     const collectionRef = collection(db, "events");
     const payload = {
       eventTitle: eventTitleInputText,
-      eventDate: eventDateInputText['$d'],
+      eventDate: eventDateInputText["$d"],
+      daysLeft,
       uid,
     };
-    console.log(payload)
+    console.log(payload);
     const docRef = await addDoc(collectionRef, payload);
-    console.log("The new ID is: " + docRef.id);
+    console.log("Success!! \nThe new ID is: " + docRef.id);
   }
 
   function handleSaveBtnClick(type: string, uid: string) {
@@ -74,13 +85,23 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
       handleCreateEvent(uid);
       setEventTitleInputText("");
       setEventDateInputText(new Date());
-    } 
+    } else {
+      const docRef = doc(db, "events", events[0].id);
+      const payload = {
+        eventTitle: eventTitleInputText,
+        eventDate: eventDateInputText["$d"],
+        daysLeft,
+        uid,
+      };
+
+      updateDoc(docRef, payload);
+      console.log(events[0].id);
+    }
     // else {
     //   setEvents([
     //     { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
     //   ]);
     // }
-    handleDaysLeft(eventDateInputText);
   }
 
   function handleDisplayEvent(text: string) {
@@ -115,11 +136,13 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         snapshot.docs.map((doc) => ({
           eventTitle: doc.data().eventTitle,
           eventDate: doc.data().eventDate.toDate(),
+          daysLeft: doc.data().daysLeft,
           uid: doc.data().uid,
+          id: doc.id,
         }))
       )
     );
-    console.log(events)
+    console.log(events);
   }
 
   return (

@@ -6,8 +6,10 @@ export interface Props {
 
 export interface IEvent {
   eventTitle: string;
-  eventDate: Dayjs | Date | number | null;
+  eventDate: Dayjs | Date | null;
+  daysLeft: number;
   uid: string;
+  id: string;
 }
 
 export interface IQuote {

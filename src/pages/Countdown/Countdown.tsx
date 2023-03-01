@@ -17,9 +17,9 @@ const Countdown = () => {
     }
   }, [loginUser]);
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-  }, [window.innerWidth]);
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize);
+  // }, [window.innerWidth]);
 
   return (
     <div className="relative w-full rounded-xl flex flex-col gap-4 items-center bg-sky-50 py-10 px-6 sm:p-10">

@@ -3,8 +3,14 @@ import EventTitleInput from "./EventTitleInput";
 import EventDateInput from "./EventDateInput";
 import SaveBtn from "./SaveBtn";
 import Title from "./Title";
+import { useCountdownContext } from "../../../../contexts/CountdownContext";
 
 const CdCreate = () => {
+  const { events } = useCountdownContext();
+
+  if (events.length !== 0) {
+    return <div>Currently, you can register 1 event. </div>;
+  }
   return (
     <div className="flex flex-col items-center gap-4">
       <Title />

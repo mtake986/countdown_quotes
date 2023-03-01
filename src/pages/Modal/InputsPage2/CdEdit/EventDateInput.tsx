@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCountdownContext } from "../../../../contexts/CountdownContext";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const EventDateInput: React.FC = () => {
-  const { events, eventDateInputText, handleEventDateInputText } =
+  const { eventDateInputText, handleEventDateInputText } =
     useCountdownContext();
 
   return (
     <div>
-      <DesktopDatePicker
-        className="w-48"
+      <DatePicker
         label="Event Date"
-        inputFormat="MM/DD/YYYY"
         value={eventDateInputText}
         onChange={(date) => handleEventDateInputText(date)}
         renderInput={(params) => <TextField {...params} />}
