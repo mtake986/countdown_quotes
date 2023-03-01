@@ -4,6 +4,18 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { Props, IEvent } from "./interfaces";
 
+import { db } from "../config/firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+
 const CountdownContext = createContext({});
 
 export const useCountdownContext = () => {
@@ -13,7 +25,7 @@ export const useCountdownContext = () => {
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   const [events, setEvents] = useState<IEvent[]>([]);
   const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
-  const [daysLeft, setDaysLeft] = useState<number>(40);
+  const [daysLeft, setDaysLeft] = useState<number>(0);
   const [eventTitleInputText, setEventTitleInputText] = useState<string>("");
   const [eventDateInputText, setEventDateInputText] = useState<
     Dayjs | Date | null
@@ -38,10 +50,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     );
     const Difference_In = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
     setDaysLeft(Difference_In_Days);
-    console.log(Difference_In);
   }
-
-
 
   function handleEventTitleInputText(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -50,40 +59,49 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   function handleEventDateInputText(date: Dayjs | Date | null) {
-    console.log(date);
     setEventDateInputText(date);
+    handleDaysLeft(date);
+    console.log(
+      `date: ${date}, eventDateInputText: ${eventDateInputText} days left: ${daysLeft}, `
+    );
   }
 
-  function handleCreateNewEvent() {
-    setEvents([
-      ...events,
-      { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-    ]);
-    console.log({ events });
+  async function handleCreateEvent(uid: string) {
+    const collectionRef = collection(db, "events");
+    const payload = {
+      eventTitle: eventTitleInputText,
+      eventDate: eventDateInputText["$d"],
+      daysLeft,
+      uid,
+    };
+    console.log(payload);
+    const docRef = await addDoc(collectionRef, payload);
+    console.log("Success!! \nThe new ID is: " + docRef.id);
   }
 
-
-    function handleCreateEvent() {
-      setEvents([
-        {...events,eventTitle: eventTitleInputText, eventDate: eventDateInputText }
-      ]);
-      console.log(events);
-      // setQuoteInput({
-      //   quoteText: "",
-      //   speakerName: "",
-      // });
-    }
-
-  function handleSaveBtnClick(type: string) {
+  function handleSaveBtnClick(type: string, uid: string) {
     console.log(eventTitleInputText, type);
     if (type === "create") {
-      handleCreateNewEvent();
+      handleCreateEvent(uid);
+      setEventTitleInputText("");
+      setEventDateInputText(new Date());
     } else {
-      setEvents([
-        { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-      ]);
+      const docRef = doc(db, "events", events[0].id);
+      const payload = {
+        eventTitle: eventTitleInputText,
+        eventDate: eventDateInputText["$d"],
+        daysLeft,
+        uid,
+      };
+
+      updateDoc(docRef, payload);
+      console.log(events[0].id);
     }
-    handleDaysLeft(eventDateInputText);
+    // else {
+    //   setEvents([
+    //     { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
+    //   ]);
+    // }
   }
 
   function handleDisplayEvent(text: string) {
@@ -102,6 +120,31 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
+  // todo: データを読み取って、eventsに保存＆表示
+  async function fetchEvent(uid: string) {
+    const eventsRef = collection(db, "events");
+
+    const q = query(eventsRef, where("uid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    onSnapshot(eventsRef, (snapshot) =>
+      setEvents(
+        snapshot.docs.map((doc) => ({
+          eventTitle: doc.data().eventTitle,
+          eventDate: doc.data().eventDate.toDate(),
+          daysLeft: doc.data().daysLeft,
+          uid: doc.data().uid,
+          id: doc.id,
+        }))
+      )
+    );
+    console.log(events);
+  }
+
   return (
     <CountdownContext.Provider
       value={{
@@ -116,6 +159,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         events,
         handleDisplayEvent,
         displayEventIndex,
+        fetchEvent,
       }}
     >
       {children}

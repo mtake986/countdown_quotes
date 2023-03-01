@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { IEvent, IQuote } from "./interfaces";
+import { IEvent, IQuote, IUser } from "./interfaces";
 
 export type CountdownContextType = {
   handleChangeEventTitle: (
@@ -14,10 +14,11 @@ export type CountdownContextType = {
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   handleEventDateInputText: (e: Dayjs | Date | null) => void;
-  handleSaveBtnClick: (text: string) => void;
+  handleSaveBtnClick: (type: string, uid: string) => void;
   events: IEvent[];
   handleDisplayEvent: (text: string) => void;
   displayEventIndex: number;
+  fetchEvent: (uid: string) => void;
 };
 
 export type QuoteContextType = {
@@ -33,8 +34,8 @@ export type QuoteContextType = {
     type: string
   ) => void;
   quoteInput: IQuote;
-  handleUpdateQuote: () => void;
-  handleCreateQuote: () => void;
+  handleUpdateQuote: (uid: string) => void;
+  handleCreateQuote: (uid: string) => void;
   myQuotes: IQuote[];
 };
 
@@ -50,3 +51,10 @@ export type ModalContextType = {
   isModalOpen: boolean;
   handleToggleModal: () => void;
 };
+
+export type AuthContextType = {
+  loginUser: IUser;
+  handleGoogleLogin: () => void;
+  handleLogout: () => Promise<void>;
+};
+

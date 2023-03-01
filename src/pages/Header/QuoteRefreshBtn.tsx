@@ -1,18 +1,17 @@
-
+import { IconButton, Tooltip } from "@mui/material";
 import { HiRefresh } from "react-icons/hi";
 import { useQuoteContext } from "../../contexts/QuoteContext";
 
 const QuoteRefreshBtn = () => {
   const { getRandomeQuote } = useQuoteContext();
-  
-  return (
-    <div
-      className="md:text-3xl text-2xl cursor-pointer"
-      onClick={getRandomeQuote}
-    >
-      <HiRefresh />
-    </div>
-  );
-}
 
-export default QuoteRefreshBtn
+  return (
+    <Tooltip title="Refresh">
+      <IconButton onClick={getRandomeQuote} className="text-2xl cursor-pointer">
+        <HiRefresh />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+export default QuoteRefreshBtn;

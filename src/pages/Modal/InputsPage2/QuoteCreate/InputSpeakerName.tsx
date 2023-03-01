@@ -7,7 +7,7 @@ const InputSpeakerName: React.FC = () => {
   return (
     <div>
       <TextField
-        className="w-40"
+        className="w-48"
         id="standard-basic"
         value={quoteInput?.speakerName}
         label="Speaker Name"

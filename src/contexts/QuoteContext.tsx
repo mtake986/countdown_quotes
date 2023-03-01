@@ -4,6 +4,9 @@ import { QUOTES_LIST } from "../assets/CONST";
 import { getRandomInt } from "../utils/functions";
 import { Props, IQuote } from "./interfaces";
 
+import { db } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
+
 const QuoteContext = createContext({});
 
 export const useQuoteContext = () => {
@@ -62,11 +65,16 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     console.log(quoteInput);
   }
 
-  function handleCreateQuote() {
-    setMyQuotes([
-      ...myQuotes,
-      { quoteText: quoteInput.quoteText, speakerName: quoteInput.speakerName },
-    ]);
+  async function handleCreateQuote(uid: string) {
+    const collectionRef = collection(db, "quotesAddedByUsers");
+    const payload = {
+      quoteText: quoteInput.quoteText,
+      speakerName: quoteInput.speakerName,
+      uid,
+    };
+    const docRef = await addDoc(collectionRef, payload);
+    console.log("The new ID is: " + docRef.id);
+
     console.log(myQuotes);
     setQuoteInput({
       quoteText: "",
@@ -74,7 +82,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
-  function handleUpdateQuote() {
+  function handleUpdateQuote(uid: string) {
     // todo: it doesn't update quotes
     // it adds an editted quote, so after this function
     // myQuotes have multiple quotes
@@ -86,7 +94,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       quoteText: "",
       speakerName: "",
     });
-    console.log({myQuotes})
+    console.log({ myQuotes });
   }
 
   return (
