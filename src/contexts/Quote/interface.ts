@@ -1,3 +1,6 @@
+export interface Props {
+  children: React.ReactNode;
+}
 export interface IQuote {
   quoteText: string;
   speakerName: string;
@@ -25,6 +28,3 @@ export interface QuoteContextType {
 };
 
 
-export interface Props {
-  children: React.ReactNode;
-}

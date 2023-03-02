@@ -30,4 +30,6 @@ export type CountdownContextType = {
   handleDisplayEvent: (text: string) => void;
   displayEventIndex: number;
   fetchMyEvent: (uid: string) => void;
+  handleCreateEvent: (uid: string) => void;
+  handleUpdateEvent: (uid: string) => void;
 };

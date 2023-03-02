@@ -3,14 +3,14 @@ import { useCountdownContext } from "../../../../contexts/Countdown/CountdownCon
 import { useModalContext } from "../../../../contexts/Modal/ModalContext";
 
 const SaveBtn = () => {
-  const { handleSaveBtnClick } = useCountdownContext();
+  const { handleCreateEvent } = useCountdownContext();
   const { handleToggleModal, handleCurrPageNum } = useModalContext();
   const { loginUser } = useAuthContext();
 
   return (
     <button
       onClick={() => {
-        handleSaveBtnClick("create", loginUser.uid);
+        handleCreateEvent(loginUser.uid);
         handleCurrPageNum("done");
         handleToggleModal();
       }}

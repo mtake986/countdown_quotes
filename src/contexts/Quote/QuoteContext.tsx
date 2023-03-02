@@ -1,15 +1,17 @@
 import { useState, createContext, useContext } from "react";
 import { QUOTES_LIST } from "../../assets/CONST";
 import { getRandomInt } from "../../utils/functions";
-import { Props, IQuote, QuoteContextType } from "./type";
+import { Props, IQuote, QuoteContextType } from "./interface";
 
 import { db } from "../../config/firebase";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -44,16 +46,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       });
   }
 
-  function handleTabScreenText() {
-    setTabScreenText(
-      TabScreenText === "Countdown"
-        ? "Quote"
-        : TabScreenText === "Quote"
-        ? "Countdown"
-        : TabScreenText
-    );
-  }
-
   function handleQuoteInputs(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     type: string
@@ -72,43 +64,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       });
     }
     console.log(quoteInput);
-  }
-
-  async function handleCreateQuote(uid: string) {
-    const collectionRef = collection(db, "quotesAddedByUsers");
-    const payload = {
-      quoteText: quoteInput.quoteText,
-      speakerName: quoteInput.speakerName,
-      uid,
-    };
-    const docRef = await addDoc(collectionRef, payload);
-    console.log("The new ID is: " + docRef.id);
-
-    console.log(myQuotes);
-    setQuoteInput({
-      quoteText: "",
-      speakerName: "",
-      uid: "",
-    });
-  }
-
-  function handleUpdateQuote(uid: string) {
-    // it adds an editted quote, so after this function
-    // myQuotes have multiple quotes
-    setMyQuotes([
-      {
-        quoteText: quoteInput.quoteText,
-        speakerName: quoteInput.speakerName,
-        uid,
-      },
-    ]);
-
-    setQuoteInput({
-      quoteText: "",
-      speakerName: "",
-      uid: "",
-    });
-    console.log({ myQuotes });
   }
 
   // todo: fetch quotes
@@ -134,16 +89,52 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     );
     console.log(myQuotes);
   }
-  // todo: add quotes
 
-  // todo: edit quotes
+  // todo: add quotes
+  async function handleCreateQuote(uid: string) {
+    const collectionRef = collection(db, "quotesAddedByUsers");
+    const payload = {
+      quoteText: quoteInput.quoteText,
+      speakerName: quoteInput.speakerName,
+      uid,
+    };
+    const docRef = await addDoc(collectionRef, payload);
+    console.log("The new ID is: " + docRef.id);
+
+    console.log(myQuotes);
+    setQuoteInput({
+      quoteText: "",
+      speakerName: "",
+      uid: "",
+    });
+  }
+
+  // todo: update quotes
+  async function handleUpdateQuote(uid: string) {
+    const docRef = doc(db, "quotesAddedByUsers", myQuotes[0].id);
+    const payload = {
+      quoteText: quoteInput.quoteText,
+      speakerName: quoteInput.speakerName,
+      uid,
+    };
+
+    await updateDoc(docRef, payload);
+    console.log(myQuotes[0].id);
+
+    setQuoteInput({
+      quoteText: "",
+      speakerName: "",
+      uid: "",
+    });
+    console.log({ myQuotes });
+  }
+
 
   return (
     <QuoteContext.Provider
       value={{
         getRandomeQuote,
         quote,
-        handleTabScreenText,
         TabScreenText,
         handleQuoteInputs,
         quoteInput,
