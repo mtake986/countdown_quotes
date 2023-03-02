@@ -1,6 +1,6 @@
 import React from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { useCountdownContext } from "../../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/Countdown/CountdownContext";
 
 const ArrowLeft = () => {
   const { handleDisplayEvent } = useCountdownContext();

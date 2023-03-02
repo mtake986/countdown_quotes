@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Title, EditBtn, QuoteRefreshBtn } from "./index";
 import Login from "./Login";
 import HamburgerWhenMobile from "./HamburgerWhenMobile";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/Auth/AuthContext";
 
 const Header = () => {
-  const {loginUser} = useAuthContext();
+  const { loginUser } = useAuthContext();
 
   const [isMobile, setIsMobile] = useState(false);
 

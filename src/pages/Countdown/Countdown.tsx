@@ -1,19 +1,17 @@
 import { EventDate, EventTitle } from "./index";
 import DaysLeft from "./ActiveEditOff/DaysLeft";
-import { useCountdownContext } from "../../contexts/CountdownContext";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useCountdownContext } from "../../contexts/Countdown/CountdownContext";
+import { useAuthContext } from "../../contexts/Auth/AuthContext";
 import { useEffect } from "react";
-import { useUtilsContext } from "../../contexts/Utils/UtilsContext";
 
 const Countdown = () => {
-  const { events, fetchEvent } = useCountdownContext();
-  const { handleGoogleLogin, loginUser, handleLogout } = useAuthContext();
-  const { isMobile, handleResize } = useUtilsContext();
+  const { events, fetchMyEvent } = useCountdownContext();
+  const { loginUser } = useAuthContext();
 
   useEffect(() => {
     if (loginUser && loginUser.uid) {
       console.log("useEffect", loginUser, loginUser.uid);
-      fetchEvent(loginUser?.uid);
+      fetchMyEvent(loginUser?.uid);
     }
   }, [loginUser]);
 

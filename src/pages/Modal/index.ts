@@ -1,4 +1,4 @@
-export { default as SwitchEditTypeBtn } from "./SwitchEditTypeBtn";
+
 export { default as MuiModal } from "./MuiModal";
 export { default as SelectType } from "./SelectType1/SelectType";
 

@@ -1,10 +1,10 @@
-import { useCountdownContext } from "../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
 
 const DaysLeft = () => {
   const { events } = useCountdownContext();
 
   return (
-    <div className='mb-8 sm:mb-10'>
+    <div className="mb-8 sm:mb-10">
       {events[0].daysLeft <= 0 ? (
         <span className="text-3xl font-bold text-red-600">YOU GOT THIS!!!</span>
       ) : events[0].daysLeft === 1 ? (
@@ -21,11 +21,9 @@ const DaysLeft = () => {
           </span>
           Days Out
         </span>
-      ) : events[0].daysLeft > 3 ? (        
+      ) : events[0].daysLeft > 3 ? (
         <span className="">
-          <span className="text-3xl font-bold mr-2 ">
-            {events[0].daysLeft}
-          </span>
+          <span className="text-3xl font-bold mr-2 ">{events[0].daysLeft}</span>
           Days Out
         </span>
       ) : null}

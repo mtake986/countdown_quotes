@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/Auth/AuthContext";
 import { FiLogIn } from "react-icons/fi";
 import { IconButton, Tooltip } from "@mui/material";
 import { FaRegUserCircle } from "react-icons/fa";

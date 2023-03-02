@@ -1,8 +1,8 @@
 import React from "react";
-import { useCountdownContext } from "../../contexts/CountdownContext";
+import { useCountdownContext } from "../../contexts/Countdown/CountdownContext";
 import { Box, Modal } from "@mui/material";
 import ModalContentPageManager from "./ModalContentPageManager";
-import { useModalContext } from "../../contexts/ModalContext";
+import { useModalContext } from "../../contexts/Modal/ModalContext";
 
 const MuiModal = () => {
   const { isModalOpen, handleToggleModal } = useModalContext();

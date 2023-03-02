@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from "react";
-import { ModalContextType } from "./types";
+import { ModalContextType } from "./interface";
 
 const ModalContext = createContext({});
 
@@ -25,18 +25,18 @@ export const ModalContextProvider: React.FC<Props> = ({ children }) => {
   function handleSelectTypeAndAct(type: string, act: string) {
     setSelectedTypeAndAct({ type, act });
     setCurrPageNum(currPageNum + 1);
-    console.log(selectedTypeAndAct)
+    console.log(selectedTypeAndAct);
   }
 
-    function handleToggleModal() {
-      setIsModalOpen(!isModalOpen);
-      console.log(isModalOpen);
-    }
+  function handleToggleModal() {
+    setIsModalOpen(!isModalOpen);
+    console.log(isModalOpen);
+  }
 
   function handleCurrPageNum(text: string) {
-    if (text === 'done' ){
-      setCurrPageNum(1)
-    } else if (text === 'prev') {
+    if (text === "done") {
+      setCurrPageNum(1);
+    } else if (text === "prev") {
       setCurrPageNum(currPageNum - 1);
     }
   }

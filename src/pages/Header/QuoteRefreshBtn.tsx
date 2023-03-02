@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { HiRefresh } from "react-icons/hi";
-import { useQuoteContext } from "../../contexts/QuoteContext";
+import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 
 const QuoteRefreshBtn = () => {
   const { getRandomeQuote } = useQuoteContext();

@@ -1,11 +1,19 @@
 import { useState, createContext, useContext } from "react";
-import { QuoteContextType } from "./types";
-import { QUOTES_LIST } from "../assets/CONST";
-import { getRandomInt } from "../utils/functions";
-import { Props, IQuote } from "./interfaces";
+import { QUOTES_LIST } from "../../assets/CONST";
+import { getRandomInt } from "../../utils/functions";
+import { Props, IQuote, QuoteContextType } from "./interface";
 
-import { db } from "../config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const QuoteContext = createContext({});
 
@@ -21,6 +29,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quoteInput, setQuoteInput] = useState<IQuote>({
     quoteText: "",
     speakerName: "",
+    uid: "",
   });
 
   function getRandomeQuote() {
@@ -33,18 +42,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       })
       .catch((err) => {
         console.error(err);
-        setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
+        // setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
       });
-  }
-
-  function handleTabScreenText() {
-    setTabScreenText(
-      TabScreenText === "Countdown"
-        ? "Quote"
-        : TabScreenText === "Quote"
-        ? "Countdown"
-        : TabScreenText
-    );
   }
 
   function handleQuoteInputs(
@@ -55,16 +54,43 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       setQuoteInput({
         quoteText: e.target.value,
         speakerName: quoteInput.speakerName,
+        uid: quoteInput.uid,
       });
     } else if (type === "name") {
       setQuoteInput({
         quoteText: quoteInput.quoteText,
         speakerName: e.target.value,
+        uid: quoteInput.uid,
       });
     }
     console.log(quoteInput);
   }
 
+  // todo: fetch quotes
+  async function fetchQuotesCreatedByLoginUser(uid: string) {
+    const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
+
+    const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    onSnapshot(quotesAddedByUsersRef, (snapshot) =>
+      setMyQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+        }))
+      )
+    );
+    console.log(myQuotes);
+  }
+
+  // todo: add quotes
   async function handleCreateQuote(uid: string) {
     const collectionRef = collection(db, "quotesAddedByUsers");
     const payload = {
@@ -79,36 +105,43 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setQuoteInput({
       quoteText: "",
       speakerName: "",
+      uid: "",
     });
   }
 
-  function handleUpdateQuote(uid: string) {
-    // todo: it doesn't update quotes
-    // it adds an editted quote, so after this function
-    // myQuotes have multiple quotes
-    setMyQuotes([
-      { quoteText: quoteInput.quoteText, speakerName: quoteInput.speakerName },
-    ]);
+  // todo: update quotes
+  async function handleUpdateQuote(uid: string) {
+    const docRef = doc(db, "quotesAddedByUsers", myQuotes[0].id);
+    const payload = {
+      quoteText: quoteInput.quoteText,
+      speakerName: quoteInput.speakerName,
+      uid,
+    };
+
+    await updateDoc(docRef, payload);
+    console.log(myQuotes[0].id);
 
     setQuoteInput({
       quoteText: "",
       speakerName: "",
+      uid: "",
     });
     console.log({ myQuotes });
   }
+
 
   return (
     <QuoteContext.Provider
       value={{
         getRandomeQuote,
         quote,
-        handleTabScreenText,
         TabScreenText,
         handleQuoteInputs,
         quoteInput,
         handleCreateQuote,
         handleUpdateQuote,
         myQuotes,
+        fetchQuotesCreatedByLoginUser,
       }}
     >
       {children}

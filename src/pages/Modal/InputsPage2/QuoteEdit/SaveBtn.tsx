@@ -1,6 +1,6 @@
-import { useAuthContext } from "../../../../contexts/AuthContext";
-import { useModalContext } from "../../../../contexts/ModalContext";
-import { useQuoteContext } from "../../../../contexts/QuoteContext";
+import { useAuthContext } from "../../../../contexts/Auth/AuthContext";
+import { useModalContext } from "../../../../contexts/Modal/ModalContext";
+import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
 const SaveBtn = () => {
   const { handleUpdateQuote } = useQuoteContext();

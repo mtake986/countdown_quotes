@@ -1,5 +1,5 @@
 import React from "react";
-import { useCountdownContext } from "../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
 
 const EventTitle: React.FC = () => {
   const { events, displayEventIndex } = useCountdownContext();

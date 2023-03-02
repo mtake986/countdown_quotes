@@ -1,7 +1,7 @@
 import React from "react";
 
 import TextField from "@mui/material/TextField";
-import { useQuoteContext } from "../../../../contexts/QuoteContext";
+import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
 const InputQuoteText: React.FC = () => {
   const { quoteInput, handleQuoteInputs } = useQuoteContext();
