@@ -23,14 +23,10 @@ export const useQuoteContext = () => {
 
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quote, setQuote] = useState<IQuote>(null);
-  const [TabScreenText, setTabScreenText] = useState<string>("Countdown");
 
   const [myQuotes, setMyQuotes] = useState<IQuote[]>([]);
-  const [quoteInput, setQuoteInput] = useState<IQuote>({
-    quoteText: "",
-    speakerName: "",
-    uid: "",
-  });
+  const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
+  const [speakerNameInputText, setSpeakerNameInputText] = useState<string>("");
 
   function getRandomeQuote() {
     fetch("https://type.fit/api/quotes")
@@ -46,26 +42,19 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       });
   }
 
-  function handleQuoteInputs(
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+  // ========== handle Inputs ==========
+  function handleQuoteTextInputText(
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
-    if (type === "quoteText") {
-      setQuoteInput({
-        quoteText: e.target.value,
-        speakerName: quoteInput.speakerName,
-        uid: quoteInput.uid,
-      });
-    } else if (type === "name") {
-      setQuoteInput({
-        quoteText: quoteInput.quoteText,
-        speakerName: e.target.value,
-        uid: quoteInput.uid,
-      });
-    }
-    console.log(quoteInput);
+    setQuoteTextInputText(e.target.value);
+  }
+  function handleSpeakerNameInputText(
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) {
+    setSpeakerNameInputText(e.target.value);
   }
 
+  // ========== Firestore Events ==========
   // todo: fetch quotes
   async function fetchQuotesCreatedByLoginUser(uid: string) {
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
@@ -94,54 +83,52 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   async function handleCreateQuote(uid: string) {
     const collectionRef = collection(db, "quotesAddedByUsers");
     const payload = {
-      quoteText: quoteInput.quoteText,
-      speakerName: quoteInput.speakerName,
+      quoteText: quoteTextInputText,
+      speakerName: speakerNameInputText,
       uid,
     };
     const docRef = await addDoc(collectionRef, payload);
     console.log("The new ID is: " + docRef.id);
 
     console.log(myQuotes);
-    setQuoteInput({
-      quoteText: "",
-      speakerName: "",
-      uid: "",
-    });
+
+    clearInputs();
   }
 
   // todo: update quotes
   async function handleUpdateQuote(uid: string) {
     const docRef = doc(db, "quotesAddedByUsers", myQuotes[0].id);
     const payload = {
-      quoteText: quoteInput.quoteText,
-      speakerName: quoteInput.speakerName,
+      quoteText: quoteTextInputText,
+      speakerName: speakerNameInputText,
       uid,
     };
 
     await updateDoc(docRef, payload);
     console.log(myQuotes[0].id);
 
-    setQuoteInput({
-      quoteText: "",
-      speakerName: "",
-      uid: "",
-    });
+    clearInputs();
     console.log({ myQuotes });
   }
 
+  function clearInputs() {
+    setQuoteTextInputText("");
+    setSpeakerNameInputText("");
+  }
 
   return (
     <QuoteContext.Provider
       value={{
         getRandomeQuote,
         quote,
-        TabScreenText,
-        handleQuoteInputs,
-        quoteInput,
+        handleQuoteTextInputText,
+        quoteTextInputText,
+        handleSpeakerNameInputText,
+        speakerNameInputText,
+        fetchQuotesCreatedByLoginUser,
         handleCreateQuote,
         handleUpdateQuote,
         myQuotes,
-        fetchQuotesCreatedByLoginUser,
       }}
     >
       {children}

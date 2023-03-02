@@ -14,17 +14,16 @@ export interface QuoteContextType {
     text: string;
     speakerName: string;
   };
-  handleTabScreenText: () => void;
-  TabScreenText: string;
-  handleQuoteInputs: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+  handleQuoteTextInputText: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
-  quoteInput: IQuote;
+  quoteTextInputText: string;
+  handleSpeakerNameInputText: (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  speakerNameInputText: string;
+  fetchQuotesCreatedByLoginUser: (uid: string) => void;
+  myQuotes: IQuote[];
   handleUpdateQuote: (uid: string) => void;
   handleCreateQuote: (uid: string) => void;
-  myQuotes: IQuote[];
-  fetchQuotesCreatedByLoginUser: (uid: string) => void;
-};
-
-
+}

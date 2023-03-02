@@ -5,14 +5,16 @@ import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers";
 
 const EventDateInput: React.FC = () => {
-  const { eventDateInputText, handleEventDateInputText } =
+  const { events, eventDateInputText, handleEventDateInputText } =
     useCountdownContext();
 
   return (
     <div>
       <DatePicker
         label="Event Date"
-        value={eventDateInputText}
+        value={
+          eventDateInputText ? eventDateInputText : events[0].eventDate 
+        }
         onChange={(date) => handleEventDateInputText(date)}
         renderInput={(params) => <TextField {...params} />}
       />

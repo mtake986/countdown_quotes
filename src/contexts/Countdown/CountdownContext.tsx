@@ -28,7 +28,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   const [eventTitleInputText, setEventTitleInputText] = useState<string>("");
   const [eventDateInputText, setEventDateInputText] = useState<
     Dayjs | Date | null
-  >(new Date());
+  >();
 
   function handleChangeEventTitle(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -63,31 +63,6 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     console.log(
       `date: ${date}, eventDateInputText: ${eventDateInputText} days left: ${daysLeft}, `
     );
-  }
-
-  async function handleSaveBtnClick(type: string, uid: string) {
-    console.log(eventTitleInputText, type);
-    if (type === "create") {
-      handleCreateEvent(uid);
-      setEventTitleInputText("");
-      setEventDateInputText(new Date());
-    } else {
-      const docRef = doc(db, "events", events[0].id);
-      const payload = {
-        eventTitle: eventTitleInputText,
-        eventDate: eventDateInputText["$d"],
-        daysLeft,
-        uid,
-      };
-
-      await updateDoc(docRef, payload);
-      console.log(events[0].id);
-    }
-    // else {
-    //   setEvents([
-    //     { eventTitle: eventTitleInputText, eventDate: eventDateInputText },
-    //   ]);
-    // }
   }
 
   function handleDisplayEvent(text: string) {
@@ -143,8 +118,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     console.log(payload);
     const docRef = await addDoc(collectionRef, payload);
     console.log("Success!! \nThe new ID is: " + docRef.id);
-    setEventTitleInputText("");
-    setEventDateInputText(new Date());
+    clearInputs();
   }
 
   // todo: update an event
@@ -159,6 +133,12 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
 
     await updateDoc(docRef, payload);
     console.log(events[0].id);
+    clearInputs();
+  }
+
+  function clearInputs() {
+    setEventTitleInputText("");
+    setEventDateInputText(null);
   }
 
   return (
@@ -171,7 +151,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         eventDateInputText,
         handleEventTitleInputText,
         handleEventDateInputText,
-        handleSaveBtnClick,
+
         events,
         handleDisplayEvent,
         displayEventIndex,
