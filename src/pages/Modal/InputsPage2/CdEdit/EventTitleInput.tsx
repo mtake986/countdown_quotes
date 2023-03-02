@@ -1,12 +1,9 @@
 import TextField from "@mui/material/TextField";
-import { useCountdownContext } from "../../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/Countdown/CountdownContext";
 
 const EventTitleInput: React.FC = () => {
-  const {
-    displayEventIndex,
-    events,
-    handleChangeEventTitle,
-  } = useCountdownContext();
+  const { displayEventIndex, events, handleChangeEventTitle } =
+    useCountdownContext();
 
   return (
     <div>

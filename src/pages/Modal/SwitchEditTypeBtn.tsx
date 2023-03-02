@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuoteContext } from "../../contexts/QuoteContext";
+import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 import { MdSwapHoriz } from "react-icons/md";
 
 const SwitchEditTypeBtn: React.FC = () => {

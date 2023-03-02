@@ -7,10 +7,10 @@ import { Quote } from "./pages/Quote";
 import { Footer } from "./pages/Footer";
 import { MuiModal } from "./pages/Modal";
 
-import { CountdownContextProvider } from "./contexts/CountdownContext";
-import { QuoteContextProvider } from "./contexts/QuoteContext";
-import { ModalContextProvider } from "./contexts/ModalContext";
-import { AuthContextProvider } from "./contexts/AuthContext";
+import { CountdownContextProvider } from "./contexts/Countdown/CountdownContext";
+import { QuoteContextProvider } from "./contexts/Quote/QuoteContext";
+import { ModalContextProvider } from "./contexts/Modal/ModalContext";
+import { AuthContextProvider } from "./contexts/Auth/AuthContext";
 import { UtilsContextProvider } from "./contexts/Utils/UtilsContext";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

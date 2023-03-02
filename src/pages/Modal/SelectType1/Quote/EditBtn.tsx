@@ -1,5 +1,5 @@
 import React from "react";
-import { useModalContext } from "../../../../contexts/ModalContext";
+import { useModalContext } from "../../../../contexts/Modal/ModalContext";
 
 const EditBtn = () => {
   const { handleSelectTypeAndAct } = useModalContext();

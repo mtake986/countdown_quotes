@@ -1,7 +1,7 @@
 import { useState, createContext, useContext } from "react";
-import { UtilsContextType } from "./type";
+import { UtilsContextType } from "./interface";
 
-import { Props } from "../interfaces";
+import { Props } from "./interface";
 
 const UtilsContext = createContext({});
 

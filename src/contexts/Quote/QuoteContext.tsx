@@ -1,11 +1,17 @@
 import { useState, createContext, useContext } from "react";
-import { QuoteContextType } from "./types";
-import { QUOTES_LIST } from "../assets/CONST";
-import { getRandomInt } from "../utils/functions";
-import { Props, IQuote } from "./interfaces";
+import { QUOTES_LIST } from "../../assets/CONST";
+import { getRandomInt } from "../../utils/functions";
+import { Props, IQuote, QuoteContextType } from "./type";
 
-import { db } from "../config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 
 const QuoteContext = createContext({});
 
@@ -21,6 +27,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quoteInput, setQuoteInput] = useState<IQuote>({
     quoteText: "",
     speakerName: "",
+    uid: "",
   });
 
   function getRandomeQuote() {
@@ -33,7 +40,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       })
       .catch((err) => {
         console.error(err);
-        setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
+        // setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
       });
   }
 
@@ -55,11 +62,13 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       setQuoteInput({
         quoteText: e.target.value,
         speakerName: quoteInput.speakerName,
+        uid: quoteInput.uid,
       });
     } else if (type === "name") {
       setQuoteInput({
         quoteText: quoteInput.quoteText,
         speakerName: e.target.value,
+        uid: quoteInput.uid,
       });
     }
     console.log(quoteInput);
@@ -79,23 +88,55 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setQuoteInput({
       quoteText: "",
       speakerName: "",
+      uid: "",
     });
   }
 
   function handleUpdateQuote(uid: string) {
-    // todo: it doesn't update quotes
     // it adds an editted quote, so after this function
     // myQuotes have multiple quotes
     setMyQuotes([
-      { quoteText: quoteInput.quoteText, speakerName: quoteInput.speakerName },
+      {
+        quoteText: quoteInput.quoteText,
+        speakerName: quoteInput.speakerName,
+        uid,
+      },
     ]);
 
     setQuoteInput({
       quoteText: "",
       speakerName: "",
+      uid: "",
     });
     console.log({ myQuotes });
   }
+
+  // todo: fetch quotes
+  async function fetchQuotesCreatedByLoginUser(uid: string) {
+    const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
+
+    const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    onSnapshot(quotesAddedByUsersRef, (snapshot) =>
+      setMyQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+        }))
+      )
+    );
+    console.log(myQuotes);
+  }
+  // todo: add quotes
+
+  // todo: edit quotes
 
   return (
     <QuoteContext.Provider
@@ -109,6 +150,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         handleCreateQuote,
         handleUpdateQuote,
         myQuotes,
+        fetchQuotesCreatedByLoginUser,
       }}
     >
       {children}

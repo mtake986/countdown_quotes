@@ -1,9 +1,8 @@
 import { useState, createContext, useContext } from "react";
-import { AuthContextType } from "./types";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth } from "../../config/firebase";
 
-import { Props, IUser } from "./interfaces";
+import { Props, IUser, AuthContextType } from "./interface";
 
 const AuthContext = createContext({});
 
@@ -32,14 +31,12 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      signOut(auth)
+      signOut(auth);
       setLoginUser(null);
     } catch (error) {
       console.log(error);
     }
   };
-
-  
 
   return (
     <AuthContext.Provider

@@ -3,7 +3,7 @@ import EventTitleInput from "./EventTitleInput";
 import EventDateInput from "./EventDateInput";
 import SaveBtn from "./SaveBtn";
 import Title from "./Title";
-import { useCountdownContext } from "../../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/Countdown/CountdownContext";
 
 const CdCreate = () => {
   const { events } = useCountdownContext();

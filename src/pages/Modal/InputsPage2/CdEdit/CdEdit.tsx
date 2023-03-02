@@ -1,4 +1,4 @@
-import { useCountdownContext } from "../../../../contexts/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/Countdown/CountdownContext";
 import ArrowLeft from "./ArrowLeft";
 import ArrowRight from "./ArrowRight";
 import EventDateInput from "./EventDateInput";

@@ -1,10 +1,9 @@
 import { useState, createContext, useContext } from "react";
-import { CountdownContextType } from "./types";
 import dayjs, { Dayjs } from "dayjs";
 
-import { Props, IEvent } from "./interfaces";
+import { Props, IEvent, CountdownContextType } from "./interface";
 
-import { db } from "../config/firebase";
+import { db } from "../../config/firebase";
 import {
   addDoc,
   collection,
@@ -121,7 +120,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   // todo: データを読み取って、eventsに保存＆表示
-  async function fetchEvent(uid: string) {
+  async function fetchMyEvent(uid: string) {
     const eventsRef = collection(db, "events");
 
     const q = query(eventsRef, where("uid", "==", uid));
@@ -159,7 +158,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         events,
         handleDisplayEvent,
         displayEventIndex,
-        fetchEvent,
+        fetchMyEvent,
       }}
     >
       {children}

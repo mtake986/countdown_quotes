@@ -1,9 +1,9 @@
 import React from "react";
-import { useQuoteContext } from "../../contexts/QuoteContext";
+import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 import { SelectType, CdEdit, CdCreate } from "./index";
 import GoPrev from "./GoPrev";
 
-import { useModalContext } from "../../contexts/ModalContext";
+import { useModalContext } from "../../contexts/Modal/ModalContext";
 import QuoteCreate from "./InputsPage2/QuoteCreate/QuoteCreate";
 import QuoteEdit from "./InputsPage2/QuoteEdit/QuoteEdit";
 const ModalContentPageManager = () => {
@@ -27,8 +27,12 @@ const ModalContentPageManager = () => {
           ) : selectedTypeAndAct?.type === "q" &&
             selectedTypeAndAct?.act === "create" ? (
             <QuoteCreate />
-          ) : <div>Page 2 not found</div>
-        ) : <div>Page 1 not found</div>}
+          ) : (
+            <div>Page 2 not found</div>
+          )
+        ) : (
+          <div>Page 1 not found</div>
+        )}
         {currPageNum > 1 ? <GoPrev /> : null}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { useQuoteContext } from "../../../../contexts/QuoteContext";
+import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
 const InputSpeakerName: React.FC = () => {
   const { handleQuoteInputs, myQuotes } = useQuoteContext();
