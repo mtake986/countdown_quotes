@@ -15,8 +15,8 @@ const InputQuoteText: React.FC = () => {
         value={quoteTextInputText}
         variant="standard"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleQuoteTextInputText(e)}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, 
+        ) => handleQuoteTextInputText(e, 'create')}
       />
     </div>
   );

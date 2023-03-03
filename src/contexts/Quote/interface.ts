@@ -15,15 +15,19 @@ export interface QuoteContextType {
     speakerName: string;
   };
   handleQuoteTextInputText: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: string
   ) => void;
   quoteTextInputText: string;
   handleSpeakerNameInputText: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: string
   ) => void;
   speakerNameInputText: string;
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleUpdateQuote: (uid: string) => void;
   handleCreateQuote: (uid: string) => void;
+  handleChangeCurrentQuoteIndex: (text: string) => void;
+  currentQuoteIndex: number;
 }

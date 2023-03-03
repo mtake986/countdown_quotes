@@ -23,11 +23,74 @@ export const useQuoteContext = () => {
 
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quote, setQuote] = useState<IQuote>(null);
-
   const [myQuotes, setMyQuotes] = useState<IQuote[]>([]);
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
   const [speakerNameInputText, setSpeakerNameInputText] = useState<string>("");
 
+  const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<IQuote[]>(
+    []
+  );
+
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
+
+  // ========== handle Inputs ==========
+  function handleQuoteTextInputText(
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: string
+  ) {
+    // todo: create multiple inputs list and call updateDoc for each element in the list
+    // todo: get the quote being edited and change only the value of quoteInputTextInput, then add the whole quote to the list
+    if (type === "create") {
+      setQuoteTextInputText(e.target.value);
+    } else if (type === "edit") {
+      console.log(        {
+          quoteText: quoteTextInputText,
+          speakerName: myQuotes[currentQuoteIndex].speakerName,
+          uid: myQuotes[currentQuoteIndex].uid,
+        },);
+      
+      // setMyQuotesBeingChanged([
+      //   ...myQuotesBeingChanged,
+      //   {
+      //     quoteText: quoteTextInputText,
+      //     speakerName: myQuotes[currentQuoteIndex].speakerName,
+      //     uid: myQuotes[currentQuoteIndex].uid,
+      //   },
+      // ]);
+    }
+    // console.log({ myQuotesBeingChanged });
+    
+  }
+  function handleSpeakerNameInputText(
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: string
+  ) {
+    if (type === "create") {
+      setSpeakerNameInputText(e.target.value);
+    } else if (type === "edit") {
+      setMyQuotesBeingChanged([
+        ...myQuotesBeingChanged,
+        {
+          quoteText: myQuotes[currentQuoteIndex].quoteText,
+          speakerName: speakerNameInputText,
+          uid: myQuotes[currentQuoteIndex].uid,
+        },
+      ]);
+    }
+    console.log({ myQuotesBeingChanged });
+  }
+
+  function handleChangeCurrentQuoteIndex(text: string) {
+    if (text === "prev" && currentQuoteIndex > 0) {
+      setCurrentQuoteIndex((prev) => prev - 1);
+    } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
+      setCurrentQuoteIndex((prev) => prev + 1);
+    }
+    console.log('currentQuoteIndex: ', currentQuoteIndex);
+  }
+
+
+  // ========== Firestore Events ==========
   function getRandomeQuote() {
     fetch("https://type.fit/api/quotes")
       .then(function (response) {
@@ -41,20 +104,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         // setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
       });
   }
-
-  // ========== handle Inputs ==========
-  function handleQuoteTextInputText(
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) {
-    setQuoteTextInputText(e.target.value);
-  }
-  function handleSpeakerNameInputText(
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) {
-    setSpeakerNameInputText(e.target.value);
-  }
-
-  // ========== Firestore Events ==========
   // todo: fetch quotes
   async function fetchQuotesCreatedByLoginUser(uid: string) {
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
@@ -66,7 +115,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
     });
-    onSnapshot(quotesAddedByUsersRef, (snapshot) =>
+    onSnapshot(quotesAddedByUsersRef, (snapshot) => {
       setMyQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
@@ -74,8 +123,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           uid: doc.data().uid,
           id: doc.id,
         }))
-      )
-    );
+      );
+    });
     console.log(myQuotes);
   }
 
@@ -129,6 +178,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         handleCreateQuote,
         handleUpdateQuote,
         myQuotes,
+        handleChangeCurrentQuoteIndex,
+        currentQuoteIndex,
       }}
     >
       {children}

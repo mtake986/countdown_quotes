@@ -14,8 +14,8 @@ const InputSpeakerName: React.FC = () => {
         label="Speaker Name"
         variant="standard"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleSpeakerNameInputText(e)}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+        ) => handleSpeakerNameInputText(e, "create")}
       />
     </div>
   );

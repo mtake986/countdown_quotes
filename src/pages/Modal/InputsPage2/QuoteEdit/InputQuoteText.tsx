@@ -9,14 +9,14 @@ const InputQuoteText: React.FC = () => {
   return (
     <div>
       <TextField
-        className="w-48"
+        className="w-40"
         id="standard-basic"
         label="Quote"
         defaultValue={myQuotes[0]?.quoteText}
         variant="standard"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleQuoteTextInputText(e)}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+        ) => handleQuoteTextInputText(e, 'edit')}
       />
     </div>
   );
