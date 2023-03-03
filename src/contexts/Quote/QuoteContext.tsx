@@ -1,7 +1,12 @@
 import { useState, createContext, useContext } from "react";
 import { QUOTES_LIST } from "../../assets/CONST";
 import { getRandomInt } from "../../utils/functions";
-import { Props, IQuote, QuoteContextType } from "./interface";
+import {
+  Props,
+  IQuote,
+  IMyQuotesBeingChanged,
+  QuoteContextType,
+} from "./interface";
 
 import { db } from "../../config/firebase";
 import {
@@ -27,9 +32,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
   const [speakerNameInputText, setSpeakerNameInputText] = useState<string>("");
 
-  const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<IQuote[]>(
-    []
-  );
+  const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<
+    IMyQuotesBeingChanged[]
+  >([]);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
 
@@ -40,40 +45,36 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   ) {
     // todo: create multiple inputs list and call updateDoc for each element in the list
     // todo: get the quote being edited and change only the value of quoteInputTextInput, then add the whole quote to the list
-    if (type === "create") {
-      setQuoteTextInputText(e.target.value);
-    } else if (type === "edit") {
-      console.log(        {
-          quoteText: quoteTextInputText,
-          speakerName: myQuotes[currentQuoteIndex].speakerName,
-          uid: myQuotes[currentQuoteIndex].uid,
-        },);
-      
-      // setMyQuotesBeingChanged([
-      //   ...myQuotesBeingChanged,
-      //   {
-      //     quoteText: quoteTextInputText,
-      //     speakerName: myQuotes[currentQuoteIndex].speakerName,
-      //     uid: myQuotes[currentQuoteIndex].uid,
-      //   },
-      // ]);
+    setQuoteTextInputText(e.target.value);
+    if (type === "edit") {
+      // todo: store index as a key if myQuotesBeingChanged has the index
+      setMyQuotesBeingChanged([
+        ...myQuotesBeingChanged,
+        {
+          [currentQuoteIndex]: {
+            quoteText: quoteTextInputText,
+            speakerName: myQuotes[currentQuoteIndex].speakerName,
+            uid: myQuotes[currentQuoteIndex].uid,
+          },
+        },
+      ]);
     }
-    // console.log({ myQuotesBeingChanged });
-    
+    console.log({ myQuotesBeingChanged });
   }
   function handleSpeakerNameInputText(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     type: string
   ) {
-    if (type === "create") {
-      setSpeakerNameInputText(e.target.value);
-    } else if (type === "edit") {
+    setSpeakerNameInputText(e.target.value);
+    if (type === "edit") {
       setMyQuotesBeingChanged([
         ...myQuotesBeingChanged,
         {
-          quoteText: myQuotes[currentQuoteIndex].quoteText,
-          speakerName: speakerNameInputText,
-          uid: myQuotes[currentQuoteIndex].uid,
+          [currentQuoteIndex]: {
+            quoteText: myQuotes[currentQuoteIndex].quoteText,
+            speakerName: speakerNameInputText,
+            uid: myQuotes[currentQuoteIndex].uid,
+          },
         },
       ]);
     }
@@ -86,9 +87,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
       setCurrentQuoteIndex((prev) => prev + 1);
     }
-    console.log('currentQuoteIndex: ', currentQuoteIndex);
+    console.log("currentQuoteIndex: ", currentQuoteIndex);
   }
-
 
   // ========== Firestore Events ==========
   function getRandomeQuote() {

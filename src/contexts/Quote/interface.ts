@@ -8,6 +8,10 @@ export interface IQuote {
   id?: string;
 }
 
+export interface IMyQuotesBeingChanged {
+  [currentQuoteIndex: number]: IQuote;
+}
+
 export interface QuoteContextType {
   getRandomeQuote: () => void;
   quote: {
