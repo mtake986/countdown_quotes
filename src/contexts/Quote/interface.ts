@@ -34,6 +34,6 @@ export interface QuoteContextType {
   handleCreateQuote: (uid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string) => void;
   currentQuoteIndex: number;
-  // myQuotesBeingChanged: IQuote[];
-  myQuotesBeingChanged: IMyQuotesBeingChanged[];
+  myQuotesBeingChanged: IQuote[];
+  // myQuotesBeingChanged: IMyQuotesBeingChanged[];
 }

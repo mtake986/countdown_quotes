@@ -7,7 +7,7 @@ const SpeakerName: React.FC = () => {
     <span className="text-sm sm:text-xl ">
       {myQuotes[currentQuoteIndex]?.speakerName
         ? myQuotes[currentQuoteIndex]?.speakerName
-        : "Loading..."}
+        : ""}
     </span>
   );
 };

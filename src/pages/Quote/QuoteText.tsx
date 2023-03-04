@@ -8,7 +8,7 @@ const QuoteText: React.FC = () => {
     <div className="text-2xl sm:text-2xl font-Caveat-Brush">
       {myQuotes[currentQuoteIndex]?.quoteText
         ? myQuotes[currentQuoteIndex]?.quoteText
-        : "Loading..."}
+        : ""}
     </div>
   );
 };

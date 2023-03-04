@@ -16,7 +16,7 @@ const QuoteEdit = () => {
       <Title />
       <div className="flex items-center justify-between gap-4">
         <GoPrev />
-        {myQuotes.map((quote, i) =>
+        {myQuotes?.map((quote, i) =>
           currentQuoteIndex === i ? (
             <div className="flex flex-col gap-4" key={i}>
               <InputQuoteText quote={quote} />
