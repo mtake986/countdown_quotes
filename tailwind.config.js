@@ -6,7 +6,7 @@ module.exports = {
     fontFamily: {
       roboto: ['"Roboto"', "cursive"],
       babylonica: ['"Babylonica"', "cursive"],
-      'Caveat-Brush': ['"Caveat Brush"', "cursive"],
+      "Caveat-Brush": ['"Caveat Brush"', "cursive"],
     },
     container: {
       center: true,

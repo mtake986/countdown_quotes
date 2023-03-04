@@ -3,8 +3,13 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
-const InputQuoteText: React.FC = () => {
-  const { myQuotes, handleQuoteTextInputText, quoteTextInputText } = useQuoteContext();
+import { IQuote } from "../../../../contexts/Quote/interface";
+
+interface Props {
+  quote: IQuote
+}
+const InputQuoteText: React.FC<Props> = ({quote}) => {
+  const { currentQuoteIndex, myQuotes, handleQuoteTextInputText, quoteTextInputText } = useQuoteContext();
 
   return (
     <div>
@@ -12,11 +17,11 @@ const InputQuoteText: React.FC = () => {
         className="w-40"
         id="standard-basic"
         label="Quote"
-        defaultValue={myQuotes[0]?.quoteText}
+        defaultValue={quote?.quoteText}
         variant="standard"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-        ) => handleQuoteTextInputText(e, 'edit')}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        ) => handleQuoteTextInputText(e, "edit")}
       />
     </div>
   );

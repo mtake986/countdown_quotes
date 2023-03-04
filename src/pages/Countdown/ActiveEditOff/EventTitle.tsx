@@ -4,7 +4,7 @@ import { useCountdownContext } from "../../../contexts/Countdown/CountdownContex
 const EventTitle: React.FC = () => {
   const { events, displayEventIndex } = useCountdownContext();
   return (
-    <div className="text-lg sm:text-2xl">
+    <div className="text-lg sm:text-2xl text-center">
       {events[displayEventIndex]?.eventTitle}
     </div>
   );

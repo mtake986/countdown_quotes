@@ -25,11 +25,11 @@ export const ModalContextProvider: React.FC<Props> = ({ children }) => {
   function handleSelectTypeAndAct(type: string, act: string) {
     setSelectedTypeAndAct({ type, act });
     setCurrPageNum(currPageNum + 1);
-    console.log(selectedTypeAndAct);
   }
 
   function handleToggleModal() {
     setIsModalOpen(!isModalOpen);
+    setCurrPageNum(1);
     console.log(isModalOpen);
   }
 

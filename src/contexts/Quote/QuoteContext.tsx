@@ -34,6 +34,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<
     IMyQuotesBeingChanged[]
+    // IQuote[]
   >([]);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
@@ -48,18 +49,39 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setQuoteTextInputText(e.target.value);
     if (type === "edit") {
       // todo: store index as a key if myQuotesBeingChanged has the index
-      setMyQuotesBeingChanged([
-        ...myQuotesBeingChanged,
-        {
-          [currentQuoteIndex]: {
-            quoteText: quoteTextInputText,
-            speakerName: myQuotes[currentQuoteIndex].speakerName,
-            uid: myQuotes[currentQuoteIndex].uid,
-          },
+
+      let payload = {};
+      payload = {
+        [currentQuoteIndex]: {
+          quoteText: quoteTextInputText,
+          speakerName: myQuotes[currentQuoteIndex].speakerName,
+          uid: myQuotes[currentQuoteIndex].uid,
+          id: myQuotes[currentQuoteIndex].id,
         },
-      ]);
+      };
+      setMyQuotesBeingChanged((prev) => ({
+        ...prev,
+        ...payload,
+      }));
+
+      // setMyQuotesBeingChanged([
+      //   ...myQuotesBeingChanged,
+      //   // {
+      //   //   quoteText: quoteTextInputText,
+      //   //   speakerName: myQuotes[currentQuoteIndex].speakerName,
+      //   //   uid: myQuotes[currentQuoteIndex].uid,
+      //   // },
+
+      //   {
+      //     [currentQuoteIndex]: {
+      //       quoteText: quoteTextInputText,
+      //       speakerName: myQuotes[currentQuoteIndex].speakerName,
+      //       uid: myQuotes[currentQuoteIndex].uid,
+      //     },
+      //   },
+      // ]);
+      console.log({ myQuotesBeingChanged });
     }
-    console.log({ myQuotesBeingChanged });
   }
   function handleSpeakerNameInputText(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -67,18 +89,36 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   ) {
     setSpeakerNameInputText(e.target.value);
     if (type === "edit") {
-      setMyQuotesBeingChanged([
-        ...myQuotesBeingChanged,
-        {
-          [currentQuoteIndex]: {
-            quoteText: myQuotes[currentQuoteIndex].quoteText,
-            speakerName: speakerNameInputText,
-            uid: myQuotes[currentQuoteIndex].uid,
-          },
+      let payload = {};
+      payload = {
+        [currentQuoteIndex]: {
+          quoteText: myQuotes[currentQuoteIndex].quoteText,
+          speakerName: speakerNameInputText,
+          uid: myQuotes[currentQuoteIndex].uid,
+          id: myQuotes[currentQuoteIndex].id,
         },
-      ]);
+      };
+      setMyQuotesBeingChanged((prev) => ({
+        ...prev,
+        ...payload,
+      }));
+      // setMyQuotesBeingChanged([
+      //   ...myQuotesBeingChanged,
+      //   // {
+      //   //   quoteText: quoteTextInputText,
+      //   //   speakerName: myQuotes[currentQuoteIndex].speakerName,
+      //   //   uid: myQuotes[currentQuoteIndex].uid,
+      //   // },
+      //   {
+      //     [currentQuoteIndex]: {
+      //       quoteText: myQuotes[currentQuoteIndex].quoteText,
+      //       speakerName: speakerNameInputText,
+      //       uid: myQuotes[currentQuoteIndex].uid,
+      //     },
+      //   },
+      // ]);
+      console.log({ myQuotesBeingChanged });
     }
-    console.log({ myQuotesBeingChanged });
   }
 
   function handleChangeCurrentQuoteIndex(text: string) {
@@ -87,7 +127,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
       setCurrentQuoteIndex((prev) => prev + 1);
     }
-    console.log("currentQuoteIndex: ", currentQuoteIndex);
   }
 
   // ========== Firestore Events ==========
@@ -110,12 +149,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
     const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
-    onSnapshot(quotesAddedByUsersRef, (snapshot) => {
+    onSnapshot(q, (snapshot) => {
       setMyQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
@@ -124,8 +158,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           id: doc.id,
         }))
       );
+      // setMyQuotesBeingChanged(
+      //   snapshot.docs.map((doc) => ({
+      //     quoteText: doc.data().quoteText,
+      //     speakerName: doc.data().speakerName,
+      //     uid: doc.data().uid,
+      //     id: doc.id,
+      //   }))
+      // );
     });
-    console.log(myQuotes);
   }
 
   // todo: add quotes
@@ -137,27 +178,37 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       uid,
     };
     const docRef = await addDoc(collectionRef, payload);
-    console.log("The new ID is: " + docRef.id);
-
-    console.log(myQuotes);
+    console.log("Success!! \n\tThe new ID is: " + docRef.id);
 
     clearInputs();
   }
 
-  // todo: update quotes
-  async function handleUpdateQuote(uid: string) {
-    const docRef = doc(db, "quotesAddedByUsers", myQuotes[0].id);
-    const payload = {
-      quoteText: quoteTextInputText,
-      speakerName: speakerNameInputText,
-      uid,
-    };
-
-    await updateDoc(docRef, payload);
-    console.log(myQuotes[0].id);
-
+  function handleUpdateQuotes() {
+    console.log(
+      "handleUpdateQuotes",
+      myQuotesBeingChanged.length,
+      myQuotesBeingChanged
+    );
+    Object.keys(myQuotesBeingChanged).forEach(function (key, index) {
+      const payload = myQuotesBeingChanged[key];
+      console.log(myQuotesBeingChanged[key]);
+      
+      handleUpdateQuote(payload);
+    });
+    setMyQuotesBeingChanged([]);
     clearInputs();
-    console.log({ myQuotes });
+  }
+  // todo: update quotes 
+  async function handleUpdateQuote(payload: IQuote) {
+
+    const docRef = doc(
+      db,
+      "quotesAddedByUsers",
+      payload.id
+    );
+
+    // console.log({payload})
+    // await updateDoc(docRef, payload);
   }
 
   function clearInputs() {
@@ -176,10 +227,11 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         speakerNameInputText,
         fetchQuotesCreatedByLoginUser,
         handleCreateQuote,
-        handleUpdateQuote,
+        handleUpdateQuotes,
         myQuotes,
         handleChangeCurrentQuoteIndex,
         currentQuoteIndex,
+        myQuotesBeingChanged,
       }}
     >
       {children}

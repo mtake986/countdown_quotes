@@ -1,13 +1,14 @@
 import React from "react";
+import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 
-type Props = {
-  text: string | null;
-};
+const QuoteText: React.FC = () => {
+  const { currentQuoteIndex, myQuotes  } = useQuoteContext();
 
-const QuoteText: React.FC<Props> = ({ text }: Props) => {
   return (
-    <div className="mb-3 text-xl sm:text-2xl font-Caveat-Brush">
-      {text ? text : "Loading..."}
+    <div className="text-2xl sm:text-2xl font-Caveat-Brush">
+      {myQuotes[currentQuoteIndex]?.quoteText
+        ? myQuotes[currentQuoteIndex]?.quoteText
+        : "Loading..."}
     </div>
   );
 };

@@ -30,8 +30,10 @@ export interface QuoteContextType {
   speakerNameInputText: string;
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
-  handleUpdateQuote: (uid: string) => void;
+  handleUpdateQuotes: () => void;
   handleCreateQuote: (uid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string) => void;
   currentQuoteIndex: number;
+  // myQuotesBeingChanged: IQuote[];
+  myQuotesBeingChanged: IMyQuotesBeingChanged[];
 }

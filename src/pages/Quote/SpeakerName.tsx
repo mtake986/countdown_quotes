@@ -1,15 +1,14 @@
-type Props = {
-  speakerName: string | null;
-};
+import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 
-const SpeakerName: React.FC<Props> = ({ speakerName }: Props) => {
+const SpeakerName: React.FC = () => {
+  const { currentQuoteIndex, myQuotes } = useQuoteContext();
+
   return (
-    <div className="absolute right-2 bottom-0 flex items-center font-Caveat-Brush">
-      <span className="text-md mr-2">-</span>
-      <span className="text-sm sm:text-xl">
-        {speakerName ? speakerName : "Loading..."}
-      </span>
-    </div>
+    <span className="text-sm sm:text-xl ">
+      {myQuotes[currentQuoteIndex]?.speakerName
+        ? myQuotes[currentQuoteIndex]?.speakerName
+        : "Loading..."}
+    </span>
   );
 };
 
