@@ -4,6 +4,7 @@ import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
 import { useAuthContext } from "../../contexts/Auth/AuthContext";
 import GoPrev from "./GoPrev";
 import GoNext from "./GoNext";
+import PageNum from "./QuoteNum";
 
 const Quote = () => {
   const {
@@ -30,13 +31,16 @@ const Quote = () => {
   return (
     <>
       {loginUser ? (
-        <div className="h-1/2 w-full font-marck-script flex justify-between items-center gap-4 p-3 mt-8 ">
-          <GoPrev />
-          <div className="flex flex-col items-center gap-4">
-            <QuoteText />
-            <SpeakerName />
+        <div className="w-full flex flex-col gap-4 p-3">
+          <div className="w-full font-marck-script flex justify-between items-center">
+            <GoPrev />
+            <div className="flex flex-col items-center gap-4">
+              <QuoteText />
+              <SpeakerName />
+            </div>
+            <GoNext />
           </div>
-          <GoNext />
+          <PageNum />
         </div>
       ) : null}
 

@@ -4,7 +4,7 @@ const SpeakerName: React.FC = () => {
   const { currentQuoteIndex, myQuotes } = useQuoteContext();
 
   return (
-    <span className="text-sm sm:text-xl ">
+    <span className="text-sm">
       {myQuotes[currentQuoteIndex]?.speakerName
         ? myQuotes[currentQuoteIndex]?.speakerName
         : ""}

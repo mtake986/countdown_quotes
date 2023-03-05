@@ -26,7 +26,7 @@ function App() {
               <AuthContextProvider>
                 <UtilsContextProvider>
                   <Header />
-                  <div className="mt-5 sm:mt-10 max-w-lg mx-auto rounded-3xl flex flex-col items-center justify-center overflow-hidden p-5 sm:p-10">
+                  <div className="mt-5 sm:mt-10 max-w-lg mx-auto rounded-3xl flex flex-col items-center justify-center gap-5 p-5 sm:p-10">
                     <Countdown />
                     <Quote />
                   </div>

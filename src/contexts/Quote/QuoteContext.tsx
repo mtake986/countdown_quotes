@@ -65,6 +65,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   function handleChangeCurrentQuoteIndex(text: string) {
     if (text === "prev" && currentQuoteIndex > 0) {
       setCurrentQuoteIndex((prev) => prev - 1);
+      
     } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
       setCurrentQuoteIndex((prev) => prev + 1);
     }
