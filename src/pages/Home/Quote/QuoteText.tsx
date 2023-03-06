@@ -1,8 +1,8 @@
 import React from "react";
-import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
+import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 const QuoteText: React.FC = () => {
-  const { currentQuoteIndex, myQuotes  } = useQuoteContext();
+  const { currentQuoteIndex, myQuotes } = useQuoteContext();
 
   return (
     <div className="text-2xl font-Caveat-Brush">

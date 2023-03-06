@@ -1,24 +1,24 @@
+
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { AiOutlinePlus } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../../../../../contexts/Auth/AuthContext";
+import { BiHome } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
-const Create = () => {
+const Home = () => {
   return (
-    <Link to="/event/create">
-      <ListItem key="Create" disablePadding>
+    <Link to="/">
+      <ListItem key="Home" disablePadding>
         <ListItemButton>
           <ListItemIcon>
-            <AiOutlinePlus />
+            <BiHome />
           </ListItemIcon>
-          <ListItemText primary="Create" />
+          <ListItemText primary="Home" />
         </ListItemButton>
       </ListItem>
     </Link>
   );
-};
+}
 
-export default Create;
+export default Home

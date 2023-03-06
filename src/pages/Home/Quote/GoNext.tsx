@@ -1,12 +1,10 @@
 import React from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IconButton } from "@mui/material";
-import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
-
+import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 const GoNext = () => {
-  const { handleChangeCurrentQuoteIndex } =
-    useQuoteContext();
+  const { handleChangeCurrentQuoteIndex } = useQuoteContext();
 
   return (
     <IconButton

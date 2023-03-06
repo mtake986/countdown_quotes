@@ -1,4 +1,4 @@
-import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
+import { useCountdownContext } from "../../../../contexts/Countdown/CountdownContext";
 
 const DaysLeft = () => {
   const { events } = useCountdownContext();

@@ -1,22 +1,13 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IconButton, SwipeableDrawer, Tooltip } from "@mui/material";
-import { FaRegUserCircle } from "react-icons/fa";
-import DrawerListItem from "./DrawerListItem";
 import Profile from "./Items/Profile";
-import Create from "./Items/Quote/Create";
-import Edit from "./Items/Quote/Edit";
 import CdList from "./Items/Cd/CdList";
 import QuoteList from "./Items/Quote/QuoteList";
+import Home from "./Items/Home";
 
 const HamburgerWhenMobile = () => {
   type Anchor = "top" | "left" | "bottom" | "right";
@@ -49,6 +40,8 @@ const HamburgerWhenMobile = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Home />
+      <Divider />
       <CdList />
       <Divider />
       <QuoteList />

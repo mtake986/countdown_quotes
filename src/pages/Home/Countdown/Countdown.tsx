@@ -1,7 +1,7 @@
 import { EventDate, EventTitle } from "./index";
 import DaysLeft from "./ActiveEditOff/DaysLeft";
-import { useCountdownContext } from "../../contexts/Countdown/CountdownContext";
-import { useAuthContext } from "../../contexts/Auth/AuthContext";
+import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
+import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useEffect } from "react";
 
 const Countdown = () => {

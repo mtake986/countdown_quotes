@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { QuoteText, SpeakerName } from "./index";
-import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
-import { useAuthContext } from "../../contexts/Auth/AuthContext";
+import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
+import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import GoPrev from "./GoPrev";
 import GoNext from "./GoNext";
 import PageNum from "./QuoteNum";

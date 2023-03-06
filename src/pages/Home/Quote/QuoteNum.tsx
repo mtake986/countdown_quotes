@@ -1,5 +1,5 @@
-import React from 'react'
-import { useQuoteContext } from '../../contexts/Quote/QuoteContext';
+import React from "react";
+import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 const QuoteNum = () => {
   const { currentQuoteIndex, myQuotes } = useQuoteContext();
@@ -8,6 +8,6 @@ const QuoteNum = () => {
       {currentQuoteIndex + 1}/{myQuotes.length}
     </div>
   );
-}
+};
 
-export default QuoteNum
+export default QuoteNum;

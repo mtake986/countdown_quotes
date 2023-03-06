@@ -1,4 +1,4 @@
-import { useQuoteContext } from "../../contexts/Quote/QuoteContext";
+import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 const SpeakerName: React.FC = () => {
   const { currentQuoteIndex, myQuotes } = useQuoteContext();
