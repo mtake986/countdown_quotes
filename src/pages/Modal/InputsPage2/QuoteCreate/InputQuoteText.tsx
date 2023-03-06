@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
 const InputQuoteText: React.FC = () => {
-  const { quoteInput, handleQuoteInputs } = useQuoteContext();
+  const { handleQuoteTextInputText, quoteTextInputText } = useQuoteContext();
 
   return (
     <div>
@@ -12,11 +12,11 @@ const InputQuoteText: React.FC = () => {
         className="w-48"
         id="standard-basic"
         label="Quote"
-        value={quoteInput?.quoteText}
+        value={quoteTextInputText}
         variant="standard"
         onChange={(
-          event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleQuoteInputs(event, "quoteText")}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, 
+        ) => handleQuoteTextInputText(e, 'create')}
       />
     </div>
   );

@@ -1,20 +1,32 @@
 import TextField from "@mui/material/TextField";
+import { useEffect } from "react";
+import { IQuote } from "../../../../contexts/Quote/interface";
 import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
-const InputSpeakerName: React.FC = () => {
-  const { handleQuoteInputs, myQuotes } = useQuoteContext();
+
+interface Props {
+  quote: IQuote;
+}
+
+const InputSpeakerName: React.FC<Props> = ({quote}) => {
+  const {
+    handleSpeakerNameInputText,
+    speakerNameInputText,
+    myQuotes,
+    currentQuoteIndex,
+  } = useQuoteContext();
 
   return (
     <div>
       <TextField
-        className="w-48"
+        className="w-40"
         id="standard-basic"
-        defaultValue={myQuotes[0]?.speakerName}
+        defaultValue={quote?.speakerName}
         label="Speaker Name"
         variant="standard"
         onChange={(
           e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleQuoteInputs(e, "name")}
+        ) => handleSpeakerNameInputText(e, "edit")}
       />
     </div>
   );

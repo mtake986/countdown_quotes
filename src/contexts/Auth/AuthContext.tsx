@@ -1,8 +1,9 @@
 import { useState, createContext, useContext } from "react";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 
 import { Props, IUser, AuthContextType } from "./interface";
+import { addDoc, collection } from "firebase/firestore";
 
 const AuthContext = createContext({});
 
@@ -16,15 +17,28 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const provider = new GoogleAuthProvider();
   const handleGoogleLogin = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         console.log("Success!! result: ", result.user);
-        const username = result.user.displayName;
-        const email = result.user.email;
-        const profilePic = result.user.photoURL;
-        const uid = result.user.uid;
+        const userInfo = {
+          username: result.user.displayName,
+          email: result.user.email,
+          profilePic: result.user.photoURL,
+          uid: result.user.uid,
+        }
 
-        setLoginUser({ username, email, profilePic, uid });
+        setLoginUser(userInfo);
         console.log(loginUser);
+
+        // todo: fetch first, then if not exists, add the logged-in-new user
+        const collectionRef = collection(db, "users");
+        const payload = {
+          username: result.user.displayName,
+          email: result.user.email,
+          profilePic: result.user.photoURL,
+          uid: result.user.uid,
+        };
+        const docRef = await addDoc(collectionRef, payload);
+        console.log("Success!! \n\tThe new ID is: " + docRef.id);
       })
       .catch((error) => console.log("Error!! error: ", error));
   };
