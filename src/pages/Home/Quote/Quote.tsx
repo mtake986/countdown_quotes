@@ -9,16 +9,11 @@ import PageNum from "./QuoteNum";
 const Quote = () => {
   const {
     currentQuoteIndex,
-    getRandomeQuote,
-    quote,
     myQuotes,
     fetchQuotesCreatedByLoginUser,
   } = useQuoteContext();
   const { loginUser } = useAuthContext();
 
-  useEffect(() => {
-    getRandomeQuote();
-  }, []);
 
   useEffect(() => {
     if (loginUser && loginUser.uid) {
@@ -32,7 +27,8 @@ const Quote = () => {
     <>
       {loginUser ? (
         <div className="w-full flex flex-col gap-4 p-3">
-          <div className="w-full font-marck-script flex justify-between items-center">
+          <PageNum />
+          <div className="w-full flex items-center justify-between gap-3 sm:gap-10 ">
             <GoPrev />
             <div className="flex flex-col items-center gap-4">
               <QuoteText />
@@ -40,7 +36,6 @@ const Quote = () => {
             </div>
             <GoNext />
           </div>
-          <PageNum />
         </div>
       ) : null}
 

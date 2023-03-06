@@ -8,8 +8,8 @@ import { Footer } from "./pages/Footer";
 import { MuiModal } from "./pages/Modal";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import EventCreate from "./pages/Event/Create/EventCreate";
 import ContextProviders from "./ContextProviders";
+import EventCreate from "./pages/Event/Create/EventCreate";
 import EventEdit from "./pages/Event/Edit/EventEdit";
 import QuoteCreate from "./pages/Quote/Create/QuoteCreate";
 import QuoteEdit from "./pages/Quote/Edit/QuoteEdit";
@@ -28,7 +28,7 @@ function App() {
             <Route
               path="/"
               element={
-                <div className="mt-5 sm:mt-10 max-w-lg mx-auto rounded-3xl flex flex-col items-center justify-center gap-5 p-5 sm:p-10">
+                <div className="mt-5 mx-auto max-w-lg rounded-3xl flex flex-col justify-center gap-5 p-5 sm:p-10">
                   <Countdown />
                   <Quote />
                 </div>
