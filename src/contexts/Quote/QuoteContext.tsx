@@ -113,10 +113,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     };
     const docRef = await addDoc(collectionRef, payload);
     console.log("Success!! \n\tThe new ID is: " + docRef.id);
-
     clearInputs();
   }
-
   function handleUpdateQuotes() {
     // Object.keys(myQuotesBeingChanged).forEach(function (key, index) {
     //   const payload = myQuotesBeingChanged[key];
@@ -157,7 +155,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     await updateDoc(docRef, payload);
     // await updateDoc(docRef, payload);
   }
-
   function clearInputs() {
     setQuoteTextInputText("");
     setSpeakerNameInputText("");

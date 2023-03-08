@@ -2,7 +2,6 @@ import React from 'react'
 
 import { CountdownContextProvider } from "./contexts/Countdown/CountdownContext";
 import { QuoteContextProvider } from "./contexts/Quote/QuoteContext";
-import { ModalContextProvider } from "./contexts/Modal/ModalContext";
 import { AuthContextProvider } from "./contexts/Auth/AuthContext";
 import { UtilsContextProvider } from "./contexts/Utils/UtilsContext";
 
@@ -15,11 +14,9 @@ const ContextProviders = ({ children }: BrowserRouterProps) => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <CountdownContextProvider>
         <QuoteContextProvider>
-          <ModalContextProvider>
             <AuthContextProvider>
               <UtilsContextProvider>{children}</UtilsContextProvider>
             </AuthContextProvider>
-          </ModalContextProvider>
         </QuoteContextProvider>
       </CountdownContextProvider>
     </LocalizationProvider>

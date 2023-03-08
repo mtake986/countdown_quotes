@@ -1,17 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
-import { useModalContext } from "../../../contexts/Modal/ModalContext";
 
 const SaveBtn = () => {
   const { handleUpdateEvent } = useCountdownContext();
-  const { handleToggleModal, handleCurrPageNum } = useModalContext();
   const { loginUser } = useAuthContext();
+  const navigate = useNavigate();
+
   return (
     <button
       onClick={() => {
         handleUpdateEvent(loginUser.uid);
-        handleCurrPageNum("done");
-        handleToggleModal();
+        navigate('/');
       }}
       className="w-48 hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >

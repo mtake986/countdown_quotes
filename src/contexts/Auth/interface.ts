@@ -3,6 +3,7 @@ export interface IUser {
   email: string;
   profilePic: string;
   uid: string;
+  id? : string;
 }
 
 export interface Props {

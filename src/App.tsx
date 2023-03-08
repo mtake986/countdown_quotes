@@ -5,7 +5,6 @@ import { Header } from "./pages/Header";
 import { Countdown } from "./pages/Home/Countdown";
 import { Quote } from "./pages/Home/Quote";
 import { Footer } from "./pages/Footer";
-import { MuiModal } from "./pages/Modal";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ContextProviders from "./ContextProviders";
@@ -13,6 +12,9 @@ import EventCreate from "./pages/Event/Create/EventCreate";
 import EventEdit from "./pages/Event/Edit/EventEdit";
 import QuoteCreate from "./pages/Quote/Create/QuoteCreate";
 import QuoteEdit from "./pages/Quote/Edit/QuoteEdit";
+import Home from "./pages/Home/Home";
+import { ProtectedRoute } from "./ProtectedRoute";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -25,23 +27,51 @@ function App() {
         </nav> */}
           <Header />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <div className="mt-5 mx-auto max-w-lg rounded-3xl flex flex-col justify-center gap-5 p-5 sm:p-10">
-                  <Countdown />
-                  <Quote />
-                </div>
-              }
-            />
+            <Route path="/" element={<Home />} />
             <Route path="/event">
-              <Route path="create" element={<EventCreate />} />
-              <Route path="edit" element={<EventEdit />} />
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <EventCreate />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit"
+                element={
+                  <ProtectedRoute>
+                    <EventEdit />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route path="/quote">
-              <Route path="create" element={<QuoteCreate />} />
-              <Route path="edit" element={<QuoteEdit />} />
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <QuoteCreate />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit"
+                element={
+                  <ProtectedRoute>
+                    <QuoteEdit />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           <Footer />
         </Router>

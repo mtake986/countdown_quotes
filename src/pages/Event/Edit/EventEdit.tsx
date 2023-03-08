@@ -5,9 +5,11 @@ import EventDateInput from "./EventDateInput";
 import EventTitleInput from "./EventTitleInput";
 import SaveBtn from "./SaveBtn";
 import Title from "./Title";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const EventEdit = () => {
-  const { events } = useCountdownContext();
+  const { events, handleDelete } = useCountdownContext();
+  const navigate = useNavigate();
 
   if (events.length === 0) {
     return (
@@ -18,13 +20,22 @@ const EventEdit = () => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="p-3 max-w-md mx-auto flex flex-col items-center gap-4">
       <Title />
-      <div className="flex flex-col gap-6">
-        <EventTitleInput />
-        <EventDateInput />
+      <div className="w-full flex flex-col items-center justify-between gap-3 sm:gap-10">
+        <div className="flex flex-col gap-4 flex-1">
+          <EventTitleInput />
+          <EventDateInput />
+        </div>
       </div>
       <SaveBtn />
+      <div
+        onClick={() => {
+          handleDelete();
+        }}
+      >
+        delete
+      </div>
     </div>
   );
 };

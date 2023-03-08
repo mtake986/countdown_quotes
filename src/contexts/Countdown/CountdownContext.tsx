@@ -7,6 +7,7 @@ import { db } from "../../config/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
@@ -136,6 +137,12 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     clearInputs();
   }
 
+  // todo: delete an event
+  async function handleDelete () {
+    const docRef = doc(db, "events", events[0].id);
+    await deleteDoc(docRef);
+  };
+
   function clearInputs() {
     setEventTitleInputText("");
     setEventDateInputText(null);
@@ -158,6 +165,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         fetchMyEvent,
         handleCreateEvent,
         handleUpdateEvent,
+        handleDelete,
       }}
     >
       {children}
