@@ -32,6 +32,14 @@ const QuoteEdit = () => {
         </div> */}
         <GoNext />
       </div>
+      <div className="">
+        {myQuotes?.map((quote, i) =>
+            <div className="flex flex-col gap-4 flex-1">
+              <InputQuoteText quote={quote} />
+              <InputSpeakerName quote={quote} />
+            </div>
+        )}
+      </div>
       <SaveBtn />
     </div>
   );

@@ -19,62 +19,64 @@ import Profile from "./pages/Profile/Profile";
 function App() {
   return (
     <ContextProviders>
-      <div className="max-w-2xl m-auto">
-        <Router>
-          {/* <nav>
+      <div className="h-screen">
+        <div className="max-w-2xl m-auto">
+          <Router>
+            {/* <nav>
           <Link to="/">Home</Link>
           <Link to="/event/create">Event Create</Link>
         </nav> */}
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/event">
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/event">
+                <Route
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <EventCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="edit"
+                  element={
+                    <ProtectedRoute>
+                      <EventEdit />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route path="/quote">
+                <Route
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <QuoteCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="edit"
+                  element={
+                    <ProtectedRoute>
+                      <QuoteEdit />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
               <Route
-                path="create"
+                path="/profile"
                 element={
                   <ProtectedRoute>
-                    <EventCreate />
+                    <Profile />
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="edit"
-                element={
-                  <ProtectedRoute>
-                    <EventEdit />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-            <Route path="/quote">
-              <Route
-                path="create"
-                element={
-                  <ProtectedRoute>
-                    <QuoteCreate />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="edit"
-                element={
-                  <ProtectedRoute>
-                    <QuoteEdit />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-          <Footer />
-        </Router>
+            </Routes>
+          </Router>
+        </div>
+        <Footer />
       </div>
     </ContextProviders>
   );

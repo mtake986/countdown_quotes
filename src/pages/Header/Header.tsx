@@ -10,11 +10,7 @@ const Header = () => {
   return (
     <div className="shadow mb-5 flex flex-row justify-between items-center p-3">
       <Title />
-      {loginUser ? (
-        <HamburgerWhenMobile />
-      ) : (
-        <Login />
-      )}
+      {loginUser ? <HamburgerWhenMobile /> : <Login />}
     </div>
   );
 };
