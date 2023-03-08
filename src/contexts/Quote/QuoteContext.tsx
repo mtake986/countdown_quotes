@@ -12,6 +12,7 @@ import { db } from "../../config/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
@@ -65,7 +66,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   function handleChangeCurrentQuoteIndex(text: string) {
     if (text === "prev" && currentQuoteIndex > 0) {
       setCurrentQuoteIndex((prev) => prev - 1);
-      
     } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
       setCurrentQuoteIndex((prev) => prev + 1);
     }
@@ -140,8 +140,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         quoteText: quoteTextInputText,
         speakerName: speakerNameInputText,
       };
-    }
-    else if (quoteTextInputText !== "") {
+    } else if (quoteTextInputText !== "") {
       payload = {
         quoteText: quoteTextInputText,
       };
@@ -150,10 +149,22 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         speakerName: speakerNameInputText,
       };
     }
-    
+
     console.log({ payload });
     await updateDoc(docRef, payload);
     // await updateDoc(docRef, payload);
+  }
+
+  // todo: update quotes
+  async function handleDelete(id: string) {
+    const docRef = doc(
+      db,
+      "quotesAddedByUsers",
+      id
+    );
+
+    await deleteDoc(docRef);
+
   }
   function clearInputs() {
     setQuoteTextInputText("");
@@ -176,6 +187,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         handleChangeCurrentQuoteIndex,
         currentQuoteIndex,
         myQuotesBeingChanged,
+        handleDelete,
       }}
     >
       {children}

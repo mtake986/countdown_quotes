@@ -6,17 +6,14 @@ import EventTitleInput from "./EventTitleInput";
 import SaveBtn from "./SaveBtn";
 import Title from "./Title";
 import { Navigate, useNavigate } from "react-router-dom";
+import PleaseCreateEventBtn from "../../../utils/PleaseCreateEventBtn";
 
 const EventEdit = () => {
   const { events, handleDelete } = useCountdownContext();
   const navigate = useNavigate();
 
   if (events.length === 0) {
-    return (
-      <div className="flex flex-col items-center">
-        Please register an event.
-      </div>
-    );
+    return <PleaseCreateEventBtn />;
   }
 
   return (

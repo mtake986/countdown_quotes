@@ -2,8 +2,6 @@ import React from "react";
 import "./App.css";
 // import { Header, Countdown, Quote, Footer } from "./pages"; // webpack error
 import { Header } from "./pages/Header";
-import { Countdown } from "./pages/Home/Countdown";
-import { Quote } from "./pages/Home/Quote";
 import { Footer } from "./pages/Footer";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
