@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <Link to="/">
-      <ListItem key="Home" disablePadding>
+      <ListItem key="Home" className="py-2" disablePadding>
         <ListItemButton>
           <ListItemIcon>
             <BiHome />
