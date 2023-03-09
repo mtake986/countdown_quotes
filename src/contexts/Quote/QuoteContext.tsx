@@ -37,37 +37,41 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     // IMyQuotesBeingChanged[]
     IQuote[]
   >([]);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const toggleEditModalOpen = () => setEditModalOpen(!editModalOpen);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
 
   // ========== handle Inputs ==========
   function handleQuoteTextInputText(
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     // todo: create multiple inputs list and call updateDoc for each element in the list
     // todo: get the quote being edited and change only the value of quoteInputTextInput, then add the whole quote to the list
     setQuoteTextInputText(e.target.value);
-    if (type === "edit") {
-      // todo: store index as a key if myQuotesBeingChanged has the index
-
-      console.log("e.target.value = " + e.target.value);
-    }
   }
+
   function handleSpeakerNameInputText(
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     setSpeakerNameInputText(e.target.value);
-    if (type === "edit") {
-    }
   }
 
-  function handleChangeCurrentQuoteIndex(text: string) {
-    if (text === "prev" && currentQuoteIndex > 0) {
-      setCurrentQuoteIndex((prev) => prev - 1);
-    } else if (text === "next" && currentQuoteIndex < myQuotes.length - 1) {
-      setCurrentQuoteIndex((prev) => prev + 1);
+  function handleChangeCurrentQuoteIndex(text: string, i?: number) {
+    switch (text) {
+      case "select":
+        setCurrentQuoteIndex(i);
+        break;
+      case "prev":
+        if (currentQuoteIndex > 0) {
+          setCurrentQuoteIndex((prev) => prev - 1);
+        }
+        break;
+      case "next":
+        if (currentQuoteIndex < myQuotes.length - 1) {
+          setCurrentQuoteIndex((prev) => prev + 1);
+        }
+        break;
     }
   }
 
@@ -115,7 +119,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     console.log("Success!! \n\tThe new ID is: " + docRef.id);
     clearInputs();
   }
-  function handleUpdateQuotes() {
+
+  // todo: update quotes (call handleUpdateQuote())
+  function handleUpdateQuotes(id: string) {
     // Object.keys(myQuotesBeingChanged).forEach(function (key, index) {
     //   const payload = myQuotesBeingChanged[key];
     //   console.log("myQuotesBeingChanged[key]: ", myQuotesBeingChanged[key]);
@@ -123,15 +129,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     // });
     // setMyQuotesBeingChanged([]);
 
-    handleUpdateQuote();
+    handleUpdateQuote(id);
     clearInputs();
   }
-  // todo: update quotes
-  async function handleUpdateQuote() {
+  // todo: update quote
+  async function handleUpdateQuote(id: string) {
     const docRef = doc(
       db,
       "quotesAddedByUsers",
-      myQuotes[currentQuoteIndex].id
+      id,
     );
 
     let payload;
@@ -149,6 +155,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         speakerName: speakerNameInputText,
       };
     }
+    console.log({ currentQuoteIndex });
 
     console.log({ payload });
     await updateDoc(docRef, payload);
@@ -157,14 +164,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   // todo: update quotes
   async function handleDelete(id: string) {
-    const docRef = doc(
-      db,
-      "quotesAddedByUsers",
-      id
-    );
+    const docRef = doc(db, "quotesAddedByUsers", id);
 
     await deleteDoc(docRef);
-
   }
   function clearInputs() {
     setQuoteTextInputText("");
@@ -188,6 +190,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         currentQuoteIndex,
         myQuotesBeingChanged,
         handleDelete,
+        toggleEditModalOpen,
+        editModalOpen,
+        clearInputs,
       }}
     >
       {children}

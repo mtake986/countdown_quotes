@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
-const InputSpeakerName: React.FC = () => {
+const MuiSpeakerNameTextField: React.FC = () => {
   const { handleSpeakerNameInputText, speakerNameInputText } =
     useQuoteContext();
 
@@ -9,16 +9,16 @@ const InputSpeakerName: React.FC = () => {
     <div>
       <TextField
         className="w-full"
-        id="standard-basic"
+        id="outlined-basic"
         value={speakerNameInputText}
-        label="Speaker Name"
-        variant="standard"
+        label="Who said this?"
+        variant="outlined"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-        ) => handleSpeakerNameInputText(e, "create")}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        ) => handleSpeakerNameInputText(e)}
       />
     </div>
   );
 };
 
-export default InputSpeakerName;
+export default MuiSpeakerNameTextField;

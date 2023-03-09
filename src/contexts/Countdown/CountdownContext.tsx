@@ -166,6 +166,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         handleCreateEvent,
         handleUpdateEvent,
         handleDelete,
+        clearInputs,
       }}
     >
       {children}

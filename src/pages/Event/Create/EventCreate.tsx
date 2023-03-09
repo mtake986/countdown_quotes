@@ -12,7 +12,7 @@ const EventCreate = () => {
     return <div>Currently, you can register 1 event. Please go to the edit screen </div>;
   }
   return (
-    <div className="p-3 flex flex-col items-center gap-4">
+    <div className="p-5 flex flex-col items-center gap-4">
       <Title />
       <div className="flex flex-col gap-6">
         <EventTitleInput />

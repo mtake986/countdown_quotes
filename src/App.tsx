@@ -14,16 +14,13 @@ import Home from "./pages/Home/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Profile from "./pages/Profile/Profile";
 
+
 function App() {
   return (
     <ContextProviders>
       <div className="h-screen">
         <div className="max-w-2xl m-auto">
           <Router>
-            {/* <nav>
-          <Link to="/">Home</Link>
-          <Link to="/event/create">Event Create</Link>
-        </nav> */}
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
