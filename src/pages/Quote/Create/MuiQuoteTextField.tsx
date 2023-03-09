@@ -3,23 +3,23 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
-const InputQuoteText: React.FC = () => {
+const MuiQuoteTextField: React.FC = () => {
   const { handleQuoteTextInputText, quoteTextInputText } = useQuoteContext();
 
   return (
     <div>
       <TextField
         className="w-full"
-        id="standard-basic"
-        label="Quote"
+        id="outlined-basic"
+        label="Your Favorite Quote"
         value={quoteTextInputText}
-        variant="standard"
+        variant="outlined"
         onChange={(
-          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, 
-        ) => handleQuoteTextInputText(e, 'create')}
+          e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        ) => handleQuoteTextInputText(e)}
       />
     </div>
   );
 };
 
-export default InputQuoteText;
+export default MuiQuoteTextField;

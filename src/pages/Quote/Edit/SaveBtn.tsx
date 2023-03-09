@@ -1,20 +1,21 @@
-import { useAuthContext } from "../../../contexts/Auth/AuthContext";
-import { useModalContext } from "../../../contexts/Modal/ModalContext";
+import { useNavigate } from "react-router-dom";
+import { IQuote } from "../../../contexts/Quote/interface";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
+interface Props {
+  q: IQuote;
+}
 const SaveBtn = () => {
   const { handleUpdateQuotes } = useQuoteContext();
-  const { handleToggleModal, handleCurrPageNum } = useModalContext();
-  const { loginUser } = useAuthContext();
+  const navigate = useNavigate();
 
   return (
     <button
       onClick={() => {
-      handleUpdateQuotes();
-        handleCurrPageNum("done");
-        handleToggleModal();
+        handleUpdateQuotes();
+        navigate("/");
       }}
-      className="w-40 hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
+      className="w-full hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >
       Save
     </button>

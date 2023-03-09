@@ -4,8 +4,9 @@ import Create from './Create';
 import Edit from './Edit';
 
 const CdList = () => {
+
   return (
-    <List>
+    <List >
       <span className="pl-3">Events</span>
       <Create />
       <Edit />

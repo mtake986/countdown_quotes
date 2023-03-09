@@ -26,10 +26,12 @@ export type CountdownContextType = {
   ) => void;
   handleEventDateInputText: (e: Dayjs | Date | null) => void;
   handleSaveBtnClick: (type: string, uid: string) => void;
-  events: IEvent[];
+  myEvents: IEvent[];
   handleDisplayEvent: (text: string) => void;
   displayEventIndex: number;
   fetchMyEvent: (uid: string) => void;
   handleCreateEvent: (uid: string) => void;
   handleUpdateEvent: (uid: string) => void;
+  handleDelete: () => void;
+  clearInputs: () => void;
 };

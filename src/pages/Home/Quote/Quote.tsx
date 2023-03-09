@@ -1,19 +1,17 @@
 import React, { useEffect } from "react";
-import { QuoteText, SpeakerName } from "./index";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import GoPrev from "./GoPrev";
 import GoNext from "./GoNext";
 import PageNum from "./QuoteNum";
+import QuoteText from "./QuoteText";
+import SpeakerName from "./SpeakerName";
+import PleaseCreateQuoteBtn from "../../../utils/PleaseCreateQuoteBtn";
 
 const Quote = () => {
-  const {
-    currentQuoteIndex,
-    myQuotes,
-    fetchQuotesCreatedByLoginUser,
-  } = useQuoteContext();
+  const { currentQuoteIndex, myQuotes, fetchQuotesCreatedByLoginUser } =
+    useQuoteContext();
   const { loginUser } = useAuthContext();
-
 
   useEffect(() => {
     if (loginUser && loginUser.uid) {
@@ -22,6 +20,14 @@ const Quote = () => {
       console.log(myQuotes);
     }
   }, [loginUser]);
+
+  if (!loginUser) {
+    return null
+  }
+  
+  if (!myQuotes || myQuotes.length === 0) {
+    return <PleaseCreateQuoteBtn />;
+  }
 
   return (
     <>

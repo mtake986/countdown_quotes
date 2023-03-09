@@ -19,21 +19,23 @@ export interface QuoteContextType {
     speakerName: string;
   };
   handleQuoteTextInputText: (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   quoteTextInputText: string;
   handleSpeakerNameInputText: (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    type: string
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   speakerNameInputText: string;
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
-  handleUpdateQuotes: () => void;
   handleCreateQuote: (uid: string) => void;
-  handleChangeCurrentQuoteIndex: (text: string) => void;
+  handleUpdateQuotes: () => void;
+  handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];
   // myQuotesBeingChanged: IMyQuotesBeingChanged[];
+  handleDelete: (uid: string) => void;
+  toggleEditModal: () => void;
+  editModalOpen: boolean;
+  clearInputs: () => void;
 }
