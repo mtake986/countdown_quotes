@@ -23,7 +23,7 @@ export const useCountdownContext = () => {
 };
 
 export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
-  const [events, setEvents] = useState<IEvent[]>([]);
+  const [myEvents, setMyEvents] = useState<IEvent[]>([]);
   const [displayEventIndex, setDisplayEventIndex] = useState<number>(0);
   const [daysLeft, setDaysLeft] = useState<number>(0);
   const [eventTitleInputText, setEventTitleInputText] = useState<string>("");
@@ -69,12 +69,12 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   function handleDisplayEvent(text: string) {
     if (text === "prev") {
       if (displayEventIndex === 0) {
-        setDisplayEventIndex(events.length - 1);
+        setDisplayEventIndex(myEvents.length - 1);
       } else {
         setDisplayEventIndex(displayEventIndex - 1);
       }
     } else if (text === "next") {
-      if (displayEventIndex === events.length - 1) {
+      if (displayEventIndex === myEvents.length - 1) {
         setDisplayEventIndex(0);
       } else {
         setDisplayEventIndex(displayEventIndex + 1);
@@ -84,7 +84,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
 
   // todo: データを読み取って、eventsに保存＆表示
   async function fetchMyEvent(uid: string) {
-    const eventsRef = collection(db, "events");
+    const eventsRef = collection(db, "myEvents");
 
     const q = query(eventsRef, where("uid", "==", uid));
 
@@ -94,7 +94,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
       console.log(doc.id, " => ", doc.data());
     });
     onSnapshot(eventsRef, (snapshot) =>
-      setEvents(
+      setMyEvents(
         snapshot.docs.map((doc) => ({
           eventTitle: doc.data().eventTitle,
           eventDate: doc.data().eventDate.toDate(),
@@ -104,12 +104,12 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         }))
       )
     );
-    console.log(events);
+    console.log(myEvents);
   }
 
   // todo: create an event
   async function handleCreateEvent(uid: string) {
-    const collectionRef = collection(db, "events");
+    const collectionRef = collection(db, "myEvents");
     const payload = {
       eventTitle: eventTitleInputText,
       eventDate: eventDateInputText["$d"],
@@ -124,7 +124,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
 
   // todo: update an event
   async function handleUpdateEvent(uid: string) {
-    const docRef = doc(db, "events", events[0].id);
+    const docRef = doc(db, "myEvents", myEvents[0].id);
     const payload = {
       eventTitle: eventTitleInputText,
       eventDate: eventDateInputText["$d"],
@@ -133,15 +133,15 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     };
 
     await updateDoc(docRef, payload);
-    console.log(events[0].id);
+    console.log(myEvents[0].id);
     clearInputs();
   }
 
   // todo: delete an event
-  async function handleDelete () {
-    const docRef = doc(db, "events", events[0].id);
+  async function handleDelete() {
+    const docRef = doc(db, "myEvents", myEvents[0].id);
     await deleteDoc(docRef);
-  };
+  }
 
   function clearInputs() {
     setEventTitleInputText("");
@@ -159,7 +159,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         handleEventTitleInputText,
         handleEventDateInputText,
 
-        events,
+        myEvents,
         handleDisplayEvent,
         displayEventIndex,
         fetchMyEvent,

@@ -6,13 +6,14 @@ import EventTitleInput from "./EventTitleInput";
 import SaveBtn from "./SaveBtn";
 import Title from "./Title";
 import { Navigate, useNavigate } from "react-router-dom";
-import PleaseCreateEventBtn from "../../../utils/PleaseCreateEventBtn";
+import PleaseCreateEventBtn from "../../../utils/PleaseCreateEventBtn copy";
+
 
 const EventEdit = () => {
-  const { events, handleDelete } = useCountdownContext();
+  const { myEvents, handleDelete } = useCountdownContext();
   const navigate = useNavigate();
 
-  if (events.length === 0) {
+  if (myEvents.length === 0) {
     return <PleaseCreateEventBtn />;
   }
 

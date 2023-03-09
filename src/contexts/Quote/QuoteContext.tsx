@@ -4,7 +4,6 @@ import { getRandomInt } from "../../utils/functions";
 import {
   Props,
   IQuote,
-  IMyQuotesBeingChanged,
   QuoteContextType,
 } from "./interface";
 
@@ -28,6 +27,7 @@ export const useQuoteContext = () => {
 };
 
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
+
   const [quote, setQuote] = useState<IQuote>(null);
   const [myQuotes, setMyQuotes] = useState<IQuote[]>([]);
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
@@ -38,7 +38,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     IQuote[]
   >([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const toggleEditModalOpen = () => setEditModalOpen(!editModalOpen);
+  const toggleEditModal = () => setEditModalOpen(!editModalOpen);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
 
@@ -121,7 +121,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   // todo: update quotes (call handleUpdateQuote())
-  function handleUpdateQuotes(id: string) {
+  function handleUpdateQuotes() {
     // Object.keys(myQuotesBeingChanged).forEach(function (key, index) {
     //   const payload = myQuotesBeingChanged[key];
     //   console.log("myQuotesBeingChanged[key]: ", myQuotesBeingChanged[key]);
@@ -129,43 +129,29 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     // });
     // setMyQuotesBeingChanged([]);
 
-    handleUpdateQuote(id);
-    clearInputs();
+    handleUpdateQuote();
   }
   // todo: update quote
-  async function handleUpdateQuote(id: string) {
+  async function handleUpdateQuote() {
     const docRef = doc(
       db,
       "quotesAddedByUsers",
-      id,
+      myQuotes[currentQuoteIndex].id
     );
 
-    let payload;
-    if (quoteTextInputText !== "" && speakerNameInputText !== "") {
-      payload = {
-        quoteText: quoteTextInputText,
-        speakerName: speakerNameInputText,
-      };
-    } else if (quoteTextInputText !== "") {
-      payload = {
-        quoteText: quoteTextInputText,
-      };
-    } else if (speakerNameInputText !== "") {
-      payload = {
-        speakerName: speakerNameInputText,
-      };
-    }
-    console.log({ currentQuoteIndex });
+    let payload = {};
+    if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
+    if (speakerNameInputText !== "")
+      payload["speakerName"] = speakerNameInputText;
 
-    console.log({ payload });
     await updateDoc(docRef, payload);
-    // await updateDoc(docRef, payload);
+    clearInputs();
+    toggleEditModal();
   }
 
   // todo: update quotes
   async function handleDelete(id: string) {
     const docRef = doc(db, "quotesAddedByUsers", id);
-
     await deleteDoc(docRef);
   }
   function clearInputs() {
@@ -190,7 +176,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         currentQuoteIndex,
         myQuotesBeingChanged,
         handleDelete,
-        toggleEditModalOpen,
+        toggleEditModal,
         editModalOpen,
         clearInputs,
       }}

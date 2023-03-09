@@ -6,15 +6,12 @@ import GoNext from "./GoNext";
 import PageNum from "./QuoteNum";
 import QuoteText from "./QuoteText";
 import SpeakerName from "./SpeakerName";
+import PleaseCreateQuoteBtn from "../../../utils/PleaseCreateQuoteBtn";
 
 const Quote = () => {
-  const {
-    currentQuoteIndex,
-    myQuotes,
-    fetchQuotesCreatedByLoginUser,
-  } = useQuoteContext();
+  const { currentQuoteIndex, myQuotes, fetchQuotesCreatedByLoginUser } =
+    useQuoteContext();
   const { loginUser } = useAuthContext();
-
 
   useEffect(() => {
     if (loginUser && loginUser.uid) {
@@ -23,6 +20,14 @@ const Quote = () => {
       console.log(myQuotes);
     }
   }, [loginUser]);
+
+  if (!loginUser) {
+    return null
+  }
+  
+  if (!myQuotes || myQuotes.length === 0) {
+    return <PleaseCreateQuoteBtn />;
+  }
 
   return (
     <>

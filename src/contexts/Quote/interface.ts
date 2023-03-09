@@ -28,14 +28,14 @@ export interface QuoteContextType {
   speakerNameInputText: string;
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
-  handleUpdateQuotes: (id: string) => void;
   handleCreateQuote: (uid: string) => void;
+  handleUpdateQuotes: () => void;
   handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];
   // myQuotesBeingChanged: IMyQuotesBeingChanged[];
   handleDelete: (uid: string) => void;
-  toggleEditModalOpen: () => void;
+  toggleEditModal: () => void;
   editModalOpen: boolean;
   clearInputs: () => void;
 }

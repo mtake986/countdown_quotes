@@ -11,11 +11,6 @@ const Qlist = () => {
         <Item q={q} i = {i} />
       ))}
     </div>
-    // <div className="flex bg-sky-500">
-    //   <div className="flex-none bg-red-500">01</div>
-    //   <div className="flex-auto w-64 bg-violet-500">02</div>
-    //   <div className="flex-auto w-32 bg-gradient-to-t">03</div>
-    // </div>
   );
 };
 

@@ -5,16 +5,14 @@ import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 interface Props {
   q: IQuote;
 }
-const SaveBtn = ({q}: Props) => {
-  const { handleUpdateQuotes, toggleEditModalOpen, clearInputs } = useQuoteContext();
+const SaveBtn = () => {
+  const { handleUpdateQuotes } = useQuoteContext();
   const navigate = useNavigate();
 
   return (
     <button
       onClick={() => {
-        handleUpdateQuotes(q.id);
-        toggleEditModalOpen();
-        clearInputs();
+        handleUpdateQuotes();
         navigate("/");
       }}
       className="w-full hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"

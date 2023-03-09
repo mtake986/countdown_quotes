@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
 
 const EventTitleInput: React.FC = () => {
-  const { displayEventIndex, events, handleChangeEventTitle } =
+  const { displayEventIndex, myEvents, handleChangeEventTitle } =
     useCountdownContext();
 
   return (
@@ -10,7 +10,7 @@ const EventTitleInput: React.FC = () => {
       <TextField
         className="w-full"
         id="standard-basic"
-        defaultValue={events[displayEventIndex]?.eventTitle}
+        defaultValue={myEvents[displayEventIndex]?.eventTitle}
         label="Event Title"
         variant="standard"
         onChange={(

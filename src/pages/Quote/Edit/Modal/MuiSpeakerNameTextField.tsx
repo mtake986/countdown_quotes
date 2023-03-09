@@ -1,16 +1,19 @@
 import { TextField } from '@mui/material';
-import React from 'react'
+import { IQuote } from '../../../../contexts/Quote/interface';
 import { useQuoteContext } from '../../../../contexts/Quote/QuoteContext';
 
 const MuiSpeakerNameTextField = () => {
-  const { handleSpeakerNameInputText, speakerNameInputText } = useQuoteContext();
+
+  // todo: default alue isnt working,  
+  const { handleSpeakerNameInputText, myQuotes, currentQuoteIndex } =
+    useQuoteContext();
   return (
     <TextField
       id="outlined-basic"
       label="Who said this?"
       variant="outlined"
       className="w-full"
-      value={speakerNameInputText}
+      defaultValue={myQuotes[currentQuoteIndex].speakerName}
       onChange={(e) => handleSpeakerNameInputText(e)}
     />
   );

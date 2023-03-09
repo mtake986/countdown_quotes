@@ -1,19 +1,24 @@
-import { TextField } from '@mui/material';
-import React from 'react'
-import { useQuoteContext } from '../../../../contexts/Quote/QuoteContext';
+import { TextField } from "@mui/material";
+import React from "react";
+import { IQuote } from "../../../../contexts/Quote/interface";
+import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
 const MuiQuoteTextField = () => {
-  const { quoteTextInputText, handleQuoteTextInputText } = useQuoteContext();
-  return (
-    <TextField
-      id="outlined-basic"
-      label="Your Favorite Quote"
-      variant="outlined"
-      className="w-full"
-      value={quoteTextInputText}
-      onChange={(e) => handleQuoteTextInputText(e)}
-    />
-  );
-}
 
-export default MuiQuoteTextField
+  const { myQuotes, currentQuoteIndex, handleQuoteTextInputText } =
+    useQuoteContext();
+  return (
+    <>
+      <TextField
+        id="outlined-basic"
+        label="Your Favorite Quote"
+        variant="outlined"
+        className="w-full"
+        defaultValue={myQuotes[currentQuoteIndex].quoteText}
+        onChange={(e) => handleQuoteTextInputText(e)}
+      />
+    </>
+  );
+};
+
+export default MuiQuoteTextField;
