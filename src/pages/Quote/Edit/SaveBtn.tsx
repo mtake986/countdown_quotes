@@ -1,19 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { IQuote } from "../../../contexts/Quote/interface";
+
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 interface Props {
-  q: IQuote;
+  handleClose: () => void;
 }
-const SaveBtn = () => {
+
+const SaveBtn = ({handleClose}: Props) => {
   const { handleUpdateQuotes } = useQuoteContext();
-  const navigate = useNavigate();
 
   return (
     <button
       onClick={() => {
         handleUpdateQuotes();
-        navigate("/");
+        handleClose();
       }}
       className="w-full hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >

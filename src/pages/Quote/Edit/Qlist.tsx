@@ -8,7 +8,7 @@ const Qlist = () => {
   return (
     <div className="flex flex-col gap-2">
       {myQuotes?.map((q, i) => (
-        <Item q={q} i = {i} />
+        <Item q={q} i = {i} key={i} />
       ))}
     </div>
   );
