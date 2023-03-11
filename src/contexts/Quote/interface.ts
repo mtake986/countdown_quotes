@@ -41,4 +41,7 @@ export interface QuoteContextType {
   clearInputs: () => void;
   handleInputDontShow: (text?: string, curr?: boolean) => void;
   inputDontShow: boolean;
+  myPublicQuotes: IQuote[];
+  handleCurrentQuoteId: (id: string) => void;
+  currentQuoteId: string;
 }

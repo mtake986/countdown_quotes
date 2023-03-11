@@ -1,6 +1,6 @@
 import React from "react";
 import Countdown from "./Countdown/Countdown";
-import Quote from "./Quote/Quote";
+import Quote from "./Quote/Quotes";
 
 const Home = () => {
   return (

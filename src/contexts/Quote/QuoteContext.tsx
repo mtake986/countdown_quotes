@@ -37,6 +37,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
   const [inputDontShow, setInputDontShow] = useState<boolean | null>(true);
+  const [myPublicQuotes, setMyPublicQuotes] = useState<IQuote[]>([]);
+  const [currentQuoteId, setCurrentQuoteId] = useState<string>('');
 
   // ========== handle Inputs ==========
   function handleQuoteTextInputText(
@@ -73,11 +75,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }
         break;
       case "next":
-        if (currentQuoteIndex < myQuotes.length - 1) {
+        if (currentQuoteIndex < myPublicQuotes.length - 1) {
           setCurrentQuoteIndex((prev) => prev + 1);
         }
         break;
     }
+  }
+
+  function handleCurrentQuoteId(id: string) {
+    setCurrentQuoteId(id);
   }
 
   // ========== Firestore Events ==========
@@ -101,8 +107,25 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
     const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
 
+    const excludeDontShowQuery = query(
+      quotesAddedByUsersRef,
+      where("dontShow", "==", false)
+    );
+
     onSnapshot(q, (snapshot) => {
       setMyQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+
+    onSnapshot(excludeDontShowQuery, (snapshot) => {
+      setMyPublicQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
@@ -184,6 +207,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         clearInputs,
         handleInputDontShow,
         inputDontShow,
+        myPublicQuotes,
+        handleCurrentQuoteId,
+        currentQuoteId,
       }}
     >
       {children}

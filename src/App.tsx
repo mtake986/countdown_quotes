@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-// import { Header, Countdown, Quote, Footer } from "./pages"; // webpack error
 import { Header } from "./pages/Header";
 import { Footer } from "./pages/Footer";
 

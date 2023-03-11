@@ -20,7 +20,7 @@ const Icons = ({ q, i }: Props) => {
 
   return (
     <div className="flex gap-1 sm:text-xl text-md">
-      {q.dontShow ? <VscEyeClosed /> : <VscEye />}
+      {/* {q.dontShow ? <VscEyeClosed /> : <VscEye />} */}
       <BiEdit
         onClick={() => {
           handleChangeCurrentQuoteIndex("select", i);
@@ -29,7 +29,6 @@ const Icons = ({ q, i }: Props) => {
         }}
         className="ease-in-out duration-200 hover:opacity-50 cursor-pointer"
       />
-      {q.dontShow ? 'true' : 'false'}
       <BiTrash
         onClick={() => handleDelete(q.id)}
         className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
