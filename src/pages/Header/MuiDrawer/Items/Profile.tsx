@@ -4,10 +4,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../../../contexts/Auth/AuthContext";
 
 const Profile = () => {
+  const {loginUser} = useAuthContext();
   return (
-    <Link to="/profile">
+    <Link to={`/profile/${loginUser.uid}`}>
       <ListItem key="Profile" disablePadding>
         <ListItemButton>
           <ListItemIcon>

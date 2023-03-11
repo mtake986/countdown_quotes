@@ -84,6 +84,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
 
   // todo: データを読み取って、eventsに保存＆表示
   async function fetchMyEvent(uid: string) {
+    setMyEvents([]);
     const eventsRef = collection(db, "myEvents");
 
     const q = query(eventsRef, where("uid", "==", uid));

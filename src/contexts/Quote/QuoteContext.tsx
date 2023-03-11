@@ -1,11 +1,7 @@
 import { useState, createContext, useContext } from "react";
 import { QUOTES_LIST } from "../../assets/CONST";
 import { getRandomInt } from "../../utils/functions";
-import {
-  Props,
-  IQuote,
-  QuoteContextType,
-} from "./interface";
+import { Props, IQuote, QuoteContextType } from "./interface";
 
 import { db } from "../../config/firebase";
 import {
@@ -27,7 +23,6 @@ export const useQuoteContext = () => {
 };
 
 export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
-
   const [quote, setQuote] = useState<IQuote>(null);
   const [myQuotes, setMyQuotes] = useState<IQuote[]>([]);
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
@@ -41,6 +36,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const toggleEditModal = () => setEditModalOpen(!editModalOpen);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
+  const [inputDontShow, setInputDontShow] = useState<boolean | null>(true);
+  const [myPublicQuotes, setMyPublicQuotes] = useState<IQuote[]>([]);
+  const [currentQuoteId, setCurrentQuoteId] = useState<string>('');
 
   // ========== handle Inputs ==========
   function handleQuoteTextInputText(
@@ -57,6 +55,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setSpeakerNameInputText(e.target.value);
   }
 
+  function handleInputDontShow(text?: string, curr?: boolean) {
+    if (text === "whenOpenModal") {
+      console.log("if");
+      setInputDontShow(curr);
+      return;
+    }
+    setInputDontShow((prev) => !prev);
+  }
+
   function handleChangeCurrentQuoteIndex(text: string, i?: number) {
     switch (text) {
       case "select":
@@ -68,11 +75,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }
         break;
       case "next":
-        if (currentQuoteIndex < myQuotes.length - 1) {
+        if (currentQuoteIndex < myPublicQuotes.length - 1) {
           setCurrentQuoteIndex((prev) => prev + 1);
         }
         break;
     }
+  }
+
+  function handleCurrentQuoteId(id: string) {
+    setCurrentQuoteId(id);
   }
 
   // ========== Firestore Events ==========
@@ -91,9 +102,15 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
   // todo: fetch quotes
   async function fetchQuotesCreatedByLoginUser(uid: string) {
+    setMyQuotes([]);
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
 
     const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
+
+    const excludeDontShowQuery = query(
+      quotesAddedByUsersRef,
+      where("dontShow", "==", false)
+    );
 
     onSnapshot(q, (snapshot) => {
       setMyQuotes(
@@ -102,6 +119,19 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
           id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+
+    onSnapshot(excludeDontShowQuery, (snapshot) => {
+      setMyPublicQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
         }))
       );
     });
@@ -114,6 +144,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       quoteText: quoteTextInputText,
       speakerName: speakerNameInputText,
       uid,
+      dontShow: inputDontShow,
     };
     const docRef = await addDoc(collectionRef, payload);
     console.log("Success!! \n\tThe new ID is: " + docRef.id);
@@ -122,13 +153,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   // todo: update quotes (call handleUpdateQuote())
   function handleUpdateQuotes() {
-    // Object.keys(myQuotesBeingChanged).forEach(function (key, index) {
-    //   const payload = myQuotesBeingChanged[key];
-    //   console.log("myQuotesBeingChanged[key]: ", myQuotesBeingChanged[key]);
-    //   handleUpdateQuote(payload);
-    // });
-    // setMyQuotesBeingChanged([]);
-
     handleUpdateQuote();
   }
   // todo: update quote
@@ -143,6 +167,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
     if (speakerNameInputText !== "")
       payload["speakerName"] = speakerNameInputText;
+    payload["dontShow"] = inputDontShow;
 
     await updateDoc(docRef, payload);
     clearInputs();
@@ -157,6 +182,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   function clearInputs() {
     setQuoteTextInputText("");
     setSpeakerNameInputText("");
+    setInputDontShow(false);
   }
 
   return (
@@ -179,6 +205,11 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         toggleEditModal,
         editModalOpen,
         clearInputs,
+        handleInputDontShow,
+        inputDontShow,
+        myPublicQuotes,
+        handleCurrentQuoteId,
+        currentQuoteId,
       }}
     >
       {children}

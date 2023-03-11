@@ -6,6 +6,7 @@ export interface IQuote {
   speakerName: string;
   uid: string;
   id?: string;
+  dontShow: boolean;
 }
 
 export interface IMyQuotesBeingChanged {
@@ -38,4 +39,9 @@ export interface QuoteContextType {
   toggleEditModal: () => void;
   editModalOpen: boolean;
   clearInputs: () => void;
+  handleInputDontShow: (text?: string, curr?: boolean) => void;
+  inputDontShow: boolean;
+  myPublicQuotes: IQuote[];
+  handleCurrentQuoteId: (id: string) => void;
+  currentQuoteId: string;
 }
