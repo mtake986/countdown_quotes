@@ -6,6 +6,7 @@ interface Props {
   i: number;
 }
 const Item = ({ q, i }: Props) => {
+
   return (
     <div className="flex justify-between items-center gap-3">
       <div className="sm:text-xl text-md flex items-center gap-1 overflow-hidden whitespace-nowrap">

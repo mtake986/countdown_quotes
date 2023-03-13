@@ -1,7 +1,12 @@
 import { useState, createContext, useContext } from "react";
 import { QUOTES_LIST } from "../../assets/CONST";
 import { getRandomInt } from "../../utils/functions";
-import { Props, IQuote, QuoteContextType } from "./interface";
+import {
+  Props,
+  IQuote,
+  QuoteContextType,
+  IFilterProperties,
+} from "./interface";
 
 import { db } from "../../config/firebase";
 import {
@@ -28,17 +33,22 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
   const [speakerNameInputText, setSpeakerNameInputText] = useState<string>("");
 
-  const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<
-    // IMyQuotesBeingChanged[]
-    IQuote[]
-  >([]);
+  const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<IQuote[]>(
+    []
+  );
   const [editModalOpen, setEditModalOpen] = useState(false);
   const toggleEditModal = () => setEditModalOpen(!editModalOpen);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
   const [inputDontShow, setInputDontShow] = useState<boolean | null>(true);
   const [myPublicQuotes, setMyPublicQuotes] = useState<IQuote[]>([]);
-  const [currentQuoteId, setCurrentQuoteId] = useState<string>('');
+  const [currentQuoteId, setCurrentQuoteId] = useState<string>("");
+  const [filterProperties, setFilterProperties] = useState<IFilterProperties>({
+    quoteText: "",
+    speakerName: "",
+    dontShow: false,
+  });
+  const [filteredMyQuotes, setFilteredMyQuotes] = useState<IQuote[]>([]);
 
   // ========== handle Inputs ==========
   function handleQuoteTextInputText(
@@ -86,7 +96,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setCurrentQuoteId(id);
   }
 
-  // ========== Firestore Events ==========
+  // todo: START ========== Firestore Events ==========
   function getRandomeQuote() {
     fetch("https://type.fit/api/quotes")
       .then(function (response) {
@@ -107,11 +117,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
     const q = query(quotesAddedByUsersRef, where("uid", "==", uid));
 
-    const excludeDontShowQuery = query(
-      quotesAddedByUsersRef,
-      where("dontShow", "==", false)
-    );
-
     onSnapshot(q, (snapshot) => {
       setMyQuotes(
         snapshot.docs.map((doc) => ({
@@ -123,8 +128,20 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }))
       );
     });
+  }
 
-    onSnapshot(excludeDontShowQuery, (snapshot) => {
+  async function excludeDontShowQuotes(uid: string) {
+    setMyPublicQuotes([]);
+    const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
+
+    let q = query(quotesAddedByUsersRef, where("uid", "==", uid));
+
+    q = query(
+      quotesAddedByUsersRef,
+      where("dontShow", "==", filterProperties.dontShow)
+    );
+
+    onSnapshot(q, (snapshot) => {
       setMyPublicQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
@@ -184,6 +201,63 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setSpeakerNameInputText("");
     setInputDontShow(false);
   }
+  // todo: END ========== Firestore Events ==========
+
+  // todo: Filtering Quotes
+  function handleFilterProperties(
+    key: string,
+    e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) {
+    if (key === "quoteText") {
+      setFilterProperties((prev) => ({
+        ...prev,
+        quoteText: e.target.value,
+      }));
+    } else if (key === "speakerName") {
+      setFilterProperties((prev) => ({
+        ...prev,
+        speakerName: e.target.value,
+      }));
+    } else if (key === "dontShow") {
+      setFilterProperties((prev) => ({
+        ...prev,
+        dontShow: !prev.dontShow,
+      }));
+    }
+    console.log(filterProperties);
+  }
+
+  async function excludeQuotes(uid: string) {
+    const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
+
+    let q = query(quotesAddedByUsersRef, where("uid", "==", uid));
+    q = query(
+      quotesAddedByUsersRef,
+      where("quoteText", "==", filterProperties.quoteText)
+    );
+
+    q = query(
+      quotesAddedByUsersRef,
+      where("speakerName", "==", filterProperties.speakerName)
+    );
+
+    q = query(
+      quotesAddedByUsersRef,
+      where("dontShow", "==", filterProperties.dontShow)
+    );
+
+    onSnapshot(q, (snapshot) => {
+      setFilteredMyQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+  }
 
   return (
     <QuoteContext.Provider
@@ -210,6 +284,11 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         myPublicQuotes,
         handleCurrentQuoteId,
         currentQuoteId,
+        handleFilterProperties,
+        filterProperties,
+        excludeDontShowQuotes,
+        excludeQuotes,
+        filteredMyQuotes,
       }}
     >
       {children}

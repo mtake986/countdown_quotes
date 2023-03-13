@@ -1,14 +1,15 @@
-
 import Title from "./Title";
-import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 import Qlist from "./Qlist";
+import Filter from "./Filter/Filter";
 
 const QuoteEdit = () => {
+  // todo1: switch quote or name btn
+  // todo2: filter out by words in quotes, names, dontShow
 
   return (
-    // <div className="p-3 max-w-md mx-auto flex flex-col items-center gap-4">
-    <div className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-3">
       <Title />
+      <Filter />
       <Qlist />
     </div>
   );

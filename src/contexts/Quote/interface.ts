@@ -8,6 +8,11 @@ export interface IQuote {
   id?: string;
   dontShow: boolean;
 }
+export interface IFilterProperties {
+  quoteText: string;
+  speakerName: string;
+  dontShow: boolean;
+}
 
 export interface IMyQuotesBeingChanged {
   [currentQuoteIndex: number]: IQuote;
@@ -44,4 +49,12 @@ export interface QuoteContextType {
   myPublicQuotes: IQuote[];
   handleCurrentQuoteId: (id: string) => void;
   currentQuoteId: string;
+  handleFilterProperties: (
+    key: string,
+    e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
+  filterProperties: IFilterProperties;
+  excludeDontShowQuotes: (uid: string) => void;
+  excludeQuotes: (uid: string) => void;
+  filteredMyQuotes: IQuote[];
 }
