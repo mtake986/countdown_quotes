@@ -17,7 +17,6 @@ const MuiDontShowCheckbox = () => {
         }
         label="Don't show"
       />
-      {inputDontShow ? 'true': 'false'}
     </>
   );
 };
