@@ -12,7 +12,7 @@ const MuiSpeakerNameTextField = () => {
       variant="outlined"
       className="w-full"
       defaultValue={filterProperties.speakerName}
-      onChange={(e) => handleFilterProperties("speakerName", e)}
+      onChange={(e) => handleFilterProperties("speakerName", e.target.value)}
     />
   );
 }

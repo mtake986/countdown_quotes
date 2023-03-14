@@ -14,7 +14,7 @@ const MuiQuoteTextField = () => {
         variant="outlined"
         className="w-full"
         defaultValue={filterProperties.quoteText}
-        onChange={(e) => handleFilterProperties("quoteText", e)}
+        onChange={(e) => handleFilterProperties("quoteText", e.target.value)}
       />
     </>
   );

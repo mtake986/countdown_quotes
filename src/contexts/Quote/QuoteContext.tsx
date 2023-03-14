@@ -46,9 +46,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [filterProperties, setFilterProperties] = useState<IFilterProperties>({
     quoteText: "",
     speakerName: "",
-    dontShow: false,
+    dontShow: "Both",
   });
   const [filteredMyQuotes, setFilteredMyQuotes] = useState<IQuote[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // ========== handle Inputs ==========
   function handleQuoteTextInputText(
@@ -204,47 +205,48 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   // todo: END ========== Firestore Events ==========
 
   // todo: Filtering Quotes
-  function handleFilterProperties(
-    key: string,
-    e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) {
+  function handleFilterProperties(key: string, val: string) {
     if (key === "quoteText") {
       setFilterProperties((prev) => ({
         ...prev,
-        quoteText: e.target.value,
+        quoteText: val,
       }));
     } else if (key === "speakerName") {
       setFilterProperties((prev) => ({
         ...prev,
-        speakerName: e.target.value,
+        speakerName: val,
       }));
     } else if (key === "dontShow") {
       setFilterProperties((prev) => ({
         ...prev,
-        dontShow: !prev.dontShow,
+        dontShow: val,
       }));
     }
     console.log(filterProperties);
   }
 
   async function excludeQuotes(uid: string) {
+    setLoading(true)
+    // fetch quotes added by the logging in user.
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
-
     let q = query(quotesAddedByUsersRef, where("uid", "==", uid));
-    q = query(
-      quotesAddedByUsersRef,
-      where("quoteText", "==", filterProperties.quoteText)
-    );
 
-    q = query(
-      quotesAddedByUsersRef,
-      where("speakerName", "==", filterProperties.speakerName)
-    );
+    // quoteText
+    if (filterProperties.quoteText !== "")
+      q = query(q, where("quoteText", "==", filterProperties.quoteText));
 
-    q = query(
-      quotesAddedByUsersRef,
-      where("dontShow", "==", filterProperties.dontShow)
-    );
+    // speakerName
+    if (filterProperties.speakerName !== "")
+      q = query(q, where("speakerName", "==", filterProperties.speakerName));
+
+    // dontShow
+    if (filterProperties.dontShow === "On")
+      q = query(q, where("dontShow", "==", true));
+    else if (filterProperties.dontShow === "Off")
+      q = query(q, where("dontShow", "==", false));
+    else if (filterProperties.dontShow === "Both")
+      q = query(q, where("dontShow", "in", [true, false]));
+    console.log(filterProperties);
 
     onSnapshot(q, (snapshot) => {
       setFilteredMyQuotes(
@@ -257,6 +259,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }))
       );
     });
+
+    console.log({ filteredMyQuotes });
+    setLoading(false);
   }
 
   return (
@@ -289,6 +294,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         excludeDontShowQuotes,
         excludeQuotes,
         filteredMyQuotes,
+        loading,
       }}
     >
       {children}
