@@ -5,6 +5,7 @@ import MuiDontShowCheckbox from "./MuiDontShowCheckbox";
 import SaveBtn from "../SaveBtn";
 import MuiQuoteTextField from "./MuiQuoteTextField";
 import MuiSpeakerNameTextField from "./MuiSpeakerNameTextField";
+import { IQuote } from "../../../../contexts/Quote/interface";
 
 const style = {
   bgcolor: "background.paper",
@@ -12,11 +13,12 @@ const style = {
 };
 
 interface Props {
+  q: IQuote;
   open: boolean;
   handleClose: () => void;
 }
 
-function MuiModal({open, handleClose} : Props) {
+function MuiModal({q, open, handleClose} : Props) {
 
   return (
     <div>
@@ -32,9 +34,9 @@ function MuiModal({open, handleClose} : Props) {
           className="max-w-lg w-screen shadow-2xl flex flex-col justify-center items-center gap-5 bg-white p-5 py-10 sm:p-10 rounded-lg"
         >
           {/* todo: change default value */}
-          <MuiQuoteTextField />
-          <MuiSpeakerNameTextField />
-          <MuiDontShowCheckbox />
+          <MuiQuoteTextField quoteText={q.quoteText} />
+          <MuiSpeakerNameTextField speakerName={q.speakerName} />
+          <MuiDontShowCheckbox dontShow={q.dontShow} />
           <SaveBtn handleClose={handleClose} />
         </Box>
       </Modal>
