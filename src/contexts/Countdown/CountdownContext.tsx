@@ -61,9 +61,6 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   function handleEventDateInputText(date: Dayjs | Date | null) {
     setEventDateInputText(date);
     handleDaysLeft(date);
-    console.log(
-      `date: ${date}, eventDateInputText: ${eventDateInputText} days left: ${daysLeft}, `
-    );
   }
 
   function handleDisplayEvent(text: string) {
@@ -90,10 +87,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     const q = query(eventsRef, where("uid", "==", uid));
 
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
+
     onSnapshot(eventsRef, (snapshot) =>
       setMyEvents(
         snapshot.docs.map((doc) => ({
@@ -105,7 +99,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
         }))
       )
     );
-    console.log(myEvents);
+
   }
 
   // todo: create an event
@@ -117,7 +111,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
       daysLeft,
       uid,
     };
-    console.log(payload);
+
     const docRef = await addDoc(collectionRef, payload);
     console.log("Success!! \nThe new ID is: " + docRef.id);
     clearInputs();
@@ -134,7 +128,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
     };
 
     await updateDoc(docRef, payload);
-    console.log(myEvents[0].id);
+
     clearInputs();
   }
 

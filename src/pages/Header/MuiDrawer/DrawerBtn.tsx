@@ -8,6 +8,7 @@ import Profile from "./Items/Profile";
 import CdList from "./Items/Cd/CdList";
 import QuoteList from "./Items/Quote/QuoteList";
 import Home from "./Items/Home";
+import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
 
 const HamburgerWhenMobile = () => {
   type Anchor = "top" | "left" | "bottom" | "right";
@@ -56,7 +57,7 @@ const HamburgerWhenMobile = () => {
     <>
       <Tooltip title="Menu">
         <IconButton onClick={toggleDrawer("right", true)}>
-          <AiOutlineMenu className="text-2xl cursor-pointer" />
+          <TbLayoutSidebarLeftCollapse className="text-2xl cursor-pointer" />
         </IconButton>
       </Tooltip>
       <SwipeableDrawer

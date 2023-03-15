@@ -32,14 +32,13 @@ export interface QuoteContextType {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   speakerNameInputText: string;
-  fetchQuotesCreatedByLoginUser: (uid: string) => void;
+  getQuotesAddedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleCreateQuote: (uid: string) => void;
   handleUpdateQuotes: (qid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];
-  // myQuotesBeingChanged: IMyQuotesBeingChanged[];
   handleDelete: (uid: string) => void;
   toggleEditModal: () => void;
   editModalOpen: boolean;
@@ -51,8 +50,13 @@ export interface QuoteContextType {
   currentQuoteId: string;
   handleFilterProperties: (key: string, e: string) => void;
   filterProperties: IFilterProperties;
-  excludeDontShowQuotes: (uid: string) => void;
-  excludeQuotes: (uid: string) => void;
   filteredMyQuotes: IQuote[];
   loading: boolean;
+  fetchAllQuotesByUsers: () => void;
+  allQuotesByUsers: IQuote[];
+  handleLoading: () => void;
+  excludeDontShowMyQuotes: (myQuotes: IQuote[]) => void;
+  excludeByPropertiesMyQuotes: (qs: IQuote[]) => void;
+  excludeDontShowAllQuotes: (myQuotes: IQuote[]) => void;
+  allPublicQuotes: IQuote[];
 }
