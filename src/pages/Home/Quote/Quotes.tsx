@@ -21,6 +21,7 @@ const Quotes = () => {
       console.log("useEffect", loginUser, loginUser.uid);
       fetchQuotesCreatedByLoginUser(loginUser?.uid);
       excludeDontShowQuotes(loginUser?.uid);
+      console.log({myPublicQuotes})
     }
   }, [loginUser]);
 

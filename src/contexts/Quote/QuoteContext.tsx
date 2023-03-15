@@ -96,22 +96,24 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   function handleCurrentQuoteId(id: string) {
     setCurrentQuoteId(id);
   }
+  
+  // function getRandomeQuote() {
+  //   fetch("https://type.fit/api/quotes")
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(function (data) {
+  //       setQuote(data[getRandomInt(data.length)]);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       // setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
+  //     });
+  // }
 
   // todo: START ========== Firestore Events ==========
-  function getRandomeQuote() {
-    fetch("https://type.fit/api/quotes")
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        setQuote(data[getRandomInt(data.length)]);
-      })
-      .catch((err) => {
-        console.error(err);
-        // setQuote(QUOTES_LIST[getRandomInt(QUOTES_LIST.length)]);
-      });
-  }
   // todo: fetch quotes
+
   async function fetchQuotesCreatedByLoginUser(uid: string) {
     setMyQuotes([]);
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
@@ -129,6 +131,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }))
       );
     });
+
+
   }
 
   async function excludeDontShowQuotes(uid: string) {
@@ -139,7 +143,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
     q = query(
       quotesAddedByUsersRef,
-      where("dontShow", "==", filterProperties.dontShow)
+      where("dontShow", "==", false)
     );
 
     onSnapshot(q, (snapshot) => {
@@ -155,60 +159,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
-  // todo: add quotes
-  async function handleCreateQuote(uid: string) {
-    const collectionRef = collection(db, "quotesAddedByUsers");
-    const payload = {
-      quoteText: quoteTextInputText,
-      speakerName: speakerNameInputText,
-      uid,
-      dontShow: inputDontShow,
-    };
-    const docRef = await addDoc(collectionRef, payload);
-    console.log("Success!! \n\tThe new ID is: " + docRef.id);
-    clearInputs();
-  }
-
-  // todo: update quotes (call handleUpdateQuote())
-  function handleUpdateQuotes(qid: string) {
-    handleUpdateQuote(qid);
-  }
-  // todo: update quote
-  async function handleUpdateQuote(qid: string) {
-    const docRef = doc(
-      db,
-      "quotesAddedByUsers",
-      qid
-    );
-
-    console.log({docRef}, {qid});
-    
-    let payload = {};
-    if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
-    if (speakerNameInputText !== "")
-      payload["speakerName"] = speakerNameInputText;
-    payload["dontShow"] = inputDontShow;
-
-    console.log({payload});
-    
-    await updateDoc(docRef, payload);
-    clearInputs();
-    toggleEditModal();
-  }
-
-  // todo: update quotes
-  async function handleDelete(id: string) {
-    const docRef = doc(db, "quotesAddedByUsers", id);
-    await deleteDoc(docRef);
-  }
-  function clearInputs() {
-    setQuoteTextInputText("");
-    setSpeakerNameInputText("");
-    setInputDontShow(false);
-  }
-  // todo: END ========== Firestore Events ==========
-
-  // todo: Filtering Quotes
+  // todo: FILTER Quotes =========
   function handleFilterProperties(key: string, val: string) {
     if (key === "quoteText") {
       setFilterProperties((prev) => ({
@@ -230,7 +181,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   async function excludeQuotes(uid: string) {
-    setLoading(true)
+    setLoading(true);
     // fetch quotes added by the logging in user.
     const quotesAddedByUsersRef = collection(db, "quotesAddedByUsers");
     let q = query(quotesAddedByUsersRef, where("uid", "==", uid));
@@ -268,10 +219,59 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setLoading(false);
   }
 
+  // todo: add quotes
+  async function handleCreateQuote(uid: string) {
+    const collectionRef = collection(db, "quotesAddedByUsers");
+    const payload = {
+      quoteText: quoteTextInputText,
+      speakerName: speakerNameInputText,
+      uid,
+      dontShow: inputDontShow,
+    };
+    const docRef = await addDoc(collectionRef, payload);
+    console.log("Success!! \n\tThe new ID is: " + docRef.id);
+    clearInputs();
+  }
+
+  // todo: update quotes (call handleUpdateQuote())
+  function handleUpdateQuotes(qid: string) {
+    handleUpdateQuote(qid);
+  }
+  // todo: update quote
+  async function handleUpdateQuote(qid: string) {
+    const docRef = doc(db, "quotesAddedByUsers", qid);
+
+    console.log({ docRef }, { qid });
+
+    let payload = {};
+    if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
+    if (speakerNameInputText !== "")
+      payload["speakerName"] = speakerNameInputText;
+    payload["dontShow"] = inputDontShow;
+
+    console.log({ payload });
+
+    await updateDoc(docRef, payload);
+    clearInputs();
+    toggleEditModal();
+  }
+
+  // todo: update quotes
+  async function handleDelete(id: string) {
+    const docRef = doc(db, "quotesAddedByUsers", id);
+    await deleteDoc(docRef);
+  }
+  function clearInputs() {
+    setQuoteTextInputText("");
+    setSpeakerNameInputText("");
+    setInputDontShow(false);
+  }
+  // todo: END ========== Firestore Events ==========
+
   return (
     <QuoteContext.Provider
       value={{
-        getRandomeQuote,
+        // getRandomeQuote,
         quote,
         handleQuoteTextInputText,
         quoteTextInputText,
