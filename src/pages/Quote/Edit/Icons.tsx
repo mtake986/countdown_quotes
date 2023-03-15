@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Icons = ({ q, i }: Props) => {
-  const { handleChangeCurrentQuoteIndex, handleDelete, handleInputDontShow } =
+  const { handleDelete, handleInputDontShow } =
     useQuoteContext();
 
   const [open, setOpen] = useState(false);
@@ -23,7 +23,6 @@ const Icons = ({ q, i }: Props) => {
       {/* {q.dontShow ? <VscEyeClosed /> : <VscEye />} */}
       <BiEdit
         onClick={() => {
-          handleChangeCurrentQuoteIndex("select", i);
           handleOpen();
           handleInputDontShow('whenOpenModal', q.dontShow);
         }}
@@ -33,7 +32,7 @@ const Icons = ({ q, i }: Props) => {
         onClick={() => handleDelete(q.id)}
         className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
       />
-      <MuiModal open={open} handleClose={handleClose} />
+      <MuiModal q={q} open={open} handleClose={handleClose} />
     </div>
   );
 };

@@ -1,20 +1,24 @@
 
+import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 interface Props {
   handleClose: () => void;
+  qid: string
 }
 
-const SaveBtn = ({handleClose}: Props) => {
-  const { handleUpdateQuotes } = useQuoteContext();
+const SaveBtn = ({handleClose, qid}: Props) => {
+  const { handleUpdateQuotes, excludeQuotes } = useQuoteContext();
+  const {loginUser } = useAuthContext();
 
   return (
     <button
       onClick={() => {
-        handleUpdateQuotes();
+        handleUpdateQuotes(qid);
         handleClose();
+        excludeQuotes(loginUser.uid)
       }}
-      className="w-full hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
+      className="w-full hover:bg-sky-50 text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >
       Save
     </button>

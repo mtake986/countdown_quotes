@@ -13,7 +13,7 @@ const SaveBtn = () => {
         handleUpdateEvent(loginUser.uid);
         navigate('/');
       }}
-      className="w-48 hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
+      className="w-48 hover:bg-sky-50 text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >
       Save
     </button>

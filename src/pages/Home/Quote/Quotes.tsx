@@ -8,13 +8,20 @@ import GoPrev from "./GoPrev";
 import GoNext from "./GoNext";
 
 const Quotes = () => {
-  const { myPublicQuotes, fetchQuotesCreatedByLoginUser, currentQuoteIndex } = useQuoteContext();
+  const {
+    myPublicQuotes,
+    fetchQuotesCreatedByLoginUser,
+    currentQuoteIndex,
+    excludeDontShowQuotes,
+  } = useQuoteContext();
   const { loginUser } = useAuthContext();
 
   useEffect(() => {
     if (loginUser && loginUser.uid) {
       console.log("useEffect", loginUser, loginUser.uid);
       fetchQuotesCreatedByLoginUser(loginUser?.uid);
+      excludeDontShowQuotes(loginUser?.uid);
+      console.log({myPublicQuotes})
     }
   }, [loginUser]);
 

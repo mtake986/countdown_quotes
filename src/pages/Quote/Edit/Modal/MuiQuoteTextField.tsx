@@ -3,8 +3,10 @@ import React from "react";
 import { IQuote } from "../../../../contexts/Quote/interface";
 import { useQuoteContext } from "../../../../contexts/Quote/QuoteContext";
 
-const MuiQuoteTextField = () => {
-
+interface Props {
+  quoteText: string;
+}
+const MuiQuoteTextField = ({ quoteText }: Props) => {
   const { myQuotes, currentQuoteIndex, handleQuoteTextInputText } =
     useQuoteContext();
   return (
@@ -14,7 +16,7 @@ const MuiQuoteTextField = () => {
         label="Your Favorite Quote"
         variant="outlined"
         className="w-full"
-        defaultValue={myQuotes[currentQuoteIndex].quoteText}
+        defaultValue={quoteText}
         onChange={(e) => handleQuoteTextInputText(e)}
       />
     </>

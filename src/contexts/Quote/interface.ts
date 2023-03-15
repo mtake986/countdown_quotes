@@ -8,6 +8,11 @@ export interface IQuote {
   id?: string;
   dontShow: boolean;
 }
+export interface IFilterProperties {
+  quoteText: string;
+  speakerName: string;
+  dontShow: string;
+}
 
 export interface IMyQuotesBeingChanged {
   [currentQuoteIndex: number]: IQuote;
@@ -30,7 +35,7 @@ export interface QuoteContextType {
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleCreateQuote: (uid: string) => void;
-  handleUpdateQuotes: () => void;
+  handleUpdateQuotes: (qid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];
@@ -44,4 +49,10 @@ export interface QuoteContextType {
   myPublicQuotes: IQuote[];
   handleCurrentQuoteId: (id: string) => void;
   currentQuoteId: string;
+  handleFilterProperties: (key: string, e: string) => void;
+  filterProperties: IFilterProperties;
+  excludeDontShowQuotes: (uid: string) => void;
+  excludeQuotes: (uid: string) => void;
+  filteredMyQuotes: IQuote[];
+  loading: boolean;
 }
