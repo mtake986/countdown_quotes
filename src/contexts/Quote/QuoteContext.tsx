@@ -170,23 +170,27 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   // todo: update quotes (call handleUpdateQuote())
-  function handleUpdateQuotes() {
-    handleUpdateQuote();
+  function handleUpdateQuotes(qid: string) {
+    handleUpdateQuote(qid);
   }
   // todo: update quote
-  async function handleUpdateQuote() {
+  async function handleUpdateQuote(qid: string) {
     const docRef = doc(
       db,
       "quotesAddedByUsers",
-      myQuotes[currentQuoteIndex].id
+      qid
     );
 
+    console.log({docRef}, {qid});
+    
     let payload = {};
     if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
     if (speakerNameInputText !== "")
       payload["speakerName"] = speakerNameInputText;
     payload["dontShow"] = inputDontShow;
 
+    console.log({payload});
+    
     await updateDoc(docRef, payload);
     clearInputs();
     toggleEditModal();

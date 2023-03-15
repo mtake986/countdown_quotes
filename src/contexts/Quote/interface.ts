@@ -35,7 +35,7 @@ export interface QuoteContextType {
   fetchQuotesCreatedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleCreateQuote: (uid: string) => void;
-  handleUpdateQuotes: () => void;
+  handleUpdateQuotes: (qid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];

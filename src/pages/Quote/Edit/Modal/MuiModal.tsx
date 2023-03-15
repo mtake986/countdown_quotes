@@ -37,7 +37,7 @@ function MuiModal({q, open, handleClose} : Props) {
           <MuiQuoteTextField quoteText={q.quoteText} />
           <MuiSpeakerNameTextField speakerName={q.speakerName} />
           <MuiDontShowCheckbox dontShow={q.dontShow} />
-          <SaveBtn handleClose={handleClose} />
+          <SaveBtn handleClose={handleClose} qid={q.id} />
         </Box>
       </Modal>
     </div>
