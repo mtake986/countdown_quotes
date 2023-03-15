@@ -1,21 +1,24 @@
-import { useNavigate } from "react-router-dom";
-import { IQuote } from "../../../contexts/Quote/interface";
+
+import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
 interface Props {
-  q: IQuote;
+  handleClose: () => void;
+  qid: string
 }
-const SaveBtn = () => {
-  const { handleUpdateQuotes } = useQuoteContext();
-  const navigate = useNavigate();
+
+const SaveBtn = ({handleClose, qid}: Props) => {
+  const { handleUpdateQuotes, excludeQuotes } = useQuoteContext();
+  const {loginUser } = useAuthContext();
 
   return (
     <button
       onClick={() => {
-        handleUpdateQuotes();
-        navigate("/");
+        handleUpdateQuotes(qid);
+        handleClose();
+        excludeQuotes(loginUser.uid)
       }}
-      className="w-full hover:bg-sky-50 hover:text-sky-600 rounded-md p-2 ease-in-out duration-200"
+      className="w-full hover:bg-sky-50 text-sky-600 rounded-md p-2 ease-in-out duration-200"
     >
       Save
     </button>

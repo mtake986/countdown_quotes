@@ -6,7 +6,6 @@ const MuiSpeakerNameTextField: React.FC = () => {
     useQuoteContext();
 
   return (
-    <div>
       <TextField
         className="w-full"
         id="outlined-basic"
@@ -17,7 +16,6 @@ const MuiSpeakerNameTextField: React.FC = () => {
           e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
         ) => handleSpeakerNameInputText(e)}
       />
-    </div>
   );
 };
 

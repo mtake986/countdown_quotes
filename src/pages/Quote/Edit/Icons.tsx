@@ -3,6 +3,7 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 import { IQuote } from "../../../contexts/Quote/interface";
 import MuiModal from "./Modal/MuiModal";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useState } from "react";
 
 interface Props {
   q: IQuote;
@@ -10,17 +11,20 @@ interface Props {
 }
 
 const Icons = ({ q, i }: Props) => {
-  const { handleChangeCurrentQuoteIndex, handleDelete, toggleEditModal } =
+  const { handleDelete, handleInputDontShow } =
     useQuoteContext();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <div className="flex gap-1 sm:text-xl text-md">
-      {/* {q.isPublic ? <VscEye /> : <VscEyeClosed />} */}
+      {/* {q.dontShow ? <VscEyeClosed /> : <VscEye />} */}
       <BiEdit
         onClick={() => {
-          handleChangeCurrentQuoteIndex("select", i);
-          toggleEditModal();
-          console.log(q.quoteText, i);
+          handleOpen();
+          handleInputDontShow('whenOpenModal', q.dontShow);
         }}
         className="ease-in-out duration-200 hover:opacity-50 cursor-pointer"
       />
@@ -28,7 +32,7 @@ const Icons = ({ q, i }: Props) => {
         onClick={() => handleDelete(q.id)}
         className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
       />
-      <MuiModal q={q} />
+      <MuiModal q={q} open={open} handleClose={handleClose} />
     </div>
   );
 };

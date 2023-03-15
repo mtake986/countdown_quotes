@@ -1,13 +1,16 @@
+import { IQuote } from "../../../contexts/Quote/interface";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 
-const SpeakerName: React.FC = () => {
-  const { currentQuoteIndex, myQuotes } = useQuoteContext();
+interface Props {
+  q: IQuote;
+}
 
+const SpeakerName: React.FC<Props> = ({q}) => {
   return (
     <div>
       <span className="w-full text-sm">
-        {myQuotes[currentQuoteIndex]?.speakerName
-          ? myQuotes[currentQuoteIndex]?.speakerName
+        {q?.speakerName
+          ? q?.speakerName
           : ""}
       </span>
     </div>

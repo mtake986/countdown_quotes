@@ -2,9 +2,11 @@ import { TextField } from '@mui/material';
 import { IQuote } from '../../../../contexts/Quote/interface';
 import { useQuoteContext } from '../../../../contexts/Quote/QuoteContext';
 
-const MuiSpeakerNameTextField = () => {
-
-  // todo: default alue isnt working,  
+interface Props {
+  speakerName: string;
+}
+const MuiSpeakerNameTextField = ({ speakerName } : Props) => {
+  // todo: default alue isnt working,
   const { handleSpeakerNameInputText, myQuotes, currentQuoteIndex } =
     useQuoteContext();
   return (
@@ -13,10 +15,10 @@ const MuiSpeakerNameTextField = () => {
       label="Who said this?"
       variant="outlined"
       className="w-full"
-      defaultValue={myQuotes[currentQuoteIndex].speakerName}
+      defaultValue={speakerName}
       onChange={(e) => handleSpeakerNameInputText(e)}
     />
   );
-}
+};
 
 export default MuiSpeakerNameTextField

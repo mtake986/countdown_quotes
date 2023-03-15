@@ -1,11 +1,13 @@
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { useState } from "react";
 import MuiDontShowCheckbox from "./MuiDontShowCheckbox";
-import SaveBtn from "../SaveBtn";
+// import SaveBtn from "../SaveBtn";
 import MuiQuoteTextField from "./MuiQuoteTextField";
 import MuiSpeakerNameTextField from "./MuiSpeakerNameTextField";
-import { IQuote } from "../../../../contexts/Quote/interface";
+import SubmitBtn from "./SubmitBtn";
+import Title from "./Title";
 
 const style = {
   bgcolor: "background.paper",
@@ -13,12 +15,11 @@ const style = {
 };
 
 interface Props {
-  q: IQuote;
   open: boolean;
   handleClose: () => void;
 }
 
-function MuiModal({q, open, handleClose} : Props) {
+function MuiModal({open, handleClose}: Props) {
 
   return (
     <div>
@@ -33,11 +34,12 @@ function MuiModal({q, open, handleClose} : Props) {
           sx={style}
           className="max-w-lg w-screen shadow-2xl flex flex-col justify-center items-center gap-5 bg-white p-5 py-10 sm:p-10 rounded-lg"
         >
-          {/* todo: change default value */}
-          <MuiQuoteTextField quoteText={q.quoteText} />
-          <MuiSpeakerNameTextField speakerName={q.speakerName} />
-          <MuiDontShowCheckbox dontShow={q.dontShow} />
-          <SaveBtn handleClose={handleClose} qid={q.id} />
+          <Title />
+          <MuiQuoteTextField />
+          <MuiSpeakerNameTextField />
+          <MuiDontShowCheckbox />
+          <SubmitBtn handleClose={handleClose} />
+          {/* <SaveBtn handleClose={handleClose} /> */}
         </Box>
       </Modal>
     </div>

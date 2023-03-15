@@ -1,53 +1,17 @@
-import React, { useEffect } from "react";
-import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
-import { useAuthContext } from "../../../contexts/Auth/AuthContext";
-import GoPrev from "./GoPrev";
-import GoNext from "./GoNext";
-import PageNum from "./QuoteNum";
+import { IQuote } from "../../../contexts/Quote/interface";
 import QuoteText from "./QuoteText";
 import SpeakerName from "./SpeakerName";
-import PleaseCreateQuoteBtn from "../../../utils/PleaseCreateQuoteBtn";
 
-const Quote = () => {
-  const { currentQuoteIndex, myQuotes, fetchQuotesCreatedByLoginUser } =
-    useQuoteContext();
-  const { loginUser } = useAuthContext();
+interface Props {
+  q: IQuote;
+}
 
-  useEffect(() => {
-    if (loginUser && loginUser.uid) {
-      console.log("useEffect", loginUser, loginUser.uid);
-      fetchQuotesCreatedByLoginUser(loginUser?.uid);
-      console.log(myQuotes);
-    }
-  }, [loginUser]);
-
-  if (!loginUser) {
-    return null
-  }
-  
-  if (!myQuotes || myQuotes.length === 0) {
-    return <PleaseCreateQuoteBtn />;
-  }
-
+const Quote = ({ q }: Props) => {
   return (
-    <>
-      {loginUser ? (
-        <div className="w-full flex flex-col gap-4 p-3">
-          <PageNum />
-          <div className="w-full flex items-center justify-between gap-3 sm:gap-10 ">
-            <GoPrev />
-            <div className="flex flex-col items-center gap-4">
-              <QuoteText />
-              <SpeakerName />
-            </div>
-            <GoNext />
-          </div>
-        </div>
-      ) : null}
-
-      {/* <QuoteText text={quote?.text} />
-      <SpeakerName speakerName={quote?.speakerName} /> */}
-    </>
+    <div className="flex flex-col items-center gap-4">
+      <QuoteText q={q} />
+      <SpeakerName q={q} />
+    </div>
   );
 };
 
