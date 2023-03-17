@@ -15,7 +15,11 @@ const AllQuotes = () => {
     return <Loading />;
   }
 
-  return <QList />;
+  return (
+    <div className="max-w-md mx-auto p-5">
+      <QList />;
+    </div>
+  );
 };
 
 export default AllQuotes;

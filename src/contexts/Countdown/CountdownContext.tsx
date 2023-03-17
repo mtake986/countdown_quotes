@@ -41,15 +41,14 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   function handleDaysLeft(date: Dayjs | Date | null) {
     const today = new Date();
     const date1 = date["$d"];
-    const date2 = today;
 
-    const Difference_In_Time = date1.getTime() - date2.getTime();
+    const Difference_In_Time = date1.getTime() - today.getTime();
 
     // To calculate the no. of days between two dates
     const Difference_In_Days = Math.ceil(
       Difference_In_Time / (1000 * 3600 * 24)
     );
-    const Difference_In = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+
     setDaysLeft(Difference_In_Days);
   }
 
@@ -62,7 +61,7 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   function handleEventDateInputText(date: Dayjs | Date | null) {
     setEventDateInputText(date);
     handleDaysLeft(date);
-    console.log(date['$d'], daysLeft);
+    console.log(date["$d"], daysLeft);
   }
 
   function handleDisplayEvent(text: string) {
@@ -106,12 +105,20 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
   // todo: create an event
   async function handleCreateEvent(uid: string) {
     const collectionRef = collection(db, "myEvents");
-    const payload = {
-      eventTitle: eventTitleInputText,
-      eventDate: eventDateInputText["$d"],
-      daysLeft,
-      uid,
-    };
+
+    let payload = {};
+    if (eventTitleInputText !== "") {
+      payload["eventTitle"] = eventTitleInputText;
+    }
+    if (eventDateInputText !== null) {
+      payload["eventDate"] = eventDateInputText["$d"];
+      handleDaysLeft(eventDateInputText);
+    } else {
+      handleDaysLeft(myEvents[0].eventDate);
+    }
+    payload = { ...payload, daysLeft, uid };
+
+    console.log({ payload });
 
     const docRef = await addDoc(collectionRef, payload);
     console.log("Success in creating an event!! \nThe new ID is: " + docRef.id);
@@ -125,19 +132,18 @@ export const CountdownContextProvider: React.FC<Props> = ({ children }) => {
 
     let payload = {};
     if (eventTitleInputText !== "") {
-      payload['eventTitle'] = eventTitleInputText;
+      payload["eventTitle"] = eventTitleInputText;
     }
     if (eventDateInputText !== null) {
       payload["eventDate"] = eventDateInputText["$d"];
       handleDaysLeft(eventDateInputText);
-    }
-    else {
+    } else {
       handleDaysLeft(myEvents[0].eventDate);
     }
-    payload = {...payload, daysLeft, uid}
+    payload = { ...payload, daysLeft, uid };
 
-    console.log({payload});
-    
+    console.log({ payload });
+
     await updateDoc(docRef, payload);
 
     clearInputs();

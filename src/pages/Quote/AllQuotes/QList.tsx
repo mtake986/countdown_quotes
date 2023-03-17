@@ -6,7 +6,7 @@ const QList = () => {
   const { allPublicQuotes } = useQuoteContext();
 
   return (
-    <div className="flex flex-col gap-2 p-5">
+    <div className="flex flex-col gap-2">
       {allPublicQuotes?.map((q, i) => (
         <Item q={q} i={i} key={i} />
       ))}

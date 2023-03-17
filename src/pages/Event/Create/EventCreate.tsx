@@ -16,9 +16,9 @@ const EventCreate = () => {
     );
   }
   return (
-    <div className="p-5 flex flex-col items-center gap-4">
+    <div className="mx-auto max-w-md p-5 flex flex-col items-center gap-4">
       <Title />
-      <div className="flex flex-col gap-6">
+      <div className="w-full flex flex-col justify-center gap-6">
         <EventTitleInput />
         <EventDateInput />
       </div>

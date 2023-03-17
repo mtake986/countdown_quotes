@@ -119,7 +119,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setLoading(false);
   }
 
-  // ! todo: access firebase instead of filter()
   function fetchQuotesAddedByLoginUser(uid: string) {
     setLoading(true);
     setMyQuotes([]);
