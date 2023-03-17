@@ -7,32 +7,28 @@ import SaveBtn from "./SaveBtn";
 import Title from "./Title";
 import { Navigate, useNavigate } from "react-router-dom";
 import PleaseCreateEventBtn from "../../../utils/PleaseCreateEventBtn copy";
-
+import DeleteBtn from "./DeleteBtn";
 
 const EventEdit = () => {
   const { myEvents, handleDelete } = useCountdownContext();
   const navigate = useNavigate();
 
   if (myEvents.length === 0) {
-    return <PleaseCreateEventBtn />;
+    return <div className="p-5">
+      <PleaseCreateEventBtn />;
+      </div>
   }
 
   return (
     <div className="p-5 max-w-md mx-auto flex flex-col items-center gap-4">
       <Title />
-      <div className="w-full flex flex-col items-center justify-between gap-3 sm:gap-10">
-        <div className="flex flex-col gap-4 flex-1">
-          <EventTitleInput />
-          <EventDateInput />
-        </div>
+      <div className="w-full flex flex-col gap-4 flex-1">
+        <EventTitleInput />
+        <EventDateInput />
       </div>
+      <div className="flex gap=5 w-full">
       <SaveBtn />
-      <div
-        onClick={() => {
-          handleDelete();
-        }}
-      >
-        delete
+      <DeleteBtn />
       </div>
     </div>
   );

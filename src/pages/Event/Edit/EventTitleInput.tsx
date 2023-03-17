@@ -6,7 +6,6 @@ const EventTitleInput: React.FC = () => {
     useCountdownContext();
 
   return (
-    <div>
       <TextField
         className="w-full"
         id="standard-basic"
@@ -17,7 +16,6 @@ const EventTitleInput: React.FC = () => {
           event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
         ) => handleChangeEventTitle(event, displayEventIndex)}
       />
-    </div>
   );
 };
 

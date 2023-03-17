@@ -19,7 +19,7 @@ const Icons = ({ q, i }: Props) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <div className="flex gap-1 sm:text-xl text-md">
+    <div className="flex gap-1 text-md">
       {/* {q.dontShow ? <VscEyeClosed /> : <VscEye />} */}
       <BiEdit
         onClick={() => {

@@ -12,10 +12,9 @@ import QuoteEdit from "./pages/Quote/Edit/QuoteEdit";
 import Home from "./pages/Home/Home";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Profile from "./pages/Profile/Profile";
-
+import AllQuotes from "./pages/Quote/AllQuotes/AllQuotes";
 
 function App() {
-  
   return (
     <ContextProviders>
       <div className="h-screen">
@@ -56,6 +55,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <QuoteEdit />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="all"
+                  element={
+                    <ProtectedRoute>
+                      <AllQuotes />
                     </ProtectedRoute>
                   }
                 />

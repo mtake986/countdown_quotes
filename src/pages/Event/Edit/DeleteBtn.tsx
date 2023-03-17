@@ -2,22 +2,20 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useCountdownContext } from "../../../contexts/Countdown/CountdownContext";
 
-const SaveBtn = () => {
-  const { handleCreateEvent } = useCountdownContext();
+const DeleteBtn = () => {
+  const { handleDelete } = useCountdownContext();
   const { loginUser } = useAuthContext();
-
   const navigate = useNavigate();
 
   return (
-    <button
+    <div
       onClick={() => {
-        handleCreateEvent(loginUser.uid);
-        navigate("/");
+        handleDelete();
       }}
-      className="w-full hover:bg-sky-50 text-sky-600 rounded-md p-2 ease-in-out duration-200"
+      className="w-full text-center hover:bg-red-50 text-red-600 rounded-md p-2 ease-in-out duration-200 "
     >
-      Save
-    </button>
+      delete
+    </div>
   );
 };
-export default SaveBtn;
+export default DeleteBtn;
