@@ -70,7 +70,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   function handleInputDontShow(text?: string, curr?: boolean) {
     if (text === "whenOpenModal") {
-      console.log("if");
       setInputDontShow(curr);
       return;
     }
@@ -120,47 +119,110 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setLoading(false);
   }
 
-  function getQuotesAddedByLoginUser(uid: string) {
-    setMyQuotes(allQuotesByUsers.filter((q) => q.uid == uid));
-    console.log("getQuotesAddedByLoginUser", uid, myQuotes.length, allQuotesByUsers.length) ;
-  }
-
-  function excludeDontShowMyQuotes(qs: IQuote[]) {
-    setMyPublicQuotes(qs.filter((q) => q.dontShow == false));
-    console.log('excludeDontShowMyQuotes', myQuotes.length, myPublicQuotes.length)
-  }
-
-  function excludeDontShowAllQuotes(qs: IQuote[]) {
+  // ! todo: access firebase instead of filter()
+  function fetchQuotesAddedByLoginUser(uid: string) {
     setLoading(true);
-    setAllPublicQuotes(qs.filter((q) => q.dontShow == false));
+    setMyQuotes([]);
+    let allQuotesByUsersRef = collection(db, "quotesAddedByUsers");
+
+    let q = query(allQuotesByUsersRef, where("uid", "==", uid));
+    onSnapshot(allQuotesByUsersRef, (snapshot) => {
+      setMyQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
     setLoading(false);
   }
 
-  function excludeByPropertiesMyQuotes(qs: IQuote[]) {
-    console.log("excludeByPropertiesMyQuotes start");
+  function fetchPublicMyQuotes(uid: string) {
     setLoading(true);
+    setMyQuotes([]);
+    const quotesRef = collection(db, "quotesAddedByUsers");
 
+    let q = query(
+      quotesRef,
+      where("uid", "==", uid),
+      where("dontShow", "==", false)
+    );
+    onSnapshot(q, (snapshot) => {
+      setMyPublicQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+    setLoading(false);
+  }
+
+  function fetchPublicAllQuotes() {
+    setAllPublicQuotes([]);
+    const quotesRef = collection(db, "quotesAddedByUsers");
+
+    const q = query(quotesRef, where("dontShow", "==", false));
+
+    onSnapshot(q, (snapshot) => {
+      setAllPublicQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+  }
+
+  function fetchMyQuotesByProperties(uid: string) {
+
+    const quotesRef = collection(db, "quotesAddedByUsers");
+
+    let q = query(quotesRef, where("uid", "==", uid));
     if (filterProperties.quoteText !== "") {
-      console.log(filterProperties.quoteText);
-      qs = qs.filter((q) => q.quoteText == filterProperties.quoteText);
+      q = query(
+        quotesRef,
+        where("quoteText", "==", filterProperties.quoteText)
+      );
     }
     if (filterProperties.speakerName !== "") {
-      console.log(filterProperties.speakerName);
-      qs = qs.filter((q) => q.speakerName == filterProperties.speakerName);
+      q = query(
+        q,
+        where("speakerName", "==", filterProperties.speakerName)
+      );
     }
 
     if (filterProperties.dontShow === "On")
-      qs = qs.filter((q) => q.dontShow == true);
+      q = query(
+        q,
+        where("dontShow", "==", true)
+      );
     else if (filterProperties.dontShow === "Off")
-      qs = qs.filter((q) => q.dontShow == false);
+      q = query(q, where("dontShow", "==", false));
 
-    setFilteredMyQuotes(qs);
-    setLoading(false);
+    onSnapshot(q, (snapshot) => {
+      setAllPublicQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+
   }
 
-  function handleLoading() {
-    setLoading(!loading);
-  }
 
   // todo: filter inputs =========
   function handleFilterProperties(key: string, val: string) {
@@ -180,7 +242,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         dontShow: val,
       }));
     }
-    console.log(filterProperties);
   }
 
   // todo: add quotes
@@ -193,33 +254,25 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       dontShow: inputDontShow,
     };
     const docRef = await addDoc(collectionRef, payload);
-    console.log("Success!! \n\tThe new ID is: " + docRef.id);
+    console.log("Success in creating a quote!! \n\tThe new ID is: " + docRef.id);
     clearInputs();
   }
-
 
   // ! doesn't update
 
   // todo: update quotes (call handleUpdateQuote())
   function handleUpdateQuotes(qid: string) {
-    console.log(loading)
-    setLoading(true)
     handleUpdateQuote(qid);
-    // setLoading(false)
   }
   // todo: update quote
   async function handleUpdateQuote(qid: string) {
     const docRef = doc(db, "quotesAddedByUsers", qid);
-
-    console.log({ docRef }, { qid });
 
     let payload = {};
     if (quoteTextInputText !== "") payload["quoteText"] = quoteTextInputText;
     if (speakerNameInputText !== "")
       payload["speakerName"] = speakerNameInputText;
     payload["dontShow"] = inputDontShow;
-
-    console.log({ payload });
 
     await updateDoc(docRef, payload);
     clearInputs();
@@ -268,11 +321,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         loading,
         fetchAllQuotesByUsers,
         allQuotesByUsers,
-        handleLoading,
-        excludeDontShowMyQuotes,
-        excludeByPropertiesMyQuotes,
-        getQuotesAddedByLoginUser,
-        excludeDontShowAllQuotes,
+        fetchPublicMyQuotes,
+        fetchMyQuotesByProperties,
+        fetchQuotesAddedByLoginUser,
+        fetchPublicAllQuotes,
         allPublicQuotes,
       }}
     >

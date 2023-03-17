@@ -9,7 +9,7 @@ const Item = ({ q, i }: Props) => {
 
   return (
     <div className="flex justify-between items-center gap-3">
-      <div className="sm:text-xl text-md flex items-center gap-1 overflow-hidden whitespace-nowrap">
+      <div className="text-md flex items-center gap-1 overflow-hidden whitespace-nowrap">
         <span>{i + 1}. </span>
         <p className="text-ellipsis overflow-hidden">{q.quoteText}</p>
       </div>

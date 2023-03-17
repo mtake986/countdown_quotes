@@ -7,41 +7,30 @@ import Countdown from "./Countdown/Countdown";
 import Quotes from "./Quote/Quotes";
 
 const Home = () => {
-  const [loading, setLoading] = useState<boolean>(false);
   const { myEvents, fetchMyEvent } = useCountdownContext();
   const { loginUser } = useAuthContext();
   const {
     myPublicQuotes,
-    getQuotesAddedByLoginUser,
+    fetchQuotesAddedByLoginUser,
     currentQuoteIndex,
-    excludeDontShowMyQuotes,
+    fetchPublicMyQuotes,
     myQuotes,
     fetchAllQuotesByUsers,
   } = useQuoteContext();
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(function () {
-      // alert('settimeout')
-    }, 3000);
-
     if (loginUser && loginUser.uid) {
       console.log("useEffect", loginUser, loginUser.uid);
       fetchMyEvent(loginUser?.uid);
 
       fetchAllQuotesByUsers();
-      getQuotesAddedByLoginUser(loginUser.uid);
-      excludeDontShowMyQuotes(myQuotes);
+      fetchQuotesAddedByLoginUser(loginUser?.uid);
+      fetchPublicMyQuotes(loginUser?.uid);
     }
-    setLoading(false);
   }, [loginUser]);
 
   if (!loginUser) {
     return <div>Please login with a google account.</div>;
-  }
-
-  if (loading === true) {
-    return <div>loading</div>
   }
 
   return (

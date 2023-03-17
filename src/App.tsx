@@ -14,9 +14,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import Profile from "./pages/Profile/Profile";
 import AllQuotes from "./pages/Quote/AllQuotes/AllQuotes";
 
-
 function App() {
-  
   return (
     <ContextProviders>
       <div className="h-screen">

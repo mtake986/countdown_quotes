@@ -11,13 +11,13 @@ import Loading from "../../../utils/Loading";
 const Quotes = () => {
   const {
     myPublicQuotes,
-    getQuotesAddedByLoginUser,
+    fetchQuotesAddedByLoginUser,
     currentQuoteIndex,
-    excludeDontShowMyQuotes,
+    fetchPublicMyQuotes,
     myQuotes,
     loading,
     fetchAllQuotesByUsers,
-    allQuotesByUsers
+    allQuotesByUsers,
   } = useQuoteContext();
   const { loginUser } = useAuthContext();
 
@@ -29,7 +29,7 @@ const Quotes = () => {
     return <Loading />;
   }
 
-  if (!allQuotesByUsers || allQuotesByUsers.length === 0) {
+  if (!myPublicQuotes || myPublicQuotes.length === 0) {
     return <PleaseCreateQuoteBtn />;
   }
 
@@ -38,7 +38,7 @@ const Quotes = () => {
       <PageNum />
       <div className="w-full flex items-center justify-between gap-3 sm:gap-10 ">
         <GoPrev />
-        {allQuotesByUsers.map((q, i) =>
+        {myPublicQuotes.map((q, i) =>
           currentQuoteIndex === i ? <Quote q={q} key={i} /> : null
         )}
         <GoNext />

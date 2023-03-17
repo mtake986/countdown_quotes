@@ -32,7 +32,7 @@ export interface QuoteContextType {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   speakerNameInputText: string;
-  getQuotesAddedByLoginUser: (uid: string) => void;
+  fetchQuotesAddedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleCreateQuote: (uid: string) => void;
   handleUpdateQuotes: (qid: string) => void;
@@ -55,8 +55,8 @@ export interface QuoteContextType {
   fetchAllQuotesByUsers: () => void;
   allQuotesByUsers: IQuote[];
   handleLoading: () => void;
-  excludeDontShowMyQuotes: (myQuotes: IQuote[]) => void;
-  excludeByPropertiesMyQuotes: (qs: IQuote[]) => void;
-  excludeDontShowAllQuotes: (myQuotes: IQuote[]) => void;
+  fetchPublicMyQuotes: (uid: string) => void;
+  fetchMyQuotesByProperties: (uid: string) => void;
+  fetchPublicAllQuotes: () => void;
   allPublicQuotes: IQuote[];
 }
