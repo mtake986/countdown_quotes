@@ -17,6 +17,7 @@ const Quotes = () => {
     myQuotes,
     loading,
     fetchAllQuotesByUsers,
+    allQuotesByUsers
   } = useQuoteContext();
   const { loginUser } = useAuthContext();
 
@@ -28,7 +29,7 @@ const Quotes = () => {
     return <Loading />;
   }
 
-  if (!myPublicQuotes || myPublicQuotes.length === 0) {
+  if (!allQuotesByUsers || allQuotesByUsers.length === 0) {
     return <PleaseCreateQuoteBtn />;
   }
 
@@ -37,7 +38,7 @@ const Quotes = () => {
       <PageNum />
       <div className="w-full flex items-center justify-between gap-3 sm:gap-10 ">
         <GoPrev />
-        {myPublicQuotes.map((q, i) =>
+        {allQuotesByUsers.map((q, i) =>
           currentQuoteIndex === i ? <Quote q={q} key={i} /> : null
         )}
         <GoNext />
