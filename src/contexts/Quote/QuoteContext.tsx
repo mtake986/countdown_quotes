@@ -121,15 +121,13 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   function getQuotesAddedByLoginUser(uid: string) {
-    setLoading(true);
     setMyQuotes(allQuotesByUsers.filter((q) => q.uid == uid));
-    setLoading(false);
+    console.log("getQuotesAddedByLoginUser", uid, myQuotes.length, allQuotesByUsers.length) ;
   }
 
   function excludeDontShowMyQuotes(qs: IQuote[]) {
-    setLoading(true);
     setMyPublicQuotes(qs.filter((q) => q.dontShow == false));
-    setLoading(false);
+    console.log('excludeDontShowMyQuotes', myQuotes.length, myPublicQuotes.length)
   }
 
   function excludeDontShowAllQuotes(qs: IQuote[]) {

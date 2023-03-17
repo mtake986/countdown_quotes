@@ -20,14 +20,6 @@ const Quotes = () => {
   } = useQuoteContext();
   const { loginUser } = useAuthContext();
 
-  useEffect(() => {
-    if (loginUser && loginUser.uid) {
-      fetchAllQuotesByUsers();
-      getQuotesAddedByLoginUser(loginUser.uid);
-      excludeDontShowMyQuotes(myQuotes);
-    }
-  }, [loginUser]);
-
   if (!loginUser) {
     return null;
   }
