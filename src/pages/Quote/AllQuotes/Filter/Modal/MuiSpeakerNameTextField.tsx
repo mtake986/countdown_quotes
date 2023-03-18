@@ -3,7 +3,7 @@ import { useQuoteContext } from "../../../../../contexts/Quote/QuoteContext";
 
 const MuiSpeakerNameTextField = () => {
   // todo: default alue isnt working,
-  const { filterMyQuotesProperties, handleFilterMyQuotesProperties } =
+  const { filterAllQuotesProperties, handleFilterAllQuotesProperties } =
     useQuoteContext();
   return (
     <TextField
@@ -11,9 +11,9 @@ const MuiSpeakerNameTextField = () => {
       label="Who said this?"
       variant="outlined"
       className="w-full"
-      defaultValue={filterMyQuotesProperties.speakerName}
+      defaultValue={filterAllQuotesProperties.speakerName}
       onChange={(e) =>
-        handleFilterMyQuotesProperties("speakerName", e.target.value)
+        handleFilterAllQuotesProperties("speakerName", e.target.value)
       }
     />
   );

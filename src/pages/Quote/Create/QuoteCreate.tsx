@@ -16,7 +16,7 @@ const QuoteCreate = () => {
     //   </div>
     //   <SaveBtn />
     // </div>
-    <div className="p-3 px-10 max-w-md mx-auto flex flex-col items-center gap-4">
+    <div className="p-5 max-w-md mx-auto flex flex-col items-center gap-4">
       <Title />
       <div className="w-full flex flex-col items-center gap-5 flex-1">
         <MuiQuoteTextField />

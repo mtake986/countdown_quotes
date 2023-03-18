@@ -39,17 +39,11 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
         const querySnapshot = await getDocs(q);
 
-        if (querySnapshot) {
-          console.log(querySnapshot);
-        }
-
         let userExists = false;
 
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          console.log({ doc });
 
-          console.log(doc.id, " => ", doc.data());
           setLoginUser({
             username: doc.data().username,
             email: doc.data().email,
@@ -58,24 +52,19 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
             id: doc.id,
           });
           userExists = true;
-
-          
         });
 
-        console.log(userExists);
-
         if (!userExists) {
-          createNewUser(userInfo)
+          createNewUser(userInfo);
         }
       })
       .catch((error) => console.log("Error!! error: ", error));
   };
 
   async function createNewUser(userInfo: IUser) {
-    console.log("Create a new user...");
     const collectionRef = collection(db, "users");
     const docRef = await addDoc(collectionRef, userInfo);
-    console.log("Success!! \n\tThe new ID is: " + docRef.id);
+    console.log("Success in creating a new user!! \n\tThe new ID is: " + docRef.id);
   }
 
   const handleLogout = async () => {

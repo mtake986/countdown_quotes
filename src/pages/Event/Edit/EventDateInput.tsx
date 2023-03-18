@@ -11,8 +11,15 @@ const EventDateInput: React.FC = () => {
   return (
     <div>
       <DatePicker
+        className="w-full"
         label="Event Date"
-        value={eventDateInputText ? eventDateInputText : myEvents[0].eventDate}
+        value={
+          eventDateInputText
+            ? eventDateInputText
+            : myEvents[0]?.eventDate
+            ? myEvents[0]?.eventDate
+            : new Date()
+        }
         onChange={(date) => handleEventDateInputText(date)}
         renderInput={(params) => <TextField {...params} />}
       />

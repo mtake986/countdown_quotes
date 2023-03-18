@@ -6,14 +6,14 @@ interface Props {
   handleClose: () => void;
 }
 const SubmitBtn = ({ handleClose }: Props) => {
-  const { fetchMyQuotesByProperties, myQuotes } = useQuoteContext();
+  const { fetchAllQuotesByProperties } = useQuoteContext();
 
   const {loginUser} = useAuthContext();
 
   return (
     <button
       onClick={() => {
-        fetchMyQuotesByProperties(loginUser?.uid);
+        fetchAllQuotesByProperties();
         handleClose();
       }}
       className="w-full hover:bg-sky-50 text-sky-600 rounded-md p-2 ease-in-out duration-200"

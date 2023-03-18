@@ -5,18 +5,16 @@ const EventTitleInput: React.FC = () => {
   const { handleEventTitleInputText } = useCountdownContext();
 
   return (
-    <div>
-      <TextField
-        className="w-48"
-        id="standard-basic"
-        defaultValue=""
-        label="Event Title"
-        variant="standard"
-        onChange={(
-          event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        ) => handleEventTitleInputText(event)}
-      />
-    </div>
+    <TextField
+      className="w-full"
+      id="standard-basic"
+      defaultValue=""
+      label="Event Title"
+      variant="standard"
+      onChange={(
+        event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+      ) => handleEventTitleInputText(event)}
+    />
   );
 };
 

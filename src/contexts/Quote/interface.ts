@@ -8,10 +8,11 @@ export interface IQuote {
   id?: string;
   dontShow: boolean;
 }
-export interface IFilterProperties {
+export interface IfilterMyQuotesProperties {
   quoteText: string;
   speakerName: string;
-  dontShow: string;
+  dontShow?: string;
+  likes: number;
 }
 
 export interface IMyQuotesBeingChanged {
@@ -32,14 +33,13 @@ export interface QuoteContextType {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
   speakerNameInputText: string;
-  fetchQuotesCreatedByLoginUser: (uid: string) => void;
+  fetchQuotesAddedByLoginUser: (uid: string) => void;
   myQuotes: IQuote[];
   handleCreateQuote: (uid: string) => void;
   handleUpdateQuotes: (qid: string) => void;
   handleChangeCurrentQuoteIndex: (text: string, i?: number) => void;
   currentQuoteIndex: number;
   myQuotesBeingChanged: IQuote[];
-  // myQuotesBeingChanged: IMyQuotesBeingChanged[];
   handleDelete: (uid: string) => void;
   toggleEditModal: () => void;
   editModalOpen: boolean;
@@ -49,10 +49,24 @@ export interface QuoteContextType {
   myPublicQuotes: IQuote[];
   handleCurrentQuoteId: (id: string) => void;
   currentQuoteId: string;
-  handleFilterProperties: (key: string, e: string) => void;
-  filterProperties: IFilterProperties;
-  excludeDontShowQuotes: (uid: string) => void;
-  excludeQuotes: (uid: string) => void;
+  handleFilterMyQuotesProperties: (key: string, e: string) => void;
+  filterMyQuotesProperties: IfilterMyQuotesProperties;
+  fetchMyQuotesByProperties: (uid: string) => void;
   filteredMyQuotes: IQuote[];
+  clearFilterMyQuotesProperties: () => void;
+
   loading: boolean;
+  fetchAllQuotesByUsers: () => void;
+  allQuotesByUsers: IQuote[];
+  handleLoading: () => void;
+
+  fetchPublicMyQuotes: (uid: string) => void;
+  fetchPublicAllQuotes: () => void;
+  allPublicQuotes: IQuote[];
+  
+  handleFilterAllQuotesProperties: (key: string, e: string) => void;
+  filterAllQuotesProperties: IfilterMyQuotesProperties;
+  fetchAllQuotesByProperties: () => void;
+  filteredAllQuotes: IQuote[];
+  clearFilterAllQuotesProperties: () => void;
 }
