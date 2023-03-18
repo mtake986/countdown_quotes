@@ -59,4 +59,5 @@ export interface QuoteContextType {
   fetchMyQuotesByProperties: (uid: string) => void;
   fetchPublicAllQuotes: () => void;
   allPublicQuotes: IQuote[];
+  clearFilterProperties: () => void;
 }

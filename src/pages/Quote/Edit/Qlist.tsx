@@ -14,6 +14,8 @@ const Qlist = () => {
       filterProperties.speakerName === "" &&
       filterProperties.dontShow === "Both"
     ) {
+      console.log({myQuotes});
+      
       return (
         <div className="flex flex-col gap-2">
           {myQuotes?.map((q, i) => (

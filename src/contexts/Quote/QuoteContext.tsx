@@ -33,6 +33,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [allQuotesByUsers, setAllQuotesByUsers] = useState<IQuote[]>([]);
   const [quoteTextInputText, setQuoteTextInputText] = useState<string>("");
   const [speakerNameInputText, setSpeakerNameInputText] = useState<string>("");
+  const [inputDontShow, setInputDontShow] = useState<boolean | null>(true);
 
   const [myQuotesBeingChanged, setMyQuotesBeingChanged] = useState<IQuote[]>(
     []
@@ -41,7 +42,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const toggleEditModal = () => setEditModalOpen(!editModalOpen);
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0);
-  const [inputDontShow, setInputDontShow] = useState<boolean | null>(true);
   const [myPublicQuotes, setMyPublicQuotes] = useState<IQuote[]>([]);
   const [allPublicQuotes, setAllPublicQuotes] = useState<IQuote[]>([]);
   const [currentQuoteId, setCurrentQuoteId] = useState<string>("");
@@ -121,11 +121,14 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   function fetchQuotesAddedByLoginUser(uid: string) {
     setLoading(true);
+    console.log(loading);
+
     setMyQuotes([]);
     let allQuotesByUsersRef = collection(db, "quotesAddedByUsers");
 
     let q = query(allQuotesByUsersRef, where("uid", "==", uid));
-    onSnapshot(allQuotesByUsersRef, (snapshot) => {
+
+    onSnapshot(q, (snapshot) => {
       setMyQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
@@ -137,6 +140,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       );
     });
     setLoading(false);
+    console.log(loading);
   }
 
   function fetchPublicMyQuotes(uid: string) {
@@ -183,10 +187,12 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   function fetchMyQuotesByProperties(uid: string) {
-
     const quotesRef = collection(db, "quotesAddedByUsers");
 
     let q = query(quotesRef, where("uid", "==", uid));
+
+    console.log(filterProperties.dontShow);
+
     if (filterProperties.quoteText !== "") {
       q = query(
         quotesRef,
@@ -194,22 +200,17 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       );
     }
     if (filterProperties.speakerName !== "") {
-      q = query(
-        q,
-        where("speakerName", "==", filterProperties.speakerName)
-      );
+      q = query(q, where("speakerName", "==", filterProperties.speakerName));
     }
 
-    if (filterProperties.dontShow === "On")
-      q = query(
-        q,
-        where("dontShow", "==", true)
-      );
-    else if (filterProperties.dontShow === "Off")
+    if (filterProperties.dontShow === "On") {
+      q = query(q, where("dontShow", "==", true));
+    } else if (filterProperties.dontShow === "Off") {
       q = query(q, where("dontShow", "==", false));
+    }
 
     onSnapshot(q, (snapshot) => {
-      setAllPublicQuotes(
+      setFilteredMyQuotes(
         snapshot.docs.map((doc) => ({
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
@@ -219,9 +220,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         }))
       );
     });
-
   }
-
 
   // todo: filter inputs =========
   function handleFilterProperties(key: string, val: string) {
@@ -243,6 +242,14 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
+  function clearFilterProperties() {
+    setFilterProperties({
+      quoteText: "",
+      speakerName: "",
+      dontShow: "Both",
+    });
+  }
+
   // todo: add quotes
   async function handleCreateQuote(uid: string) {
     const collectionRef = collection(db, "quotesAddedByUsers");
@@ -253,7 +260,9 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       dontShow: inputDontShow,
     };
     const docRef = await addDoc(collectionRef, payload);
-    console.log("Success in creating a quote!! \n\tThe new ID is: " + docRef.id);
+    console.log(
+      "Success in creating a quote!! \n\tThe new ID is: " + docRef.id
+    );
     clearInputs();
   }
 
@@ -325,6 +334,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         fetchQuotesAddedByLoginUser,
         fetchPublicAllQuotes,
         allPublicQuotes,
+        clearFilterProperties,
       }}
     >
       {children}

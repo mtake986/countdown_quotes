@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 import { useQuoteContext } from "../../../contexts/Quote/QuoteContext";
 import Loading from "../../../utils/Loading";
+import Filter from "./Filter/Filter";
 import QList from "./QList";
 
 const AllQuotes = () => {
@@ -17,6 +18,8 @@ const AllQuotes = () => {
 
   return (
     <div className="max-w-md mx-auto p-5">
+      {/* // todo: add filter */}
+      <Filter />
       <QList />;
     </div>
   );

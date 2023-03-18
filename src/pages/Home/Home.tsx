@@ -16,6 +16,7 @@ const Home = () => {
     fetchPublicMyQuotes,
     myQuotes,
     fetchAllQuotesByUsers,
+    clearFilterProperties,
   } = useQuoteContext();
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const Home = () => {
       fetchQuotesAddedByLoginUser(loginUser?.uid);
       fetchPublicMyQuotes(loginUser?.uid);
     }
+    clearFilterProperties();
   }, [loginUser]);
 
   if (!loginUser) {
