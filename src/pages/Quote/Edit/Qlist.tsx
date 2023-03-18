@@ -3,19 +3,19 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 import Item from "./Item";
 
 const Qlist = () => {
-  const { myQuotes, filteredMyQuotes, filterProperties, loading } =
+  const { myQuotes, filteredMyQuotes, filterMyQuotesProperties, loading } =
     useQuoteContext();
 
   if (loading === true) {
     return <div>Loading...</div>;
   } else {
     if (
-      filterProperties.quoteText === "" &&
-      filterProperties.speakerName === "" &&
-      filterProperties.dontShow === "Both"
+      filterMyQuotesProperties.quoteText === "" &&
+      filterMyQuotesProperties.speakerName === "" &&
+      filterMyQuotesProperties.dontShow === "Both"
     ) {
-      console.log({myQuotes});
-      
+      console.log({ myQuotes });
+
       return (
         <div className="flex flex-col gap-2">
           {myQuotes?.map((q, i) => (

@@ -8,12 +8,12 @@ const Filter = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const {filterProperties} = useQuoteContext();
+  const { filterMyQuotesProperties } = useQuoteContext();
   return (
     <div>
-      {filterProperties.quoteText === "" &&
-      filterProperties.speakerName === "" &&
-      filterProperties.dontShow === "Both" ? (
+      {filterMyQuotesProperties.quoteText === "" &&
+      filterMyQuotesProperties.speakerName === "" &&
+      filterMyQuotesProperties.dontShow === "Both" ? (
         <Button
           variant="outlined"
           className="w-full cursor-pointer hover:bg-sky-300 duration-200"

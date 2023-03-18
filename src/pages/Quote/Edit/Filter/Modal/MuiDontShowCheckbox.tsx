@@ -3,15 +3,15 @@
 // import { useQuoteContext } from "../../../../../contexts/Quote/QuoteContext";
 
 // const MuiDontShowCheckbox = () => {
-//   const { handleFilterProperties, filterProperties } = useQuoteContext();
+//   const { handleFilterMyQuotesProperties, filterMyQuotesProperties } = useQuoteContext();
 
 //   return (
 //     <>
 //       <FormControlLabel
 //         control={
 //           <Checkbox
-//             onChange={() => handleFilterProperties("dontShow")}
-//             defaultChecked={filterProperties.dontShow}
+//             onChange={() => handleFilterMyQuotesProperties("dontShow")}
+//             defaultChecked={filterMyQuotesProperties.dontShow}
 //             inputProps={{ "aria-label": "controlled" }}
 //           />
 //         }
@@ -34,10 +34,10 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const MuiDontShowCheckbox = () => {
-  const { handleFilterProperties, filterProperties } =
+  const { handleFilterMyQuotesProperties, filterMyQuotesProperties } =
     useQuoteContext();
   const handleChange = (event: SelectChangeEvent) => {
-    handleFilterProperties('dontShow', event.target.value as string);
+    handleFilterMyQuotesProperties("dontShow", event.target.value as string);
   };
   return (
     <Box className="w-full">
@@ -46,7 +46,7 @@ const MuiDontShowCheckbox = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={filterProperties.dontShow}
+          value={filterMyQuotesProperties.dontShow}
           label="Don't Show"
           onChange={handleChange}
         >

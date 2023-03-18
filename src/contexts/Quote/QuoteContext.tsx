@@ -5,7 +5,7 @@ import {
   Props,
   IQuote,
   QuoteContextType,
-  IFilterProperties,
+  IfilterMyQuotesProperties,
 } from "./interface";
 
 import { db } from "../../config/firebase";
@@ -14,8 +14,10 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
   getDocs,
   onSnapshot,
+  Query,
   query,
   updateDoc,
   where,
@@ -45,15 +47,25 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   const [myPublicQuotes, setMyPublicQuotes] = useState<IQuote[]>([]);
   const [allPublicQuotes, setAllPublicQuotes] = useState<IQuote[]>([]);
   const [currentQuoteId, setCurrentQuoteId] = useState<string>("");
-  const [filterProperties, setFilterProperties] = useState<IFilterProperties>({
-    quoteText: "",
-    speakerName: "",
-    dontShow: "Both",
-  });
+  const [filterMyQuotesProperties, setFilterMyQuotesProperties] =
+    useState<IfilterMyQuotesProperties>({
+      quoteText: "",
+      speakerName: "",
+      dontShow: "Both",
+      likes: 0,
+    });
   const [filteredMyQuotes, setFilteredMyQuotes] = useState<IQuote[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // ========== handle Inputs ==========
+  const [filteredAllQuotes, setFilteredAllQuotes] = useState<IQuote[]>([]);
+  const [filterAllQuotesProperties, setFilterAllQuotesProperties] =
+    useState<IfilterMyQuotesProperties>({
+      quoteText: "",
+      speakerName: "",
+      likes: 0,
+    });
+
+  // todo: ========== handle inputs ==========
   function handleQuoteTextInputText(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
@@ -96,6 +108,61 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
   function handleCurrentQuoteId(id: string) {
     setCurrentQuoteId(id);
+  }
+
+  // todo:  === filter my quotes
+  function handleFilterMyQuotesProperties(key: string, val: string) {
+    if (key === "quoteText") {
+      setFilterMyQuotesProperties((prev) => ({
+        ...prev,
+        quoteText: val,
+      }));
+    } else if (key === "speakerName") {
+      setFilterMyQuotesProperties((prev) => ({
+        ...prev,
+        speakerName: val,
+      }));
+    } else if (key === "dontShow") {
+      setFilterMyQuotesProperties((prev) => ({
+        ...prev,
+        dontShow: val,
+      }));
+    }
+
+    // todo: more than oo likes
+  }
+
+  function clearFilterMyQuotesProperties() {
+    setFilterMyQuotesProperties({
+      quoteText: "",
+      speakerName: "",
+      dontShow: "Both",
+      likes: 0,
+    });
+  }
+
+  // todo:  === filter all quotes
+  function handleFilterAllQuotesProperties(key: string, val: string) {
+    if (key === "quoteText") {
+      setFilterAllQuotesProperties((prev) => ({
+        ...prev,
+        quoteText: val,
+      }));
+    } else if (key === "speakerName") {
+      setFilterAllQuotesProperties((prev) => ({
+        ...prev,
+        speakerName: val,
+      }));
+    }
+    // todo: more than oo likes
+  }
+
+  function clearFilterAllQuotesProperties() {
+    setFilterAllQuotesProperties({
+      quoteText: "",
+      speakerName: "",
+      likes: 0,
+    });
   }
 
   // todo: START ========== Firestore Events ==========
@@ -191,21 +258,24 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
 
     let q = query(quotesRef, where("uid", "==", uid));
 
-    console.log(filterProperties.dontShow);
+    console.log(filterMyQuotesProperties.dontShow);
 
-    if (filterProperties.quoteText !== "") {
+    if (filterMyQuotesProperties.quoteText !== "") {
       q = query(
         quotesRef,
-        where("quoteText", "==", filterProperties.quoteText)
+        where("quoteText", "==", filterMyQuotesProperties.quoteText)
       );
     }
-    if (filterProperties.speakerName !== "") {
-      q = query(q, where("speakerName", "==", filterProperties.speakerName));
+    if (filterMyQuotesProperties.speakerName !== "") {
+      q = query(
+        q,
+        where("speakerName", "==", filterMyQuotesProperties.speakerName)
+      );
     }
 
-    if (filterProperties.dontShow === "On") {
+    if (filterMyQuotesProperties.dontShow === "On") {
       q = query(q, where("dontShow", "==", true));
-    } else if (filterProperties.dontShow === "Off") {
+    } else if (filterMyQuotesProperties.dontShow === "Off") {
       q = query(q, where("dontShow", "==", false));
     }
 
@@ -222,34 +292,60 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
-  // todo: filter inputs =========
-  function handleFilterProperties(key: string, val: string) {
-    if (key === "quoteText") {
-      setFilterProperties((prev) => ({
-        ...prev,
-        quoteText: val,
-      }));
-    } else if (key === "speakerName") {
-      setFilterProperties((prev) => ({
-        ...prev,
-        speakerName: val,
-      }));
-    } else if (key === "dontShow") {
-      setFilterProperties((prev) => ({
-        ...prev,
-        dontShow: val,
-      }));
+  function fetchAllQuotesByProperties() {
+    const quotesRef = collection(db, "quotesAddedByUsers");
+
+    
+    console.log(filterAllQuotesProperties)
+    let q: Query<DocumentData>;
+
+    if (
+      filterAllQuotesProperties.quoteText === "" &&
+      filterAllQuotesProperties.speakerName === '' 
+    ) {
+          onSnapshot(quotesRef, (snapshot) => {
+            setFilteredAllQuotes(
+              snapshot.docs.map((doc) => ({
+                quoteText: doc.data().quoteText,
+                speakerName: doc.data().speakerName,
+                uid: doc.data().uid,
+                id: doc.id,
+                dontShow: doc.data().dontShow,
+              }))
+            );
+          });
+    }
+    else {
+      if (filterAllQuotesProperties.quoteText !== "") {
+        q = query(
+          quotesRef,
+          where("quoteText", "==", filterAllQuotesProperties.quoteText)
+        );
+      }
+    if (filterAllQuotesProperties.speakerName !== "") {
+      q = query(
+        q,
+        where("speakerName", "==", filterAllQuotesProperties.speakerName)
+      );
+    }
+    // todo: llikes
+
+    onSnapshot(q, (snapshot) => {
+      setFilteredAllQuotes(
+        snapshot.docs.map((doc) => ({
+          quoteText: doc.data().quoteText,
+          speakerName: doc.data().speakerName,
+          uid: doc.data().uid,
+          id: doc.id,
+          dontShow: doc.data().dontShow,
+        }))
+      );
+    });
+
     }
   }
 
-  function clearFilterProperties() {
-    setFilterProperties({
-      quoteText: "",
-      speakerName: "",
-      dontShow: "Both",
-    });
-  }
-
+  // todo: add, update, delete
   // todo: add quotes
   async function handleCreateQuote(uid: string) {
     const collectionRef = collection(db, "quotesAddedByUsers");
@@ -265,8 +361,6 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     );
     clearInputs();
   }
-
-  // ! doesn't update
 
   // todo: update quotes (call handleUpdateQuote())
   function handleUpdateQuotes(qid: string) {
@@ -287,7 +381,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     toggleEditModal();
   }
 
-  // todo: update quotes
+  // todo: delete quotes
   async function handleDelete(id: string) {
     const docRef = doc(db, "quotesAddedByUsers", id);
     await deleteDoc(docRef);
@@ -323,8 +417,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         myPublicQuotes,
         handleCurrentQuoteId,
         currentQuoteId,
-        handleFilterProperties,
-        filterProperties,
+        handleFilterMyQuotesProperties,
+        filterMyQuotesProperties,
         filteredMyQuotes,
         loading,
         fetchAllQuotesByUsers,
@@ -334,7 +428,12 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         fetchQuotesAddedByLoginUser,
         fetchPublicAllQuotes,
         allPublicQuotes,
-        clearFilterProperties,
+        clearFilterMyQuotesProperties,
+        handleFilterAllQuotesProperties,
+        clearFilterAllQuotesProperties,
+        fetchAllQuotesByProperties,
+        filteredAllQuotes,
+        filterAllQuotesProperties,
       }}
     >
       {children}

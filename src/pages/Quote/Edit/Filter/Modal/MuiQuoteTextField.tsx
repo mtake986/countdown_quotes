@@ -4,8 +4,8 @@ import { IQuote } from "../../../../../contexts/Quote/interface";
 import { useQuoteContext } from "../../../../../contexts/Quote/QuoteContext";
 
 const MuiQuoteTextField = () => {
-
-  const { filterProperties, handleFilterProperties } = useQuoteContext();
+  const { filterMyQuotesProperties, handleFilterMyQuotesProperties } =
+    useQuoteContext();
   return (
     <>
       <TextField
@@ -13,8 +13,10 @@ const MuiQuoteTextField = () => {
         label="Your Favorite Quote"
         variant="outlined"
         className="w-full"
-        defaultValue={filterProperties.quoteText}
-        onChange={(e) => handleFilterProperties("quoteText", e.target.value)}
+        defaultValue={filterMyQuotesProperties.quoteText}
+        onChange={(e) =>
+          handleFilterMyQuotesProperties("quoteText", e.target.value)
+        }
       />
     </>
   );

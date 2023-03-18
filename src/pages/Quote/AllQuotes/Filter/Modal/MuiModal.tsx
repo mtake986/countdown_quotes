@@ -1,9 +1,6 @@
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
-import MuiDontShowCheckbox from "./MuiDontShowCheckbox";
-// import SaveBtn from "../SaveBtn";
 import MuiQuoteTextField from "./MuiQuoteTextField";
 import MuiSpeakerNameTextField from "./MuiSpeakerNameTextField";
 import SubmitBtn from "./SubmitBtn";
@@ -37,7 +34,7 @@ function MuiModal({open, handleClose}: Props) {
           <Title />
           <MuiQuoteTextField />
           <MuiSpeakerNameTextField />
-          <MuiDontShowCheckbox />
+          // todo: likes
           <SubmitBtn handleClose={handleClose} />
           {/* <SaveBtn handleClose={handleClose} /> */}
         </Box>
