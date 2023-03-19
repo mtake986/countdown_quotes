@@ -11,6 +11,7 @@ import MuiModal from "./Modal/MuiModal";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useState } from "react";
 import { useAuthContext } from "../../../contexts/Auth/AuthContext";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 interface Props {
   q: IQuote;
@@ -28,13 +29,17 @@ const Icons = ({ q, i }: Props) => {
 
   return (
     <div className="flex gap-1 text-md">
-      <BiHeart
-        onClick={() => {
-          console.log({q}, q.docId, loginUser.uid);
-          handleLike(q.docId, loginUser.uid);
-        }}
-        className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
-      />
+      {q?.usersLiked !== null && q?.usersLiked.includes(loginUser.uid) ? (
+        <AiFillHeart
+          onClick={() => handleLike(q.docId, loginUser.uid)}
+          className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
+        />
+      ) : (
+        <AiOutlineHeart
+          onClick={() => handleLike(q.docId, loginUser.uid)}
+          className="text-red-500 ease-in-out duration-200 hover:opacity-50 cursor-pointer"
+        />
+      )}
       <BiInfoCircle
         onClick={() => {
           handleOpen();
