@@ -49,7 +49,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
             email: doc.data().email,
             profilePic: doc.data().profilePic,
             uid: doc.data().uid,
-            id: doc.id,
+            docId: doc.id,
           });
           userExists = true;
         });

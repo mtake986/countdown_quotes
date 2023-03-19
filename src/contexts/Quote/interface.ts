@@ -1,12 +1,16 @@
 export interface Props {
   children: React.ReactNode;
 }
+
+// todo: likes
 export interface IQuote {
   quoteText: string;
   speakerName: string;
   uid: string;
-  id?: string;
+  docId?: string;
   dontShow: boolean;
+  likes: 0;
+  usersLiked: string[];
 }
 export interface IfilterMyQuotesProperties {
   quoteText: string;
@@ -63,10 +67,11 @@ export interface QuoteContextType {
   fetchPublicMyQuotes: (uid: string) => void;
   fetchPublicAllQuotes: () => void;
   allPublicQuotes: IQuote[];
-  
+
   handleFilterAllQuotesProperties: (key: string, e: string) => void;
   filterAllQuotesProperties: IfilterMyQuotesProperties;
   fetchAllQuotesByProperties: () => void;
   filteredAllQuotes: IQuote[];
   clearFilterAllQuotesProperties: () => void;
+  handleLike: (qid: string, uid: string) => void
 }

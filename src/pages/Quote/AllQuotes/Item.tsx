@@ -1,6 +1,5 @@
 import { IQuote } from "../../../contexts/Quote/interface";
-// import Icons from "./Icons";
-
+import Icons from "./Icons";
 interface Props {
   q: IQuote;
   i: number;
@@ -12,7 +11,7 @@ const Item = ({ q, i }: Props) => {
         <span>{i + 1}. </span>
         <p className="text-ellipsis overflow-hidden">{q.quoteText}</p>
       </div>
-      {/* <Icons q={q} i={i} /> */}
+      <Icons q={q} i={i} />
     </div>
   );
 };

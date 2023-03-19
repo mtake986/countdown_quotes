@@ -11,11 +11,15 @@ import {
 import { db } from "../../config/firebase";
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
   DocumentData,
+  getDoc,
   getDocs,
+  increment,
   onSnapshot,
   Query,
   query,
@@ -62,6 +66,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     useState<IfilterMyQuotesProperties>({
       quoteText: "",
       speakerName: "",
+      dontShow: "Both",
       likes: 0,
     });
 
@@ -106,8 +111,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
-  function handleCurrentQuoteId(id: string) {
-    setCurrentQuoteId(id);
+  function handleCurrentQuoteId(docId: string) {
+    setCurrentQuoteId(docId);
   }
 
   // todo:  === filter my quotes
@@ -161,6 +166,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setFilterAllQuotesProperties({
       quoteText: "",
       speakerName: "",
+      dontShow: "Both",
       likes: 0,
     });
   }
@@ -178,8 +184,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
-          id: doc.id,
+          docId: doc.id,
           dontShow: doc.data().dontShow,
+          likes: doc.data().likes,
+          usersLiked: doc.data().usersLiked,
         }))
       );
     });
@@ -201,8 +209,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
-          id: doc.id,
+          docId: doc.id,
           dontShow: doc.data().dontShow,
+          likes: doc.data().likes,
+          usersLiked: doc.data().usersLiked,
         }))
       );
     });
@@ -226,8 +236,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
-          id: doc.id,
+          docId: doc.id,
           dontShow: doc.data().dontShow,
+          likes: doc.data().likes,
+          usersLiked: doc.data().usersLiked,
         }))
       );
     });
@@ -246,8 +258,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
-          id: doc.id,
+          docId: doc.id,
           dontShow: doc.data().dontShow,
+          likes: doc.data().likes,
+          usersLiked: doc.data().usersLiked,
         }))
       );
     });
@@ -285,8 +299,10 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
           quoteText: doc.data().quoteText,
           speakerName: doc.data().speakerName,
           uid: doc.data().uid,
-          id: doc.id,
+          docId: doc.id,
           dontShow: doc.data().dontShow,
+          likes: doc.data().likes,
+          usersLiked: doc.data().usersLiked,
         }))
       );
     });
@@ -295,53 +311,54 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   function fetchAllQuotesByProperties() {
     const quotesRef = collection(db, "quotesAddedByUsers");
 
-    
-    console.log(filterAllQuotesProperties)
+    console.log(filterAllQuotesProperties);
     let q: Query<DocumentData>;
 
     if (
       filterAllQuotesProperties.quoteText === "" &&
-      filterAllQuotesProperties.speakerName === '' 
+      filterAllQuotesProperties.speakerName === ""
     ) {
-          onSnapshot(quotesRef, (snapshot) => {
-            setFilteredAllQuotes(
-              snapshot.docs.map((doc) => ({
-                quoteText: doc.data().quoteText,
-                speakerName: doc.data().speakerName,
-                uid: doc.data().uid,
-                id: doc.id,
-                dontShow: doc.data().dontShow,
-              }))
-            );
-          });
-    }
-    else {
+      onSnapshot(quotesRef, (snapshot) => {
+        setFilteredAllQuotes(
+          snapshot.docs.map((doc) => ({
+            quoteText: doc.data().quoteText,
+            speakerName: doc.data().speakerName,
+            uid: doc.data().uid,
+            docId: doc.id,
+            dontShow: doc.data().dontShow,
+            likes: doc.data().likes,
+            usersLiked: doc.data().usersLiked,
+          }))
+        );
+      });
+    } else {
       if (filterAllQuotesProperties.quoteText !== "") {
         q = query(
           quotesRef,
           where("quoteText", "==", filterAllQuotesProperties.quoteText)
         );
       }
-    if (filterAllQuotesProperties.speakerName !== "") {
-      q = query(
-        q,
-        where("speakerName", "==", filterAllQuotesProperties.speakerName)
-      );
-    }
-    // todo: llikes
+      if (filterAllQuotesProperties.speakerName !== "") {
+        q = query(
+          q,
+          where("speakerName", "==", filterAllQuotesProperties.speakerName)
+        );
+      }
+      // todo: llikes
 
-    onSnapshot(q, (snapshot) => {
-      setFilteredAllQuotes(
-        snapshot.docs.map((doc) => ({
-          quoteText: doc.data().quoteText,
-          speakerName: doc.data().speakerName,
-          uid: doc.data().uid,
-          id: doc.id,
-          dontShow: doc.data().dontShow,
-        }))
-      );
-    });
-
+      onSnapshot(q, (snapshot) => {
+        setFilteredAllQuotes(
+          snapshot.docs.map((doc) => ({
+            quoteText: doc.data().quoteText,
+            speakerName: doc.data().speakerName,
+            uid: doc.data().uid,
+            docId: doc.id,
+            dontShow: doc.data().dontShow,
+            likes: doc.data().likes,
+            usersLiked: doc.data().usersLiked,
+          }))
+        );
+      });
     }
   }
 
@@ -354,6 +371,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
       speakerName: speakerNameInputText,
       uid,
       dontShow: inputDontShow,
+      likes: 0,
+      usersLiked: [],
     };
     const docRef = await addDoc(collectionRef, payload);
     console.log(
@@ -382,8 +401,8 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   // todo: delete quotes
-  async function handleDelete(id: string) {
-    const docRef = doc(db, "quotesAddedByUsers", id);
+  async function handleDelete(docId: string) {
+    const docRef = doc(db, "quotesAddedByUsers", docId);
     await deleteDoc(docRef);
   }
   function clearInputs() {
@@ -391,7 +410,31 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
     setSpeakerNameInputText("");
     setInputDontShow(false);
   }
-  // todo: END ========== Firestore Events ==========
+
+  async function handleLike( qid: string, uid: string) {
+    const docRef = doc(db, "quotesAddedByUsers", qid);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const q = docSnap.data();
+      console.log({q})
+      if (!q.usersLiked.includes(uid)) {
+        console.log('if', q.usersLiked);
+        await updateDoc(docRef, {
+          likes: increment(1),
+          usersLiked: arrayUnion(uid),
+        });
+      } else {
+        console.log("else", q.usersLiked);
+        await updateDoc(docRef, {
+          likes: increment(-1),
+          usersLiked: arrayRemove(uid),
+        });
+      }
+    } else {
+      console.log("No such document!");
+    }
+  }
 
   return (
     <QuoteContext.Provider
@@ -434,6 +477,7 @@ export const QuoteContextProvider: React.FC<Props> = ({ children }) => {
         fetchAllQuotesByProperties,
         filteredAllQuotes,
         filterAllQuotesProperties,
+        handleLike,
       }}
     >
       {children}
